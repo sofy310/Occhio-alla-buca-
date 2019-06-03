@@ -12,4 +12,3 @@ background.y = display.contentCenterY
 local autobus = display.newImageRect("autobus.png", 550, 250)
 autobus.x = display.contentCenterX
 autobus.y = display.contentHeight-170
-ciao
