@@ -150,3 +150,55 @@ end
 
 autobus: addEventListener( "touch", moveAutobus)
 
+
+math.randomseed( os.time() )
+
+local gameLoopTimer
+local bucheTable = {}
+
+local function createBuca()
+    local newBuca1 = display.newImageRect("buca1.png", 120, 120)
+    table.insert(bucheTable, newBuca1)
+    physics.addBody(newBuca1, "dynamic", {radius = 40, bounce = 0.5})
+
+    local whereFrom = math.random(3)
+
+    if ( whereFrom == 1 ) then
+        -- From the left
+        newBuca1.x = -60
+        newBuca1.y = math.random( 500 )
+        newBuca1:setLinearVelocity( math.random( 40,120 ), math.random( 20,60 ) )
+  
+    elseif ( whereFrom == 2 ) then
+        -- From the top
+        newBuca1.x = math.random( display.contentWidth )
+        newBuca1.y = -60
+        newBuca1:setLinearVelocity( math.random( -40,40 ), math.random( 40,120 ) )
+  
+    elseif ( whereFrom == 3 ) then
+        -- From the right
+        newBuca1.x = display.contentWidth + 60
+        newBuca1.y = math.random( 500 )
+        newBuca1:setLinearVelocity( math.random( -120,-40 ), math.random( 20,60 ) )
+    end
+end
+
+local function gameLoop()
+
+    createBuca()
+
+    for i = #bucheTable, 1, -1 do
+        local thisBuca1 = bucheTable[i]
+ 
+        if ( thisBuca1.x < -100 or
+             thisBuca1.x > display.contentWidth + 100 or
+             thisBuca1.y < -100 or
+             thisBuca1.y > display.contentHeight + 100 )
+        then
+            display.remove( thisBuca1 )
+            table.remove( bucheTable, i )
+        end
+    end
+end
+
+gameLoopTimer = timer.performWithDelay(500, gameLoop, 0 )
