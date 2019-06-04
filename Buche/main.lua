@@ -312,7 +312,7 @@ local function onCollision( event )
 
                 --Update lives
                 lives = lives -1
-                livesText = "Lives: "..lives
+                livesText.text = "Lives: "..lives
 
                 if ( lives == 0 ) then
                     display.remove( autobus )
@@ -332,7 +332,7 @@ local function onCollision( event )
 
                 --Update lives
                 lives = lives -1
-                livesText = "Lives: "..lives
+                livesText.text = "Lives: "..lives
 
                 if (lives == 0) then 
                     display.remove(autobus)
@@ -351,7 +351,7 @@ local function onCollision( event )
 
                 --Update lives
                 lives = lives -1
-                livesText = "Lives: "..lives
+                livesText.text = "Lives: "..lives
 
           if (lives == 0) then 
               display.remove(autobus)
