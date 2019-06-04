@@ -303,6 +303,7 @@ local function onCollision( event )
         local obj1 = event.object1
         local obj2 = event.object2
         
+        
         if ( ( obj1.myName == "autobus" and obj2.myName == "buca1" ) or
              ( obj1.myName == "buca1" and obj2.myName == "autobus" ) )
         then
@@ -311,7 +312,7 @@ local function onCollision( event )
 
                 --Update lives
                 lives = lives -1
-                livesText = "Lives: " ..lives
+                livesText = "Lives: "..lives
 
                 if ( lives == 0 ) then
                     display.remove( autobus )
@@ -322,6 +323,44 @@ local function onCollision( event )
             end
  
         end
+
+        if ( (obj1.myName == "autobus" and obj2.myName == "buca2") or
+              obj1.myName == "buca2" and obj2.myName == "autobus") 
+        then
+            if (died == false) then
+                died = true
+
+                --Update lives
+                lives = lives -1
+                livesText = "Lives: "..lives
+
+                if (lives == 0) then 
+                    display.remove(autobus)
+                else
+                    autobus.alpha = 0
+                    timer.performWithDelay( 1000, restoreAutobus)
+                end
+            end    
+        end
+
+        if ( (obj1.myName == "autobus" and obj2.myName == "buca3") or
+              obj1.myName == "buca3" and obj2.myName == "autobus") 
+        then
+             if (died == false) then
+                died = true
+
+                --Update lives
+                lives = lives -1
+                livesText = "Lives: "..lives
+
+          if (lives == 0) then 
+              display.remove(autobus)
+          else
+              autobus.alpha = 0
+              timer.performWithDelay( 1000, restoreAutobus)
+          end
+      end    
+  end
         
     end
 end
