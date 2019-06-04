@@ -107,17 +107,36 @@ physics.setGravity( 0, 0 )
 --Initialize variables
 local lives = 3
 local score = 0
+--local scoreLimit = 30
 local died = false
 
 local livesText
 local scoreText
+local punteggioText
 
 -- Set up display groups
 local uiGroup = display.newGroup()
 
 --Display lives and score
-livesText = display.newText( uiGroup, "Lives: ".. lives, 180, 60, native.systemFont, 36)
-scoreText = display.newText( uiGroup, "Score: ".. score, 380, 60, native.systemFont, 36)
+livesText = display.newText( uiGroup, "Lives: ".. lives, 180, 60, native.systemFontBold, 36)
+livesText:setFillColor( 1, 0, 0 )
+scoreText = display.newText( "Score: ", 357, 60, native.systemFontBold, 36)
+scoreText:setFillColor( 1, 0, 0 )
+punteggioText = display.newText( uiGroup, " ".. score, 455, 60, native.systemFontBold, 40)
+punteggioText:setFillColor( 1, 0, 0 )
+
+local function timerUp()
+    score = score + 1
+    punteggioText.text = score
+
+   -- if score >= scoreLimit then
+    --    display.remove(scoreText)
+    --    timer.cancel(timerUpTimer)
+    --    storyboard.gotoScene("maxtime", "fade", 400)
+   -- end
+end
+
+timerUpTimer = timer.performWithDelay(1000, timerUp, 0)
 
 --Load autobus
 local autobus = display.newImageRect("autobus.png", 550, 250)
