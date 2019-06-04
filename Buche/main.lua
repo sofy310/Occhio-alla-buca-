@@ -176,11 +176,19 @@ local gameLoopTimer
 local bucheTable = {}
 
 local function createBuca()
-    local newBuca1 = display.newImageRect("buca1.png", math.random(80, 150), math.random(80, 150))
+    local newBuca1 = display.newImageRect("buca1.png", math.random(100, 200), math.random(100, 200))
     table.insert(bucheTable, newBuca1)
     physics.addBody(newBuca1, "dynamic", {radius = 40, bounce = 0})
 
-    local whereFrom = math.random(5)
+    local newBuca2 = display.newImageRect("buca2.png", math.random(100, 200), math.random(100, 200))
+    table.insert(bucheTable, newBuca2)
+    physics.addBody(newBuca2, "dynamic", {radius = 40, bounce = 0})
+
+    local newBuca3 = display.newImageRect("buca3.png", math.random(100, 200), math.random(100, 200))
+    table.insert(bucheTable, newBuca3)
+    physics.addBody(newBuca3, "dynamic", {radius = 40, bounce = 0})
+
+    local whereFrom = math.random(11)
 
     if ( whereFrom == 1 ) then
         -- From the topLeft
@@ -211,6 +219,41 @@ local function createBuca()
         newBuca1.x = display.contentCenterX +96
         newBuca1.y = -60
         newBuca1:setLinearVelocity(0, 100 )
+    
+    elseif ( whereFrom == 6 ) then
+        -- From the topRight
+        newBuca2.x = display.contentCenterX +96
+        newBuca2.y = -60
+        newBuca2:setLinearVelocity(0, 100 )
+    
+    elseif ( whereFrom == 7 ) then
+        -- From the topRight
+        newBuca2.x = display.contentCenterX +96
+        newBuca2.y = -60
+        newBuca2:setLinearVelocity(0, 100 )
+    
+    elseif ( whereFrom == 8 ) then
+        -- From the topRight
+        newBuca2.x = display.contentCenterX +96
+        newBuca2.y = -60
+        newBuca2:setLinearVelocity(0, 100 )
+    elseif ( whereFrom == 9 ) then
+        -- From the topRight
+        newBuca3.x = display.contentCenterX +96
+        newBuca3.y = -60
+        newBuca3:setLinearVelocity(0, 100 )
+    
+    elseif ( whereFrom == 10 ) then
+        -- From the topRight
+        newBuca3.x = display.contentCenterX +96
+        newBuca3.y = -60
+        newBuca3:setLinearVelocity(0, 100 )
+    
+    elseif ( whereFrom == 11 ) then
+        -- From the topRight
+        newBuca3.x = display.contentCenterX +96
+        newBuca3.y = -60
+        newBuca3:setLinearVelocity(0, 100 )
     end
 end
 
