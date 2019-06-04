@@ -5,14 +5,99 @@
 -----------------------------------------------------------------------------------------
 
 --Load background
-local background = display.newImageRect( "background.png", 700, 1100 )
+local background = display.newImageRect( "back_grey.png", 700, 1100 )
 background.x = display.contentCenterX
 background.y = display.contentCenterY
 
 --Load striscia
-local striscia = display.newImageRect("striscia.png", 10, 80)
-striscia.x = display.contentCenterX
-striscia.y = display.contentCenterY
+local striscia = display.newImageRect("striscia.png", 10, 80) 
+striscia.x = display.contentCenterX-96
+striscia.y = display.contentCenterY-470
+
+--Load striscia
+local striscia = display.newImageRect("striscia.png", 10, 80) 
+striscia.x = display.contentCenterX+96
+striscia.y = display.contentCenterY-470
+
+--Load striscia
+local striscia = display.newImageRect("striscia.png", 10, 80) 
+striscia.x = display.contentCenterX-96
+striscia.y = display.contentCenterY-350
+
+--Load striscia
+local striscia = display.newImageRect("striscia.png", 10, 80) 
+striscia.x = display.contentCenterX+96
+striscia.y = display.contentCenterY-350
+--Load striscia
+local striscia = display.newImageRect("striscia.png", 10, 80) 
+striscia.x = display.contentCenterX-96
+striscia.y = display.contentCenterY-230
+
+--Load striscia
+local striscia = display.newImageRect("striscia.png", 10, 80) 
+striscia.x = display.contentCenterX+96
+striscia.y = display.contentCenterY-230
+
+--Load striscia
+local striscia = display.newImageRect("striscia.png", 10, 80) 
+striscia.x = display.contentCenterX-96
+striscia.y = display.contentCenterY-110
+
+--Load striscia
+local striscia = display.newImageRect("striscia.png", 10, 80) 
+striscia.x = display.contentCenterX+96
+striscia.y = display.contentCenterY-110
+
+--Load striscia
+local striscia = display.newImageRect("striscia.png", 10, 80) 
+striscia.x = display.contentCenterX-96
+striscia.y = display.contentCenterY+5
+
+--Load striscia
+local striscia = display.newImageRect("striscia.png", 10, 80) 
+striscia.x = display.contentCenterX+96
+striscia.y = display.contentCenterY+5
+
+--Load striscia
+local striscia = display.newImageRect("striscia.png", 10, 80) 
+striscia.x = display.contentCenterX-96
+striscia.y = display.contentCenterY+125
+
+--Load striscia
+local striscia = display.newImageRect("striscia.png", 10, 80) 
+striscia.x = display.contentCenterX+96
+striscia.y = display.contentCenterY+125
+
+--Load striscia
+local striscia = display.newImageRect("striscia.png", 10, 80) 
+striscia.x = display.contentCenterX-96
+striscia.y = display.contentCenterY+245
+
+--Load striscia
+local striscia = display.newImageRect("striscia.png", 10, 80) 
+striscia.x = display.contentCenterX+96
+striscia.y = display.contentCenterY+245
+
+--Load striscia
+local striscia = display.newImageRect("striscia.png", 10, 80) 
+striscia.x = display.contentCenterX-96
+striscia.y = display.contentCenterY+365
+
+--Load striscia
+local striscia = display.newImageRect("striscia.png", 10, 80) 
+striscia.x = display.contentCenterX+96
+striscia.y = display.contentCenterY+365
+
+--Load striscia
+local striscia = display.newImageRect("striscia.png", 10, 80) 
+striscia.x = display.contentCenterX-96
+striscia.y = display.contentCenterY+485
+
+--Load striscia
+local striscia = display.newImageRect("striscia.png", 10, 80) 
+striscia.x = display.contentCenterX+96
+striscia.y = display.contentCenterY+485
+
 
 --Adding physics
 local physics = require( "physics" )
