@@ -157,29 +157,41 @@ local gameLoopTimer
 local bucheTable = {}
 
 local function createBuca()
-    local newBuca1 = display.newImageRect("buca1.png", 120, 120)
+    local newBuca1 = display.newImageRect("buca1.png", math.random(80, 150), math.random(80, 150))
     table.insert(bucheTable, newBuca1)
-    physics.addBody(newBuca1, "dynamic", {radius = 40, bounce = 0.5})
+    physics.addBody(newBuca1, "dynamic", {radius = 40, bounce = 0})
 
-    local whereFrom = math.random(3)
+    local whereFrom = math.random(5)
 
     if ( whereFrom == 1 ) then
-        -- From the left
-        newBuca1.x = -60
-        newBuca1.y = math.random( 500 )
-        newBuca1:setLinearVelocity( math.random( 40,120 ), math.random( 20,60 ) )
+        -- From the topLeft
+        newBuca1.x = display.contentCenterX -200
+        newBuca1.y = -60
+        newBuca1:setLinearVelocity(0, 100 )
   
     elseif ( whereFrom == 2 ) then
-        -- From the top
-        newBuca1.x = math.random( display.contentWidth )
+        -- From the topCenter
+        newBuca1.x = display.contentCenterX
         newBuca1.y = -60
-        newBuca1:setLinearVelocity( math.random( -40,40 ), math.random( 40,120 ) )
+        newBuca1:setLinearVelocity(0, 100 )
   
     elseif ( whereFrom == 3 ) then
-        -- From the right
-        newBuca1.x = display.contentWidth + 60
-        newBuca1.y = math.random( 500 )
-        newBuca1:setLinearVelocity( math.random( -120,-40 ), math.random( 20,60 ) )
+        -- From the topRight
+        newBuca1.x = display.contentCenterX +200
+        newBuca1.y = -60
+        newBuca1:setLinearVelocity(0, 100 )
+    
+    elseif ( whereFrom == 4 ) then
+        -- From the topRight
+        newBuca1.x = display.contentCenterX -96
+        newBuca1.y = -60
+        newBuca1:setLinearVelocity(0, 100 )
+    
+    elseif ( whereFrom == 5 ) then
+        -- From the topRight
+        newBuca1.x = display.contentCenterX +96
+        newBuca1.y = -60
+        newBuca1:setLinearVelocity(0, 100 )
     end
 end
 
@@ -201,4 +213,4 @@ local function gameLoop()
     end
 end
 
-gameLoopTimer = timer.performWithDelay(500, gameLoop, 0 )
+gameLoopTimer = timer.performWithDelay(3000, gameLoop, 0 )
