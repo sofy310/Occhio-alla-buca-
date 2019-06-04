@@ -5,114 +5,83 @@
 -----------------------------------------------------------------------------------------
 
 --Load background
-local background = display.newImageRect( "back_grey.png", 700, 1100 )
+local background = display.newImageRect( "background.png", 700, 1100 )
 background.x = display.contentCenterX
 background.y = display.contentCenterY
 
---Load striscia
-local striscia = display.newImageRect("striscia.png", 10, 80) 
-striscia.x = display.contentCenterX-96
-striscia.y = display.contentCenterY-470
+local bg1
+local bg2
+local runtime = 0
+local scrollSpeed = 1.78
 
---Load striscia
-local striscia = display.newImageRect("striscia.png", 10, 80) 
-striscia.x = display.contentCenterX+96
-striscia.y = display.contentCenterY-470
+local function addScrollableBg()
+    local bgImage = { type="image", filename="background.png" }
 
---Load striscia
-local striscia = display.newImageRect("striscia.png", 10, 80) 
-striscia.x = display.contentCenterX-96
-striscia.y = display.contentCenterY-350
+    -- Add First bg image
+    bg1 = display.newRect(0, 0, display.contentWidth, display.actualContentHeight)
+    bg1.fill = bgImage
+    bg1.x = display.contentCenterX
+    bg1.y = display.contentCenterY
 
---Load striscia
-local striscia = display.newImageRect("striscia.png", 10, 80) 
-striscia.x = display.contentCenterX+96
-striscia.y = display.contentCenterY-350
---Load striscia
-local striscia = display.newImageRect("striscia.png", 10, 80) 
-striscia.x = display.contentCenterX-96
-striscia.y = display.contentCenterY-230
+    -- Add Second bg image
+    bg2 = display.newRect(0, 0, display.contentWidth, display.actualContentHeight)
+    bg2.fill = bgImage
+    bg2.x = display.contentCenterX
+    bg2.y = display.contentCenterY - display.actualContentHeight
+end
 
---Load striscia
-local striscia = display.newImageRect("striscia.png", 10, 80) 
-striscia.x = display.contentCenterX+96
-striscia.y = display.contentCenterY-230
+local function moveBg(dt)
+    bg1.y = bg1.y + scrollSpeed * dt
+    bg2.y = bg2.y + scrollSpeed * dt
 
---Load striscia
-local striscia = display.newImageRect("striscia.png", 10, 80) 
-striscia.x = display.contentCenterX-96
-striscia.y = display.contentCenterY-110
+    if (bg1.y - display.contentHeight/2) > display.actualContentHeight then
+        bg1:translate(0, -bg1.contentHeight * 2)
+    end
+    if (bg2.y - display.contentHeight/2) > display.actualContentHeight then
+        bg2:translate(0, -bg2.contentHeight * 2)
+    end
+end
 
---Load striscia
-local striscia = display.newImageRect("striscia.png", 10, 80) 
-striscia.x = display.contentCenterX+96
-striscia.y = display.contentCenterY-110
+local function getDeltaTime()
+   local temp = system.getTimer()
+   local dt = (temp-runtime) / (1000/60)
+   runtime = temp
+   return dt
+end
 
---Load striscia
-local striscia = display.newImageRect("striscia.png", 10, 80) 
-striscia.x = display.contentCenterX-96
-striscia.y = display.contentCenterY+5
+local function enterFrame()
+    local dt = getDeltaTime()
+    moveBg(dt)
+end
 
---Load striscia
-local striscia = display.newImageRect("striscia.png", 10, 80) 
-striscia.x = display.contentCenterX+96
-striscia.y = display.contentCenterY+5
+function init()
+    addScrollableBg()
+    Runtime:addEventListener("enterFrame", enterFrame)
+end
 
---Load striscia
-local striscia = display.newImageRect("striscia.png", 10, 80) 
-striscia.x = display.contentCenterX-96
-striscia.y = display.contentCenterY+125
-
---Load striscia
-local striscia = display.newImageRect("striscia.png", 10, 80) 
-striscia.x = display.contentCenterX+96
-striscia.y = display.contentCenterY+125
-
---Load striscia
-local striscia = display.newImageRect("striscia.png", 10, 80) 
-striscia.x = display.contentCenterX-96
-striscia.y = display.contentCenterY+245
-
---Load striscia
-local striscia = display.newImageRect("striscia.png", 10, 80) 
-striscia.x = display.contentCenterX+96
-striscia.y = display.contentCenterY+245
-
---Load striscia
-local striscia = display.newImageRect("striscia.png", 10, 80) 
-striscia.x = display.contentCenterX-96
-striscia.y = display.contentCenterY+365
-
---Load striscia
-local striscia = display.newImageRect("striscia.png", 10, 80) 
-striscia.x = display.contentCenterX+96
-striscia.y = display.contentCenterY+365
-
---Load striscia
-local striscia = display.newImageRect("striscia.png", 10, 80) 
-striscia.x = display.contentCenterX-96
-striscia.y = display.contentCenterY+485
-
---Load striscia
-local striscia = display.newImageRect("striscia.png", 10, 80) 
-striscia.x = display.contentCenterX+96
-striscia.y = display.contentCenterY+485
-
+init()
 
 --Adding physics
 local physics = require( "physics" )
 physics.start()
 physics.setGravity( 0, 0 )
 
+--Display mph
+local mph = display.newImageRect( "finish.png", 100, 100 )
+mph.x = display.contentCenterX+215
+mph.y = display.contentCenterY-450
+
 --Initialize variables
 local lives = 3
 local score = 0
 --local scoreLimit = 30
+local timeLeft = 90
 local died = false
 
 local livesText
 local scoreText
 local punteggioText
+local timeText
 
 -- Set up display groups
 local uiGroup = display.newGroup()
@@ -136,7 +105,25 @@ local function timerUp()
    -- end
 end
 
-timerUpTimer = timer.performWithDelay(1000, timerUp, 0)
+
+timeText = display.newText(uiGroup, " "..timeLeft, 600, 60, native.systemFontBold, 75)
+timeText:setTextColor(0,0,1)
+
+local function timerDown()
+    timeLeft = timeLeft - 1
+    timeText.text = timeLeft
+   -- if(timeLimit==0)then
+    --    display.remove(timeLeft)
+    --    timer.cancel(timerr)
+   --     storyboard.gotoScene("maxtime", "fade", 400)
+   -- end
+end
+
+local countDownTimer = timer.performWithDelay( 1000, timerDown, timeLeft )
+
+--timerr = timer.performWithDelay(1000,timerDown,timeLimit)
+
+--timerUpTimer = timer.performWithDelay(1000, timerUp, 0)
 
 --Load autobus
 local autobus = display.newImageRect("autobus.png", 550, 250)
@@ -261,6 +248,7 @@ local function createBuca()
     end
 end
 
+
 local function gameLoop()
 
     createBuca()
@@ -277,6 +265,7 @@ local function gameLoop()
             table.remove( bucheTable, i )
         end
     end
+
 end
 
 gameLoopTimer = timer.performWithDelay(3000, gameLoop, 0 )
