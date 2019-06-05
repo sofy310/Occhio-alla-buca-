@@ -5,7 +5,7 @@
 -----------------------------------------------------------------------------------------
 
 --Load background
-local background = display.newImageRect( "background.png", 700,1100)
+local background = display.newImageRect( "background.png", 700, 1100)
 background.x = display.contentCenterX
 background.y = display.contentCenterY
 
@@ -66,10 +66,10 @@ local physics = require( "physics" )
 physics.start()
 physics.setGravity( 0, 0 )
 
---Display mph
-local mph = display.newImageRect( "finish.png", 150, 150 )
-mph.x = display.contentCenterX+215
-mph.y = display.contentCenterY-600
+--Display finish
+local finish = display.newImageRect( "finish.png", 150, 150 )
+finish.x = display.contentCenterX+215
+finish.y = display.contentCenterY-600
 
 --Initialize variables
 local lives = 3
@@ -173,7 +173,7 @@ local function createBuca()
     newBuca3.myName = "buca3"
 
     local whereFrom = math.random(11)
-
+	
     if ( whereFrom == 1 ) then
         -- buca1 From the topLeft
         newBuca1.x = display.contentCenterX -200
@@ -185,7 +185,7 @@ local function createBuca()
         newBuca1.x = display.contentCenterX
         newBuca1.y = -100
         newBuca1:setLinearVelocity(0, 100 )
-  
+ 
     elseif ( whereFrom == 3 ) then
         -- buca1 From the topRight
         newBuca1.x = display.contentCenterX +200
@@ -248,6 +248,8 @@ local function gameLoop()
 
     for i = #bucheTable, 1, -1 do
         local thisBuca1 = bucheTable[i]
+		local thisBuca2 = bucheTable[i]
+		local thisBuca3 = bucheTable[i]
  
         if ( thisBuca1.x < -100 or
              thisBuca1.x > display.contentWidth + 100 or
@@ -255,6 +257,24 @@ local function gameLoop()
              thisBuca1.y > display.contentHeight + 100 )
         then
             display.remove( thisBuca1 )
+            table.remove( bucheTable, i )
+       
+
+		elseif ( thisBuca2.x < -100 or
+             thisBuca2.x > display.contentWidth + 100 or
+             thisBuca2.y < -100 or
+             thisBuca2.y > display.contentHeight + 100 )
+        then
+            display.remove( thisBuca2 )
+            table.remove( bucheTable, i )
+        
+
+		elseif ( thisBuca3.x < -100 or
+            thisBuca3.x > display.contentWidth + 100 or
+            thisBuca3.y < -100 or
+            thisBuca3.y > display.contentHeight + 100 )
+        then
+            display.remove( thisBuca3 )
             table.remove( bucheTable, i )
         end
     end
