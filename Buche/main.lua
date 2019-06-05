@@ -121,16 +121,9 @@ local countDownTimer = timer.performWithDelay( 1000, timerDown, timeLeft )
 --Load autobus
 local autobus = display.newImageRect("autobus.png", 550, 250)
 autobus.x = display.contentCenterX
-<<<<<<< HEAD
-autobus.y = display.contentHeight-170
-physics.addBody(autobus, "dynamic", {radius = 125, isSensor = true})
-=======
 autobus.y = display.contentHeight-30
 physics.addBody(autobus, "dynamic", {radius = 40, isSensor = true})
->>>>>>> 6e2c03f48644895bf61b9659b0d9c403cdacd164
 autobus.myName = "autobus"
-
-
 
 --Move the autobus
 local function moveAutobus(event)
@@ -166,17 +159,17 @@ local bucheTable = {}
 local function createBuca()
     local newBuca1 = display.newImageRect("buca1.png", math.random(100, 200), math.random(100, 200))
     table.insert(bucheTable, newBuca1)
-    physics.addBody(newBuca1, "dynamic", {radius = 20, bounce = 0})
+    physics.addBody(newBuca1, "dynamic", {radius = 40, bounce = 0})
     newBuca1.myName = "buca1"
 
     local newBuca2 = display.newImageRect("buca2.png", math.random(100, 200), math.random(100, 200))
     table.insert(bucheTable, newBuca2)
-    physics.addBody(newBuca2, "dynamic", {radius = 20, bounce = 0})
+    physics.addBody(newBuca2, "dynamic", {radius = 40, bounce = 0})
     newBuca2.myName = "buca2"
 
     local newBuca3 = display.newImageRect("buca3.png", math.random(100, 200), math.random(100, 200))
     table.insert(bucheTable, newBuca3)
-    physics.addBody(newBuca3, "dynamic", {radius = 20, bounce = 0})
+    physics.addBody(newBuca3, "dynamic", {radius = 40, bounce = 0})
     newBuca3.myName = "buca3"
 
     local whereFrom = math.random(11)
@@ -354,4 +347,3 @@ local function onCollision( event )
     end
 end
 Runtime:addEventListener( "collision", onCollision )
-
