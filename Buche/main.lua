@@ -5,7 +5,7 @@
 -----------------------------------------------------------------------------------------
 
 --Load background
-local background = display.newImageRect( "background.png", 700, 1100 )
+local background = display.newImageRect( "background.png", 700,1100)
 background.x = display.contentCenterX
 background.y = display.contentCenterY
 
@@ -67,9 +67,9 @@ physics.start()
 physics.setGravity( 0, 0 )
 
 --Display mph
-local mph = display.newImageRect( "finish.png", 100, 100 )
+local mph = display.newImageRect( "finish.png", 150, 150 )
 mph.x = display.contentCenterX+215
-mph.y = display.contentCenterY-450
+mph.y = display.contentCenterY-600
 
 --Initialize variables
 local lives = 3
@@ -86,28 +86,26 @@ local timeText
 -- Set up display groups
 local uiGroup = display.newGroup()
 
---Display lives and score
-livesText = display.newText( uiGroup, "Lives: ".. lives, 180, 60, native.systemFontBold, 36)
+--Display lives, score and timer
+livesText = display.newText( uiGroup, "Lives: ".. lives, 180, -110, native.systemFontBold, 42)
 livesText:setFillColor( 1, 0, 0 )
-scoreText = display.newText( "Score: ", 357, 60, native.systemFontBold, 36)
+scoreText = display.newText( "Score: ", 357, -110, native.systemFontBold, 42)
 scoreText:setFillColor( 1, 0, 0 )
-punteggioText = display.newText( uiGroup, " ".. score, 455, 60, native.systemFontBold, 40)
+punteggioText = display.newText( uiGroup, " ".. score, 455, -110, native.systemFontBold, 50)
 punteggioText:setFillColor( 1, 0, 0 )
+timeText = display.newText(uiGroup, " "..timeLeft, 600, -110, native.systemFontBold, 75)
+timeText:setTextColor(0,0,1)
 
 local function timerUp()
     score = score + 1
     punteggioText.text = score
-
    -- if score >= scoreLimit then
     --    display.remove(scoreText)
     --    timer.cancel(timerUpTimer)
     --    storyboard.gotoScene("maxtime", "fade", 400)
    -- end
 end
-
-
-timeText = display.newText(uiGroup, " "..timeLeft, 600, 60, native.systemFontBold, 75)
-timeText:setTextColor(0,0,1)
+local timerUpTimer = timer.performWithDelay(1000, timerUp, 0)
 
 local function timerDown()
     timeLeft = timeLeft - 1
@@ -118,19 +116,21 @@ local function timerDown()
    --     storyboard.gotoScene("maxtime", "fade", 400)
    -- end
 end
-
 local countDownTimer = timer.performWithDelay( 1000, timerDown, timeLeft )
-
---timerr = timer.performWithDelay(1000,timerDown,timeLimit)
-
---timerUpTimer = timer.performWithDelay(1000, timerUp, 0)
 
 --Load autobus
 local autobus = display.newImageRect("autobus.png", 550, 250)
 autobus.x = display.contentCenterX
+<<<<<<< HEAD
 autobus.y = display.contentHeight-170
+physics.addBody(autobus, "dynamic", {radius = 125, isSensor = true})
+=======
+autobus.y = display.contentHeight-30
 physics.addBody(autobus, "dynamic", {radius = 40, isSensor = true})
+>>>>>>> 6e2c03f48644895bf61b9659b0d9c403cdacd164
 autobus.myName = "autobus"
+
+
 
 --Move the autobus
 local function moveAutobus(event)
@@ -166,17 +166,17 @@ local bucheTable = {}
 local function createBuca()
     local newBuca1 = display.newImageRect("buca1.png", math.random(100, 200), math.random(100, 200))
     table.insert(bucheTable, newBuca1)
-    physics.addBody(newBuca1, "dynamic", {radius = 40, bounce = 0})
+    physics.addBody(newBuca1, "dynamic", {radius = 20, bounce = 0})
     newBuca1.myName = "buca1"
 
     local newBuca2 = display.newImageRect("buca2.png", math.random(100, 200), math.random(100, 200))
     table.insert(bucheTable, newBuca2)
-    physics.addBody(newBuca2, "dynamic", {radius = 40, bounce = 0})
+    physics.addBody(newBuca2, "dynamic", {radius = 20, bounce = 0})
     newBuca2.myName = "buca2"
 
     local newBuca3 = display.newImageRect("buca3.png", math.random(100, 200), math.random(100, 200))
     table.insert(bucheTable, newBuca3)
-    physics.addBody(newBuca3, "dynamic", {radius = 40, bounce = 0})
+    physics.addBody(newBuca3, "dynamic", {radius = 20, bounce = 0})
     newBuca3.myName = "buca3"
 
     local whereFrom = math.random(11)
@@ -184,66 +184,66 @@ local function createBuca()
     if ( whereFrom == 1 ) then
         -- buca1 From the topLeft
         newBuca1.x = display.contentCenterX -200
-        newBuca1.y = -60
+        newBuca1.y = -100
         newBuca1:setLinearVelocity(0, 100 )
   
     elseif ( whereFrom == 2 ) then
         -- buca1 From the topCenter
         newBuca1.x = display.contentCenterX
-        newBuca1.y = -60
+        newBuca1.y = -100
         newBuca1:setLinearVelocity(0, 100 )
   
     elseif ( whereFrom == 3 ) then
         -- buca1 From the topRight
         newBuca1.x = display.contentCenterX +200
-        newBuca1.y = -60
+        newBuca1.y = -100
         newBuca1:setLinearVelocity(0, 100 )
     
     elseif ( whereFrom == 4 ) then
         -- buca2 From the topLeft
         newBuca1.x = display.contentCenterX -96
-        newBuca1.y = -60
+        newBuca1.y = -100
         newBuca1:setLinearVelocity(0, 100 )
     
     elseif ( whereFrom == 5 ) then
         -- buca2 From the topCenter
         newBuca1.x = display.contentCenterX +96
-        newBuca1.y = -60
+        newBuca1.y = -100
         newBuca1:setLinearVelocity(0, 100 )
     
     elseif ( whereFrom == 6 ) then
         -- buca2 From the topRight
         newBuca2.x = display.contentCenterX +96
-        newBuca2.y = -60
+        newBuca2.y = -100
         newBuca2:setLinearVelocity(0, 100 )
     
     elseif ( whereFrom == 7 ) then
         -- buca3 From the topLeft
-        newBuca2.x = display.contentCenterX +96
-        newBuca2.y = -60
+        newBuca2.x = display.contentCenterX -96
+        newBuca2.y = -100
         newBuca2:setLinearVelocity(0, 100 )
     
     elseif ( whereFrom == 8 ) then
         -- buca3 From the topCenter
-        newBuca2.x = display.contentCenterX +96
-        newBuca2.y = -60
+        newBuca2.x = display.contentCenterX
+        newBuca2.y = -100
         newBuca2:setLinearVelocity(0, 100 )
     elseif ( whereFrom == 9 ) then
         -- buca3 From the topRight
         newBuca3.x = display.contentCenterX +96
-        newBuca3.y = -60
+        newBuca3.y = -100
         newBuca3:setLinearVelocity(0, 100 )
     
     elseif ( whereFrom == 10 ) then
         -- From the topRight
-        newBuca3.x = display.contentCenterX +96
-        newBuca3.y = -60
+        newBuca3.x = display.contentCenterX -96
+        newBuca3.y = -100
         newBuca3:setLinearVelocity(0, 100 )
     
     elseif ( whereFrom == 11 ) then
         -- From the topRight
-        newBuca3.x = display.contentCenterX +96
-        newBuca3.y = -60
+        newBuca3.x = display.contentCenterX
+        newBuca3.y = -100
         newBuca3:setLinearVelocity(0, 100 )
     end
 end
@@ -274,7 +274,7 @@ local function restoreAutobus()
  
     autobus.isBodyActive = false
     autobus.x = display.contentCenterX
-    autobus.y = display.contentHeight - 100
+    autobus.y = display.contentHeight - 30
  
     -- Fade in the autobus
     transition.to( autobus, { alpha=1, time=4000,
@@ -354,3 +354,4 @@ local function onCollision( event )
     end
 end
 Runtime:addEventListener( "collision", onCollision )
+
