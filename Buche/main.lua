@@ -66,6 +66,19 @@ local physics = require( "physics" )
 physics.start()
 physics.setGravity( 0, 0 )
 
+local bordoSX = display.newImageRect( "bordo.png", 10, 2100)
+bordoSX.x = display.contentCenterX - 320
+bordoSX.y = display.contentCenterY
+bordoSX.myName = "bordoSX"
+
+local bordoDX = display.newImageRect( "bordo.png", 10, 2100)
+bordoDX.x = display.contentCenterX + 320
+bordoDX.y = display.contentCenterY
+bordoDX.myName = "bordoDX"
+
+physics.addBody(bordoSX, "static")
+physics.addBody(bordoDX, "static")
+
 --Display finish
 local finish = display.newImageRect( "finish.png", 150, 150 )
 finish.x = display.contentCenterX+215
