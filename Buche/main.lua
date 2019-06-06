@@ -151,9 +151,48 @@ end
 autobus: addEventListener( "touch", moveAutobus)
 
 
+local ruoteTable = {}
+local function createRuota()
+    local newRuota = display.newImageRect("ruota.png", 100, 100)
+	table.insert(ruoteTable, newRuota)
+    physics.addBody(newRuota, "dynamic", {radius = 40, bounce = 0})
+    newRuota.myName = "ruota"
+
+    local whereFrom = math.random(3)
+	
+    if ( whereFrom == 1 ) then
+        -- buca1 From the topLeft
+        newRuota.x = display.contentCenterX -200
+        newRuota.y = -100
+        newRuota:setLinearVelocity(0, 100 )
+	end
+	newRuota:applyTorque( math.random( 3,5 ) )
+end
+
+local function ruotaLoop()
+	createRuota()
+	for i = #ruoteTable, 1, -1 do
+        local thisRuota = ruoteTable[i]
+ 
+        if ( thisRuota.x < -100 or
+             thisRuota.x > display.contentWidth + 100 or
+             thisRuota.y < -100 or
+             thisRuota.y > display.contentHeight + 100 )
+        then
+            display.remove( thisRuota )
+            table.remove( ruoteTable, i )
+        end
+    end
+end
+
+ruotaLoopTimer = timer.performWithDelay( 500, ruotaLoop, 0 )
+
+
+
+
 math.randomseed( os.time() )
 
-local gameLoopTimer
+--local gameLoopTimer
 local bucheTable = {}
 
 local function createBuca()
@@ -278,7 +317,6 @@ local function gameLoop()
             table.remove( bucheTable, i )
         end
     end
-
 end
 
 gameLoopTimer = timer.performWithDelay(3000, gameLoop, 0 )
@@ -355,14 +393,14 @@ local function onCollision( event )
                 lives = lives -1
                 livesText.text = "Lives: "..lives
 
-          if (lives == 0) then 
-              display.remove(autobus)
-          else
-              autobus.alpha = 0
-              timer.performWithDelay( 1000, restoreAutobus)
-          end
-      end    
-  end
+				if (lives == 0) then 
+					display.remove(autobus)
+				else
+					autobus.alpha = 0
+					timer.performWithDelay( 1000, restoreAutobus)
+				end
+			 end    
+		end
         
     end
 end
