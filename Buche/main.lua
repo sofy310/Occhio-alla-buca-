@@ -98,6 +98,7 @@ local livesText
 local scoreText
 local punteggioText
 local timeText
+local bucheTable = {}
 
 -- Set up display groups
 local uiGroup = display.newGroup()
@@ -213,7 +214,6 @@ local function ruotaLoop()
 end
 ruotaLoopTimer = timer.performWithDelay( 5000, ruotaLoop, 0 )
 
-
 -- Load CAR1
 local carsTable = {}
 local function createCar1()
@@ -227,14 +227,14 @@ local function createCar1()
     if ( whereFrom == 1 ) then
         newCar1.x = display.contentCenterX -250
         newCar1.y = -100
-        newCar1:setLinearVelocity(0, math.random( 100,150 ) )
+        newCar1:setLinearVelocity(0, math.random( 120,300 ) )
 	elseif ( whereFrom == 2 ) then
 		newCar1.x = display.contentCenterX -100
 		newCar1.y = -100
-		newCar1:setLinearVelocity(0, math.random( 100,150 ) )
+		newCar1:setLinearVelocity(0, math.random( 120,300 ) )
 	end
 end
--- loop CAR1
+-- loop CARS
 local function car1Loop()
 	createCar1()
 	for i = #carsTable, 1, -1 do
@@ -252,12 +252,9 @@ local function car1Loop()
 end
 car1LoopTimer = timer.performWithDelay( 5000, car1Loop, 0 )
 
-
-
-
 math.randomseed( os.time() )
---local gameLoopTimer
-local bucheTable = {}
+
+-- load BUCA1
 local function createBuca1()
     local newBuca1 = display.newImageRect(mainGroup, "buca1.png", math.random(100, 200), math.random(100, 200))
     table.insert(bucheTable, newBuca1)
@@ -271,19 +268,16 @@ local function createBuca1()
         newBuca1.x = display.contentCenterX -200
         newBuca1.y = -100
         newBuca1:setLinearVelocity(0, 100 )
-  
     elseif ( whereFrom == 2 ) then
         -- buca1 From the topCenter
         newBuca1.x = display.contentCenterX
         newBuca1.y = -100
         newBuca1:setLinearVelocity(0, 100 )
- 
     elseif ( whereFrom == 3 ) then
         -- buca1 From the topRight
         newBuca1.x = display.contentCenterX +200
         newBuca1.y = -100
         newBuca1:setLinearVelocity(0, 100 )
-    
     elseif ( whereFrom == 4 ) then
         -- buca2 From the topLeft
         newBuca1.x = display.contentCenterX -96
@@ -298,6 +292,7 @@ local function createBuca1()
     end
 end
 
+-- load BUCA2
 local function createBuca2()
 	local newBuca2 = display.newImageRect(mainGroup, "buca2.png", math.random(100, 200), math.random(100, 200))
     table.insert(bucheTable, newBuca2)
@@ -311,13 +306,11 @@ local function createBuca2()
         newBuca2.x = display.contentCenterX +96
         newBuca2.y = -100
         newBuca2:setLinearVelocity(0, 100 )
-    
     elseif ( whereFrom == 2 ) then
         -- buca3 From the topLeft
         newBuca2.x = display.contentCenterX -96
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 100 )
-    
+        newBuca2:setLinearVelocity(0, 100 )  
     elseif ( whereFrom == 3 ) then
         -- buca3 From the topCenter
         newBuca2.x = display.contentCenterX
@@ -326,7 +319,7 @@ local function createBuca2()
 	end
 end
 
-
+-- load BUCA3
 local function createBuca3()
 
 	local newBuca3 = display.newImageRect(mainGroup, "buca3.png", math.random(100, 200), math.random(100, 200))
@@ -340,31 +333,27 @@ local function createBuca3()
         -- buca3 From the topRight
         newBuca3.x = display.contentCenterX +96
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 100 )
-    
+        newBuca3:setLinearVelocity(0, 100 ) 
     elseif ( whereFrom == 2 ) then
         -- From the topRight
         newBuca3.x = display.contentCenterX -96
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 100 )
-    
+        newBuca3:setLinearVelocity(0, 100 )   
     elseif ( whereFrom == 3 ) then
         -- From the topRight
         newBuca3.x = display.contentCenterX
         newBuca3.y = -100
         newBuca3:setLinearVelocity(0, 100 )
 	end
-
 end
 
-
+-- loop BUCHE
 local function gameLoop()
 	local whichBuca = math.random(3)
-	
     if ( whichBuca == 1 ) then
 		createBuca1()
 	else if( whichBuca == 2 ) then
-		createBuca2()
+			createBuca2()
 		else
 			createBuca3()
 		end
@@ -382,8 +371,6 @@ local function gameLoop()
         then
             display.remove( thisBuca1 )
             table.remove( bucheTable, i )
-       
-
 		elseif ( thisBuca2.x < -100 or
              thisBuca2.x > display.contentWidth + 100 or
              thisBuca2.y < -100 or
@@ -391,8 +378,6 @@ local function gameLoop()
         then
             display.remove( thisBuca2 )
             table.remove( bucheTable, i )
-        
-
 		elseif ( thisBuca3.x < -100 or
             thisBuca3.x > display.contentWidth + 100 or
             thisBuca3.y < -100 or
@@ -403,11 +388,10 @@ local function gameLoop()
         end
     end
 end
-
 gameLoopTimer = timer.performWithDelay(3000, gameLoop, 0 )
 
+-- restore AUTOBUS
 local function restoreAutobus()
- 
     autobus.isBodyActive = false
     autobus.x = display.contentCenterX
     autobus.y = display.contentHeight - 30
