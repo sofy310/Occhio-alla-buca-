@@ -405,6 +405,7 @@ local function restoreAutobus()
     } )
 end
 
+-- collisione AUTOBUS/BUCA
 local function onCollision( event )
  
     if ( event.phase == "began" ) then
@@ -474,3 +475,35 @@ local function onCollision( event )
     end
 end
 Runtime:addEventListener( "collision", onCollision )
+
+-- collisione CAR/BUCA ----------------------------------------------------------------->da controllare così non funziona
+local function onCollision2( event )
+ 
+    if ( event.phase == "began" ) then
+ 
+        local obj1 = event.object1
+        local obj2 = event.object2
+        
+        
+        if ( ( obj1.myName == "car1" and obj2.myName == "buca1" ) or
+             ( obj1.myName == "buca1" and obj2.myName == "car1" ) )
+        then
+                    display.remove( car1 )
+ 
+        end
+
+        if ( (obj1.myName == "car1" and obj2.myName == "buca2") or
+              obj1.myName == "buca2" and obj2.myName == "car1") 
+        then
+                    display.remove(car1)  
+        end
+
+        if ( (obj1.myName == "car1" and obj2.myName == "buca3") or
+              obj1.myName == "buca3" and obj2.myName == "car1") 
+        then
+  					display.remove(car1)
+		end
+        
+    end
+end
+Runtime:addEventListener( "collision", onCollision2 )
