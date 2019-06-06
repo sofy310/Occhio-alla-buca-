@@ -14,6 +14,7 @@ local bg2
 local runtime = 0
 local scrollSpeed = 1.78
 
+--Scrollable Background
 local function addScrollableBg()
     local bgImage = { type="image", filename="background.png" }
 
@@ -83,6 +84,8 @@ physics.addBody(bordoDX, "static")
 local finish = display.newImageRect( "finish.png", 150, 150 )
 finish.x = display.contentCenterX+215
 finish.y = display.contentCenterY-600
+finish.myName = "finish"
+physics.addBody(finish, "static")
 
 --Initialize variables
 local lives = 3
@@ -98,17 +101,20 @@ local timeText
 
 -- Set up display groups
 local uiGroup = display.newGroup()
+local mainGroup = display.newGroup()
+
 
 --Display lives, score and timer
 livesText = display.newText( uiGroup, "Lives: ".. lives, 180, -110, native.systemFontBold, 42)
 livesText:setFillColor( 1, 0, 0 )
-scoreText = display.newText( "Score: ", 357, -110, native.systemFontBold, 42)
+scoreText = display.newText( uiGroup, "Score: ", 357, -110, native.systemFontBold, 42)
 scoreText:setFillColor( 1, 0, 0 )
 punteggioText = display.newText( uiGroup, " ".. score, 455, -110, native.systemFontBold, 50)
 punteggioText:setFillColor( 1, 0, 0 )
 timeText = display.newText(uiGroup, " "..timeLeft, 600, -110, native.systemFontBold, 75)
 timeText:setTextColor(0,0,1)
 
+--Timer UP
 local function timerUp()
     score = score + 1
     punteggioText.text = score
@@ -120,6 +126,7 @@ local function timerUp()
 end
 local timerUpTimer = timer.performWithDelay(1000, timerUp, 0)
 
+-- Timer DOWN
 local function timerDown()
     timeLeft = timeLeft - 1
     timeText.text = timeLeft
@@ -132,7 +139,7 @@ end
 local countDownTimer = timer.performWithDelay( 1000, timerDown, timeLeft )
 
 --Load autobus
-local autobus = display.newImageRect("autobus.png", 550, 250)
+local autobus = display.newImageRect(mainGroup, "autobus.png", 550, 250)
 autobus.x = display.contentCenterX
 autobus.y = display.contentHeight-30
 physics.addBody(autobus, "dynamic", {radius = 40, isSensor = true})
@@ -163,25 +170,32 @@ end
 
 autobus: addEventListener( "touch", moveAutobus)
 
-
+-- Load RUOTA
 local ruoteTable = {}
 local function createRuota()
-    local newRuota = display.newImageRect("ruota.png", 100, 100)
+    local newRuota = display.newImageRect(mainGroup, "ruota.png", 100, 100)
 	table.insert(ruoteTable, newRuota)
-    physics.addBody(newRuota, "dynamic", {radius = 40, bounce = 0})
+	physics.addBody(newRuota, "dynamic", {radius = 40, bounce = 0})
     newRuota.myName = "ruota"
-
-    local whereFrom = math.random(3)
+   
+	local whereFrom = math.random(3)
 	
     if ( whereFrom == 1 ) then
-        -- buca1 From the topLeft
         newRuota.x = display.contentCenterX -200
         newRuota.y = -100
         newRuota:setLinearVelocity(0, 100 )
+	elseif ( whereFrom == 2 ) then
+		newRuota.x = display.contentCenterX +200
+		newRuota.y = -100
+		newRuota:setLinearVelocity(0, 100 )
+	elseif ( whereFrom == 3 ) then
+		newRuota.x = display.contentCenterX
+		newRuota.y = -100
+		newRuota:setLinearVelocity(0, 100 )
 	end
 	newRuota:applyTorque( math.random( 3,5 ) )
 end
-
+-- loop RUOTA
 local function ruotaLoop()
 	createRuota()
 	for i = #ruoteTable, 1, -1 do
@@ -197,34 +211,60 @@ local function ruotaLoop()
         end
     end
 end
+ruotaLoopTimer = timer.performWithDelay( 5000, ruotaLoop, 0 )
 
-ruotaLoopTimer = timer.performWithDelay( 500, ruotaLoop, 0 )
+
+-- Load CAR1
+local carsTable = {}
+local function createCar1()
+    local newCar1 = display.newImageRect(mainGroup, "car1.png", 80, 120)
+	table.insert(carsTable, newCar1)
+	physics.addBody(newCar1, "dynamic", {radius = 40, bounce = 0})
+    newCar1.myName = "car1"
+   
+	local whereFrom = math.random(2)
+	
+    if ( whereFrom == 1 ) then
+        newCar1.x = display.contentCenterX -250
+        newCar1.y = -100
+        newCar1:setLinearVelocity(0, math.random( 100,150 ) )
+	elseif ( whereFrom == 2 ) then
+		newCar1.x = display.contentCenterX -100
+		newCar1.y = -100
+		newCar1:setLinearVelocity(0, math.random( 100,150 ) )
+	end
+end
+-- loop CAR1
+local function car1Loop()
+	createCar1()
+	for i = #carsTable, 1, -1 do
+        local thisCar1 = carsTable[i]
+ 
+        if ( thisCar1.x < -100 or
+             thisCar1.x > display.contentWidth + 100 or
+             thisCar1.y < -100 or
+             thisCar1.y > display.contentHeight + 100 )
+        then
+            display.remove( thisCar1 )
+            table.remove( carsTable, i )
+        end
+    end
+end
+car1LoopTimer = timer.performWithDelay( 5000, car1Loop, 0 )
 
 
 
 
 math.randomseed( os.time() )
-
 --local gameLoopTimer
 local bucheTable = {}
-
-local function createBuca()
-    local newBuca1 = display.newImageRect("buca1.png", math.random(100, 200), math.random(100, 200))
+local function createBuca1()
+    local newBuca1 = display.newImageRect(mainGroup, "buca1.png", math.random(100, 200), math.random(100, 200))
     table.insert(bucheTable, newBuca1)
     physics.addBody(newBuca1, "dynamic", {radius = 40, bounce = 0})
     newBuca1.myName = "buca1"
 
-    local newBuca2 = display.newImageRect("buca2.png", math.random(100, 200), math.random(100, 200))
-    table.insert(bucheTable, newBuca2)
-    physics.addBody(newBuca2, "dynamic", {radius = 40, bounce = 0})
-    newBuca2.myName = "buca2"
-
-    local newBuca3 = display.newImageRect("buca3.png", math.random(100, 200), math.random(100, 200))
-    table.insert(bucheTable, newBuca3)
-    physics.addBody(newBuca3, "dynamic", {radius = 40, bounce = 0})
-    newBuca3.myName = "buca3"
-
-    local whereFrom = math.random(11)
+    local whereFrom = math.random(5)
 	
     if ( whereFrom == 1 ) then
         -- buca1 From the topLeft
@@ -255,48 +295,80 @@ local function createBuca()
         newBuca1.x = display.contentCenterX +96
         newBuca1.y = -100
         newBuca1:setLinearVelocity(0, 100 )
-    
-    elseif ( whereFrom == 6 ) then
+    end
+end
+
+local function createBuca2()
+	local newBuca2 = display.newImageRect(mainGroup, "buca2.png", math.random(100, 200), math.random(100, 200))
+    table.insert(bucheTable, newBuca2)
+    physics.addBody(newBuca2, "dynamic", {radius = 40, bounce = 0})
+    newBuca2.myName = "buca2"
+
+	local whereFrom = math.random(3)
+
+	if ( whereFrom == 1 ) then
         -- buca2 From the topRight
         newBuca2.x = display.contentCenterX +96
         newBuca2.y = -100
         newBuca2:setLinearVelocity(0, 100 )
     
-    elseif ( whereFrom == 7 ) then
+    elseif ( whereFrom == 2 ) then
         -- buca3 From the topLeft
         newBuca2.x = display.contentCenterX -96
         newBuca2.y = -100
         newBuca2:setLinearVelocity(0, 100 )
     
-    elseif ( whereFrom == 8 ) then
+    elseif ( whereFrom == 3 ) then
         -- buca3 From the topCenter
         newBuca2.x = display.contentCenterX
         newBuca2.y = -100
         newBuca2:setLinearVelocity(0, 100 )
-    elseif ( whereFrom == 9 ) then
+	end
+end
+
+
+local function createBuca3()
+
+	local newBuca3 = display.newImageRect(mainGroup, "buca3.png", math.random(100, 200), math.random(100, 200))
+    table.insert(bucheTable, newBuca3)
+    physics.addBody(newBuca3, "dynamic", {radius = 40, bounce = 0})
+    newBuca3.myName = "buca3"
+
+	local whereFrom = math.random(3)
+
+	if ( whereFrom == 1 ) then
         -- buca3 From the topRight
         newBuca3.x = display.contentCenterX +96
         newBuca3.y = -100
         newBuca3:setLinearVelocity(0, 100 )
     
-    elseif ( whereFrom == 10 ) then
+    elseif ( whereFrom == 2 ) then
         -- From the topRight
         newBuca3.x = display.contentCenterX -96
         newBuca3.y = -100
         newBuca3:setLinearVelocity(0, 100 )
     
-    elseif ( whereFrom == 11 ) then
+    elseif ( whereFrom == 3 ) then
         -- From the topRight
         newBuca3.x = display.contentCenterX
         newBuca3.y = -100
         newBuca3:setLinearVelocity(0, 100 )
-    end
+	end
+
 end
 
 
 local function gameLoop()
-
-    createBuca()
+	local whichBuca = math.random(3)
+	
+    if ( whichBuca == 1 ) then
+		createBuca1()
+	else if( whichBuca == 2 ) then
+		createBuca2()
+		else
+			createBuca3()
+		end
+	end
 
     for i = #bucheTable, 1, -1 do
         local thisBuca1 = bucheTable[i]
