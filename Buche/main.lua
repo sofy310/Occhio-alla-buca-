@@ -67,17 +67,18 @@ local physics = require( "physics" )
 physics.start()
 physics.setGravity( 0, 0 )
 
-local bordoSX = display.newImageRect( "bordo.png", 10, 2100)
-bordoSX.x = display.contentCenterX - 320
+-- load BORDO SX
+local bordoSX = display.newImageRect( "bordo.png", 8, 2100)
+bordoSX.x = display.contentCenterX - 290
 bordoSX.y = display.contentCenterY
 bordoSX.myName = "bordoSX"
+physics.addBody(bordoSX, "static")
 
-local bordoDX = display.newImageRect( "bordo.png", 10, 2100)
-bordoDX.x = display.contentCenterX + 320
+-- load BORDO DX
+local bordoDX = display.newImageRect( "bordo.png", 8, 2100)
+bordoDX.x = display.contentCenterX + 290
 bordoDX.y = display.contentCenterY
 bordoDX.myName = "bordoDX"
-
-physics.addBody(bordoSX, "static")
 physics.addBody(bordoDX, "static")
 
 --Display finish
@@ -225,7 +226,7 @@ local function createCar1()
 	local whereFrom = math.random(2)
 	
     if ( whereFrom == 1 ) then
-        newCar1.x = display.contentCenterX -250
+        newCar1.x = display.contentCenterX -240
         newCar1.y = -100
         newCar1:setLinearVelocity(0, math.random( 120,300 ) )
 	elseif ( whereFrom == 2 ) then
