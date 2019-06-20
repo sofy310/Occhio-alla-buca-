@@ -10,17 +10,6 @@ local scene = composer.newScene()
 --
 -----------------------------------------------------------------------------------------
 
------------------------------------------------------------------------------------------
---
--- main.lua
---
------------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------
---
--- main.lua
---
------------------------------------------------------------------------------------------
-
 --Load background
 local background = display.newImageRect( "background.png", 700, 1100)
 background.x = display.contentCenterX
@@ -488,53 +477,26 @@ local function onCollision( event )
 					timer.performWithDelay( 1000, restoreAutobus)
 				end
 			 end    
-		end
+        end
         
-    end
-end
-Runtime:addEventListener( "collision", onCollision )
-
--- collisione CAR/BUCA ----------------------------------------------------------------->da controllare cos� non funziona
-local function onCollision2( event )
- 
-    if ( event.phase == "began" ) then
- 
-        local obj1 = event.object1
-        local obj2 = event.object2
-        
-        
-        if ( ( obj1.myName == "car1" and obj2.myName == "buca1" ) or
-             ( obj1.myName == "buca1" and obj2.myName == "car1" ) )
+        if ( (obj1.myName == "car1" and obj2.myName == "buca1") or
+        (obj1.myName == "buca1" and obj2.myName == "car1"))
         then
-                    display.remove( car1 )
- 
+             display.remove(newCar1)
         end
 
         if ( (obj1.myName == "car1" and obj2.myName == "buca2") or
-              obj1.myName == "buca2" and obj2.myName == "car1") 
+        (obj1.myName == "buca2" and obj2.myName == "car1"))
         then
-                    display.remove(car1)  
+            display.remove(newCar1)
         end
 
         if ( (obj1.myName == "car1" and obj2.myName == "buca3") or
-              obj1.myName == "buca3" and obj2.myName == "car1") 
+        (obj1.myName == "buca3" and obj2.myName == "car1"))
         then
-  					display.remove(car1)
-		end
-        
-    end
-end
-Runtime:addEventListener( "collision2", onCollision2 )
+            display.remove(newCar1)
+        end 
 
--- collisione AUTOBUS/BORDO ----------------------------------------------------------------->da controllare cos� non funziona
-local function onCollision3( event )
- 
-    if ( event.phase == "began" ) then
- 
-        local obj1 = event.object1
-        local obj2 = event.object2
-        
-        
         if ( ( obj1.myName == "bordoDX" and obj2.myName == "autobus" ) or
              ( obj1.myName == "autobus" and obj2.myName == "bordoDX" ) )
         then
@@ -545,14 +507,12 @@ local function onCollision3( event )
         if ( (obj1.myName == "bordoSX" and obj2.myName == "autobus") or
               obj1.myName == "autobus" and obj2.myName == "bordoSX") 
         then
-                    display.remove(autobus)  
-        end
+                    display.remove(autobus) 
+        end        
         
     end
 end
-Runtime:addEventListener( "collision3", onCollision3 )
-
-
+Runtime:addEventListener( "collision", onCollision )
 
 
 
