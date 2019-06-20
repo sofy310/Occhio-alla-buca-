@@ -79,7 +79,7 @@ local bordoDX = display.newImageRect( "bordo.png", 8, 2100)
 bordoDX.x = display.contentCenterX + 290
 bordoDX.y = display.contentCenterY
 bordoDX.myName = "bordoDX"
-physics.addBody(bordoDX, "static")
+physics.addBody(bordoDX, "static" )
 
 --Display finish
 local finish = display.newImageRect( "finish.png", 150, 150 )
@@ -220,7 +220,7 @@ local carsTable = {}
 local function createCar1()
     local newCar1 = display.newImageRect(mainGroup, "car1.png", 80, 120)
 	table.insert(carsTable, newCar1)
-	physics.addBody(newCar1, "dynamic", {radius = 40, bounce = 0})
+	physics.addBody(newCar1, "dynamic", {radius = 60, bounce = 0})
     newCar1.myName = "car1"
    
 	local whereFrom = math.random(2)
@@ -477,7 +477,7 @@ local function onCollision( event )
 end
 Runtime:addEventListener( "collision", onCollision )
 
--- collisione CAR/BUCA ----------------------------------------------------------------->da controllare così non funziona
+-- collisione CAR/BUCA ----------------------------------------------------------------->da controllare cosï¿½ non funziona
 local function onCollision2( event )
  
     if ( event.phase == "began" ) then
@@ -507,4 +507,30 @@ local function onCollision2( event )
         
     end
 end
-Runtime:addEventListener( "collision", onCollision2 )
+Runtime:addEventListener( "collision2", onCollision2 )
+
+-- collisione AUTOBUS/BORDO ----------------------------------------------------------------->da controllare cosï¿½ non funziona
+local function onCollision3( event )
+ 
+    if ( event.phase == "began" ) then
+ 
+        local obj1 = event.object1
+        local obj2 = event.object2
+        
+        
+        if ( ( obj1.myName == "bordoDX" and obj2.myName == "autobus" ) or
+             ( obj1.myName == "autobus" and obj2.myName == "bordoDX" ) )
+        then
+                    display.remove( autobus )
+ 
+        end
+
+        if ( (obj1.myName == "bordoSX" and obj2.myName == "autobus") or
+              obj1.myName == "autobus" and obj2.myName == "bordoSX") 
+        then
+                    display.remove(autobus)  
+        end
+        
+    end
+end
+Runtime:addEventListener( "collision3", onCollision3 )
