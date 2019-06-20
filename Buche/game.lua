@@ -10,6 +10,12 @@ local scene = composer.newScene()
 --
 -----------------------------------------------------------------------------------------
 
+local autobus
+local bg1
+local bg2
+local runtime = 0
+local scrollSpeed = 1.78
+
 
 
 --Scrollable Background
@@ -60,24 +66,6 @@ end
 
 init()
 
---Adding physics
-local physics = require( "physics" )
-physics.start()
-physics.setGravity( 0, 0 )
-
--- load BORDO SX
-local bordoSX = display.newImageRect( "bordo.png", 8, 2100)
-bordoSX.x = display.contentCenterX - 290
-bordoSX.y = display.contentCenterY
-bordoSX.myName = "bordoSX"
-physics.addBody(bordoSX, "static")
-
--- load BORDO DX
-local bordoDX = display.newImageRect( "bordo.png", 8, 2100)
-bordoDX.x = display.contentCenterX + 290
-bordoDX.y = display.contentCenterY
-bordoDX.myName = "bordoDX"
-physics.addBody(bordoDX, "static" )
 
 --Display finish
 local finish = display.newImageRect( "finish.png", 150, 150 )
@@ -373,7 +361,6 @@ local function gameLoop()
         end
     end
 end
-gameLoopTimer = timer.performWithDelay(3000, gameLoop, 0 )
 
 -- restore AUTOBUS
 local function restoreAutobus()
@@ -459,7 +446,6 @@ local function onCollision( event )
         
     end
 end
-Runtime:addEventListener( "collision", onCollision )
 
 -- collisione CAR/BUCA ----------------------------------------------------------------->da controllare cos� non funziona
 local function onCollision2( event )
@@ -491,7 +477,6 @@ local function onCollision2( event )
         
     end
 end
-Runtime:addEventListener( "collision2", onCollision2 )
 
 -- collisione AUTOBUS/BORDO ----------------------------------------------------------------->da controllare cos� non funziona
 local function onCollision3( event )
@@ -517,7 +502,6 @@ local function onCollision3( event )
         
     end
 end
-Runtime:addEventListener( "collision3", onCollision3 )
 
 
 
@@ -562,6 +546,22 @@ punteggioText:setFillColor( 1, 0, 0 )
 timeText = display.newText(uiGroup, " "..timeLeft, 600, -110, native.systemFontBold, 75)
 timeText:setTextColor(0,0,1)
 
+
+-- load BORDO SX
+local bordoSX = display.newImageRect( "bordo.png", 8, 2100)
+bordoSX.x = display.contentCenterX - 290
+bordoSX.y = display.contentCenterY
+bordoSX.myName = "bordoSX"
+physics.addBody(bordoSX, "static")
+
+-- load BORDO DX
+local bordoDX = display.newImageRect( "bordo.png", 8, 2100)
+bordoDX.x = display.contentCenterX + 290
+bordoDX.y = display.contentCenterY
+bordoDX.myName = "bordoDX"
+physics.addBody(bordoDX, "static" )
+
+
 autobus: addEventListener( "touch", moveAutobus)
 
 end
@@ -578,9 +578,14 @@ function scene:show( event )
 
 	elseif ( phase == "did" ) then
 		-- Code here runs when the scene is entirely on screen
+        --Adding physics
+        local physics = require( "physics" )
         physics.start()
+        physics.setGravity( 0, 0 )
+
         Runtime:addEventListener( "collision", onCollision )
-        gameLoopTimer = timer.performWithDelay( 500, gameLoop, 0 )
+        gameLoopTimer = timer.performWithDelay(3000, gameLoop, 0 )
+
 	end
 end
 
