@@ -10,13 +10,26 @@ local scene = composer.newScene()
 --
 -----------------------------------------------------------------------------------------
 
-local autobus
+-----------------------------------------------------------------------------------------
+--
+-- main.lua
+--
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+--
+-- main.lua
+--
+-----------------------------------------------------------------------------------------
+
+--Load background
+local background = display.newImageRect( "background.png", 700, 1100)
+background.x = display.contentCenterX
+background.y = display.contentCenterY
+
 local bg1
 local bg2
 local runtime = 0
 local scrollSpeed = 1.78
-
-
 
 --Scrollable Background
 local function addScrollableBg()
@@ -66,6 +79,24 @@ end
 
 init()
 
+--Adding physics
+local physics = require( "physics" )
+physics.start()
+physics.setGravity( 0, 0 )
+
+-- load BORDO SX
+local bordoSX = display.newImageRect( "bordo.png", 8, 2100)
+bordoSX.x = display.contentCenterX - 290
+bordoSX.y = display.contentCenterY
+bordoSX.myName = "bordoSX"
+physics.addBody(bordoSX, "static")
+
+-- load BORDO DX
+local bordoDX = display.newImageRect( "bordo.png", 8, 2100)
+bordoDX.x = display.contentCenterX + 290
+bordoDX.y = display.contentCenterY
+bordoDX.myName = "bordoDX"
+physics.addBody(bordoDX, "static" )
 
 --Display finish
 local finish = display.newImageRect( "finish.png", 150, 150 )
@@ -92,7 +123,15 @@ local uiGroup = display.newGroup()
 local mainGroup = display.newGroup()
 
 
-
+--Display lives, score and timer
+livesText = display.newText( uiGroup, "Lives: ".. lives, 180, -110, native.systemFontBold, 42)
+livesText:setFillColor( 1, 0, 0 )
+scoreText = display.newText( uiGroup, "Score: ", 357, -110, native.systemFontBold, 42)
+scoreText:setFillColor( 1, 0, 0 )
+punteggioText = display.newText( uiGroup, " ".. score, 455, -110, native.systemFontBold, 50)
+punteggioText:setFillColor( 1, 0, 0 )
+timeText = display.newText(uiGroup, " "..timeLeft, 600, -110, native.systemFontBold, 75)
+timeText:setTextColor(0,0,1)
 
 --Timer UP
 local function timerUp()
@@ -118,7 +157,12 @@ local function timerDown()
 end
 local countDownTimer = timer.performWithDelay( 1000, timerDown, timeLeft )
 
-
+--Load autobus
+local autobus = display.newImageRect(mainGroup, "autobus.png", 550, 250)
+autobus.x = display.contentCenterX
+autobus.y = display.contentHeight-30
+physics.addBody(autobus, "dynamic", {radius = 40, isSensor = true})
+autobus.myName = "autobus"
 
 --Move the autobus
 local function moveAutobus(event)
@@ -143,6 +187,7 @@ local function moveAutobus(event)
     return true
 end
 
+autobus: addEventListener( "touch", moveAutobus)
 
 -- Load RUOTA
 local ruoteTable = {}
@@ -361,6 +406,7 @@ local function gameLoop()
         end
     end
 end
+gameLoopTimer = timer.performWithDelay(3000, gameLoop, 0 )
 
 -- restore AUTOBUS
 local function restoreAutobus()
@@ -446,6 +492,7 @@ local function onCollision( event )
         
     end
 end
+Runtime:addEventListener( "collision", onCollision )
 
 -- collisione CAR/BUCA ----------------------------------------------------------------->da controllare cos� non funziona
 local function onCollision2( event )
@@ -477,6 +524,7 @@ local function onCollision2( event )
         
     end
 end
+Runtime:addEventListener( "collision2", onCollision2 )
 
 -- collisione AUTOBUS/BORDO ----------------------------------------------------------------->da controllare cos� non funziona
 local function onCollision3( event )
@@ -502,6 +550,8 @@ local function onCollision3( event )
         
     end
 end
+Runtime:addEventListener( "collision3", onCollision3 )
+
 
 
 
@@ -516,53 +566,6 @@ function scene:create( event )
 	local sceneGroup = self.view
 	-- Code here runs when the scene is first created but has not yet appeared on screen
 
-	physics.pause()
-
---Load background
-local background = display.newImageRect( "background.png", 700, 1100)
-background.x = display.contentCenterX
-background.y = display.contentCenterY
-
-local bg1
-local bg2
-local runtime = 0
-local scrollSpeed = 1.78
-
---Load autobus
-local autobus = display.newImageRect(mainGroup, "autobus.png", 550, 250)
-autobus.x = display.contentCenterX
-autobus.y = display.contentHeight-30
-physics.addBody(autobus, "dynamic", {radius = 40, isSensor = true})
-autobus.myName = "autobus"
-
-
-    --Display lives, score and timer
-livesText = display.newText( uiGroup, "Lives: ".. lives, 180, -110, native.systemFontBold, 42)
-livesText:setFillColor( 1, 0, 0 )
-scoreText = display.newText( uiGroup, "Score: ", 357, -110, native.systemFontBold, 42)
-scoreText:setFillColor( 1, 0, 0 )
-punteggioText = display.newText( uiGroup, " ".. score, 455, -110, native.systemFontBold, 50)
-punteggioText:setFillColor( 1, 0, 0 )
-timeText = display.newText(uiGroup, " "..timeLeft, 600, -110, native.systemFontBold, 75)
-timeText:setTextColor(0,0,1)
-
-
--- load BORDO SX
-local bordoSX = display.newImageRect( "bordo.png", 8, 2100)
-bordoSX.x = display.contentCenterX - 290
-bordoSX.y = display.contentCenterY
-bordoSX.myName = "bordoSX"
-physics.addBody(bordoSX, "static")
-
--- load BORDO DX
-local bordoDX = display.newImageRect( "bordo.png", 8, 2100)
-bordoDX.x = display.contentCenterX + 290
-bordoDX.y = display.contentCenterY
-bordoDX.myName = "bordoDX"
-physics.addBody(bordoDX, "static" )
-
-
-autobus: addEventListener( "touch", moveAutobus)
 
 end
 
@@ -579,12 +582,7 @@ function scene:show( event )
 	elseif ( phase == "did" ) then
 		-- Code here runs when the scene is entirely on screen
         --Adding physics
-        local physics = require( "physics" )
-        physics.start()
-        physics.setGravity( 0, 0 )
-
-        Runtime:addEventListener( "collision", onCollision )
-        gameLoopTimer = timer.performWithDelay(3000, gameLoop, 0 )
+  
 
 	end
 end
