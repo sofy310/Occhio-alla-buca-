@@ -234,11 +234,13 @@ local function createCar1()
     if ( whereFrom == 1 ) then
         newCar1.x = display.contentCenterX -240
         newCar1.y = -100
-        newCar1:setLinearVelocity(0, math.random( 120,300 ) )
+        --newCar1:setLinearVelocity(0, math.random( 120,300 ) )
+		newCar1:setLinearVelocity(0,100)
 	elseif ( whereFrom == 2 ) then
 		newCar1.x = display.contentCenterX -100
 		newCar1.y = -100
-		newCar1:setLinearVelocity(0, math.random( 120,300 ) )
+		--newCar1:setLinearVelocity(0, math.random( 120,300 ) )
+		newCar1:setLinearVelocity(0,100)
 	end
 end
 -- loop CARS
@@ -412,7 +414,7 @@ local function restoreAutobus()
     } )
 end
 
--- collisione AUTOBUS/BUCA
+-- collisione AUTOBUS/BUCA e AUTOBUS/LINEE
 local function onCollision( event )
  
     if ( event.phase == "began" ) then
@@ -499,16 +501,41 @@ local function onCollision( event )
 
         if ( ( obj1.myName == "bordoDX" and obj2.myName == "autobus" ) or
              ( obj1.myName == "autobus" and obj2.myName == "bordoDX" ) )
-        then
-                    display.remove( autobus )
- 
+         then
+            if (died == false) then
+                died = true
+
+                --Update lives
+                lives = lives -1
+                livesText.text = "Lives: "..lives
+
+                if (lives == 0) then 
+                    display.remove(autobus)
+                else
+                    autobus.alpha = 0
+                    timer.performWithDelay( 1000, restoreAutobus)
+                end
+            end    
         end
 
         if ( (obj1.myName == "bordoSX" and obj2.myName == "autobus") or
               obj1.myName == "autobus" and obj2.myName == "bordoSX") 
-        then
-                    display.remove(autobus) 
-        end        
+         then
+            if (died == false) then
+                died = true
+
+                --Update lives
+                lives = lives -1
+                livesText.text = "Lives: "..lives
+
+                if (lives == 0) then 
+                    display.remove(autobus)
+                else
+                    autobus.alpha = 0
+                    timer.performWithDelay( 1000, restoreAutobus)
+                end
+            end    
+        end       
         
     end
 end

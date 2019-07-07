@@ -23,49 +23,26 @@ end
 -- -----------------------------------------------------------------------------------
 -- Scene event functions
 -- -----------------------------------------------------------------------------------
-local widget = require("widget")
-
 
 -- create()
 function scene:create( event )
 
 	local sceneGroup = self.view
+	-- Code here runs when the scene is first created but has not yet appeared on screen
 
-	local background = display.newImageRect("sfondoTitle.png", 800, 1400 )
+	local background = display.newImageRect("sfondotitle.png", 800, 1400 )
 	background.x = display.contentCenterX
 	background.y = display.contentCenterY
 
-	--local logo = display.newImage("logo.png")
-	--logo.x = display.contentCenterX 
-	--logo.y = 350
+	local playButton = display.newText( "Play", display.contentCenterX, 700, native.systemFont, 44 )
+	playButton:setFillColor( 0.75, 0.86, 1 )
+	
 
-	local playButton = widget.newButton
-	{
-	width = 500,
-    height = 200,
-    defaultFile = "playgame.png",
-	}
-	playButton.x = display.contentCenterX
-	playButton.y = 700
-	playButton.destination = "game"
-	playButton:addEventListener("tap", playButton)
+	local highScoreButton = display.newText( "High Scores", display.contentCenterX, 810, native.systemFont, 44 )
+	highScoreButton:setFillColor( 0.75, 0.78, 1 )
+
 	playButton:addEventListener( "tap", gotoGame )
-
-	local levelsButton = widget.newButton
-	{
-	width = 500,
-    height = 200,
-    defaultFile = "levels.png",
-	}
-	levelsButton.x = display.contentCenterX
-	levelsButton.y = 900
-	levelsButton.destination = "game"
-	levelsButton:addEventListener("tap", levelsButton)
-	levelsButton:addEventListener( "tap", gotoHighScores )
-
-
-	--local highScoreButton = display.newText( "High Scores", display.contentCenterX, 810, native.systemFont, 44 )
-	--highScoreButton:setFillColor( 0.75, 0.78, 1 )
+	highScoreButton:addEventListener( "tap", gotoHighScores )
 
 end
 
