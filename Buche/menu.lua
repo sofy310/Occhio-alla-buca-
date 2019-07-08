@@ -14,7 +14,7 @@ local function gotoGame()
     composer.gotoScene( "game", { time = 800, effect = "crossFade" } )
 end
 
-local function gotoHighScores()
+local function gotoLevelSelect()
     composer.removeScene( "levelselect" )
     composer.gotoScene( "levelselect", { time = 800, effect = "crossFade" } )
 end
@@ -31,7 +31,7 @@ function scene:create( event )
 
 	local sceneGroup = self.view
 
-	local background = display.newImageRect("sfondoTitle.png", 800, 1400 )
+	local background = display.newImageRect("sfondotitle.png", 800, 1400 )
 	background.x = display.contentCenterX
 	background.y = display.contentCenterY
 
@@ -59,9 +59,9 @@ function scene:create( event )
 	}
 	levelsButton.x = display.contentCenterX
 	levelsButton.y = 900
-	levelsButton.destination = "game"
+	levelsButton.destination = "levelselect"
 	levelsButton:addEventListener("tap", levelsButton)
-	levelsButton:addEventListener( "tap", gotoHighScores )
+	levelsButton:addEventListener( "tap", gotoLevelSelect )
 
 
 	--local highScoreButton = display.newText( "High Scores", display.contentCenterX, 810, native.systemFont, 44 )

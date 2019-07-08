@@ -1,180 +1,257 @@
+-- Menu Scene
+
 local composer = require( "composer" )
+
 local scene = composer.newScene()
 
-local widget = require( "widget" )
+-- -----------------------------------------------------------------------------------
+-- Code outside of the scene event functions below will only be executed ONCE unless
+-- the scene is removed entirely (not recycled) via "composer.removeScene()"
+-- -----------------------------------------------------------------------------------
 
--- Require "global" data table
--- This will contain relevant data like the current level, max levels, number of stars earned, etc.
-local myData = require( "mydata" )
-
--- Declare vertices for vector stars (an image is probably preferable for an actual game).
-local starVertices = { 0,-8,1.763,-2.427,7.608,-2.472,2.853,0.927,4.702,6.472,0.0,3.0,-4.702,6.472,-2.853,0.927,-7.608,-2.472,-1.763,-2.427 }
-
--- Button handler to cancel the level selection and return to the menu
-local function handleCancelButtonEvent( event )
-    if ( "ended" == event.phase ) then
-        composer.gotoScene( "menu", { effect="crossFade", time=333 } )
-    end
+local function gotoMenu()
+    composer.removeScene( "menu" )
+    composer.gotoScene( "menu", { time = 800, effect = "crossFade" } )
 end
 
--- Button handler to go to the selected level
-local function handleLevelSelect( event )
-    if ( "ended" == event.phase ) then
-        -- 'event.target' is the button and '.id' is a number indicating which level to go to.  
-        -- The 'game' scene will use this setting to determine which level to load.
-        -- This could be done via passed parameters as well.
-        myData.settings.currentLevel = event.target.id
-
-        -- Purge the game scene so we have a fresh start
-        composer.removeScene( "game", false )
-
-        -- Go to the game scene
-        composer.gotoScene( "game", { effect="crossFade", time=333 } )
-    end
+local function gotoLevel1()
+    composer.removeScene( "level1" )
+    composer.gotoScene( "level1", { time = 800, effect = "crossFade" } )
 end
 
--- Declare the Composer event handlers
--- On scene create...
+local function gotoLevel2()
+    composer.removeScene( "level2" )
+    composer.gotoScene( "level2", { time = 800, effect = "crossFade" } )
+end
+
+local function gotoLevel3()
+    composer.removeScene( "level3" )
+    composer.gotoScene( "level3", { time = 800, effect = "crossFade" } )
+end
+
+local function gotoLevel4()
+    composer.removeScene( "level4" )
+    composer.gotoScene( "level4", { time = 800, effect = "crossFade" } )
+end
+
+local function gotoLevel5()
+    composer.removeScene( "level5" )
+    composer.gotoScene( "level5", { time = 800, effect = "crossFade" } )
+end
+
+local function gotoLevel6()
+    composer.removeScene( "level6" )
+    composer.gotoScene( "level6", { time = 800, effect = "crossFade" } )
+end
+
+local function gotoLevel7()
+    composer.removeScene( "level7" )
+    composer.gotoScene( "level7", { time = 800, effect = "crossFade" } )
+end
+
+local function gotoLevel8()
+    composer.removeScene( "level8" )
+    composer.gotoScene( "level8", { time = 800, effect = "crossFade" } )
+end
+
+local function gotoLevel9()
+    composer.removeScene( "level9" )
+    composer.gotoScene( "level9", { time = 800, effect = "crossFade" } )
+end
+
+-- -----------------------------------------------------------------------------------
+-- Scene event functions
+-- -----------------------------------------------------------------------------------
+local widget = require("widget")
+
+
+-- create()
 function scene:create( event )
-    local sceneGroup = self.view
 
-    -- Create background
-    local background = display.newRect( 0, 0, display.contentWidth, display.contentHeight )
-    background:setFillColor( 1 )
-    background.x = display.contentCenterX
-    background.y = display.contentCenterY
-    sceneGroup:insert( background )
+	local sceneGroup = self.view
 
-    -- Use a scrollView to contain the level buttons (for support of more than one full screen).
-    -- Since this will only scroll vertically, lock horizontal scrolling.
-    local levelSelectGroup = widget.newScrollView({
-        width = 460,
-        height = 260,
-        scrollWidth = 460,
-        scrollHeight = 800,
-        horizontalScrollDisabled = true
-    })
+	local background = display.newImageRect("corsa.png", 800, 1400 )
+	background.x = display.contentCenterX
+	background.y = display.contentCenterY
 
-    -- 'xOffset', 'yOffset' and 'cellCount' are used to position the buttons in the grid.
-    local xOffset = 64
-    local yOffset = 24
-    local cellCount = 1
+	--local logo = display.newImage("logo.png")
+	--logo.x = display.contentCenterX 
+	--logo.y = 350
 
-    -- Define the array to hold the buttons
-    local buttons = {}
+	local ButtonUndo = widget.newButton
+	{
+	width = 160,
+    height = 66,
+    defaultFile = "undoBlack.png",
+	}
+	ButtonUndo.x = display.contentCenterX-310
+	ButtonUndo.y = -120
+	ButtonUndo.destination = "menu"
+	ButtonUndo:addEventListener("tap", ButtonUndo)
+	ButtonUndo:addEventListener( "tap", gotoMenu)
 
-    -- Read 'maxLevels' from the 'myData' table. Loop over them and generating one button for each.
-    for i = 1, myData.maxLevels do
-        -- Create a button
-        buttons[i] = widget.newButton({
-            label = tostring( i ),
-            id = tostring( i ),
-            onEvent = handleLevelSelect,
-            emboss = false,
-            shape="roundedRect",
-            width = 48,
-            height = 32,
-            font = native.systemFontBold,
-            fontSize = 18,
-            labelColor = { default = { 1, 1, 1 }, over = { 0.5, 0.5, 0.5 } },
-            cornerRadius = 8,
-            labelYOffset = -6, 
-            fillColor = { default={ 0, 0.5, 1, 1 }, over={ 0.5, 0.75, 1, 1 } },
-            strokeColor = { default={ 0, 0, 1, 1 }, over={ 0.333, 0.667, 1, 1 } },
-            strokeWidth = 2
-        })
-        -- Position the button in the grid and add it to the scrollView
-        buttons[i].x = xOffset
-        buttons[i].y = yOffset
-        levelSelectGroup:insert( buttons[i] )
+	local Button1 = widget.newButton
+	{
+	width = 220,
+    height = 153,
+    defaultFile = "level1.png",
+	}
+	Button1.x = display.contentCenterX-230
+	Button1.y = 100
+	Button1.destination = "level1"
+	Button1:addEventListener("tap", Button1)
+	Button1:addEventListener( "tap", gotoLevel1)
 
-        -- Check to see if the player has achieved (completed) this level.
-        -- The '.unlockedLevels' value tracks the maximum unlocked level.
-        -- First, however, check to make sure that this value has been set.
-        -- If not set (new user), this value should be 1.
+	local Button2 = widget.newButton
+	{
+	width = 220,
+    height = 153,
+    defaultFile = "level2.png",
+	}
+	Button2.x = display.contentCenterX
+	Button2.y = 100
+	Button2.destination = "level2"
+	Button2:addEventListener("tap", Button2)
+	Button2:addEventListener( "tap", gotoLevel2 )
 
-        -- If the level is locked, disable the button and fade it out.
-        if ( myData.settings.unlockedLevels == nil ) then
-            myData.settings.unlockedLevels = 1
-        end
-        if ( i <= myData.settings.unlockedLevels ) then
-            buttons[i]:setEnabled( true )
-            buttons[i].alpha = 1.0
-        else 
-            buttons[i]:setEnabled( false ) 
-            buttons[i].alpha = 0.5 
-        end 
+	local Button3 = widget.newButton
+	{
+	width = 220,
+    height = 153,
+    defaultFile = "level3.png",
+	}
+	Button3.x = display.contentCenterX+230
+	Button3.y = 100
+	Button3.destination = "level3"
+	Button3:addEventListener("tap", Button3)
+	Button3:addEventListener( "tap", gotoLevel3 )
 
-        -- Generate stars earned for each level, but only if:
-        -- a. The 'levels' table exists 
-        -- b. There is a 'stars' value inside of the 'levels' table 
-        -- c. The number of stars is greater than 0 (no need to draw zero stars). 
+	local Button4 = widget.newButton
+	{
+	width = 220,
+    height = 153,
+    defaultFile = "level4.png",
+	}
+	Button4.x = display.contentCenterX-230
+	Button4.y = 300
+	Button4.destination = "level4"
+	Button4:addEventListener("tap", Button4)
+	Button4:addEventListener( "tap", gotoLevel4 )
 
-        local star = {} 
-        if ( myData.settings.levels[i] and myData.settings.levels[i].stars and myData.settings.levels[i].stars > 0 ) then
-            for j = 1, myData.settings.levels[i].stars do
-                star[j] = display.newPolygon( 0, 0, starVertices )
-                star[j]:setFillColor( 1, 0.9, 0 )
-                star[j].strokeWidth = 1
-                star[j]:setStrokeColor( 1, 0.8, 0 )
-                star[j].x = buttons[i].x + (j * 16) - 32
-                star[j].y = buttons[i].y + 8
-                levelSelectGroup:insert( star[j] )
-            end
-        end
+	local Button5 = widget.newButton
+	{
+	width = 220,
+    height = 153,
+    defaultFile = "level5.png",
+	}
+	Button5.x = display.contentCenterX
+	Button5.y = 300
+	Button5.destination = "level5"
+	Button5:addEventListener("tap", Button5)
+	Button5:addEventListener( "tap", gotoLevel5 )
 
-        -- Compute the position of the next button.
-        -- This tutorial draws 5 buttons across.
-        -- It also spaces based on the button width and height + initial offset from the left.
-        xOffset = xOffset + 75
-        cellCount = cellCount + 1
-        if ( cellCount > 5 ) then
-            cellCount = 1
-            xOffset = 64
-            yOffset = yOffset + 45
-        end
-    end
+	local Button6 = widget.newButton
+	{
+	width = 220,
+    height = 153,
+    defaultFile = "level6.png",
+	}
+	Button6.x = display.contentCenterX+230
+	Button6.y = 300
+	Button6.destination = "level6"
+	Button6:addEventListener("tap", Button6)
+	Button6:addEventListener( "tap", gotoLevel6 )
 
-    -- Place the scrollView into the scene and center it.
-    sceneGroup:insert( levelSelectGroup )
-    levelSelectGroup.x = display.contentCenterX
-    levelSelectGroup.y = display.contentCenterY
+	local Button7 = widget.newButton
+	{
+	width = 220,
+    height = 153,
+    defaultFile = "level7.png",
+	}
+	Button7.x = display.contentCenterX-230
+	Button7.y = 500
+	Button7.destination = "level7"
+	Button7:addEventListener("tap", Button7)
+	Button7:addEventListener( "tap", gotoLevel7 )
 
-    -- Create a cancel button for return to the menu scene.
-    local doneButton = widget.newButton({
-        id = "button1",
-        label = "Cancel",
-        onEvent = handleCancelButtonEvent
-    })
-    doneButton.x = display.contentCenterX
-    doneButton.y = display.contentHeight - 20
-    sceneGroup:insert( doneButton )
+	local Button8 = widget.newButton
+	{
+	width = 220,
+    height = 153,
+    defaultFile = "level8.png",
+	}
+	Button8.x = display.contentCenterX
+	Button8.y = 500
+	Button8.destination = "level8"
+	Button8:addEventListener("tap", Button8)
+	Button8:addEventListener( "tap", gotoLevel8 )
+
+	local Button9 = widget.newButton
+	{
+	width = 220,
+    height = 153,
+    defaultFile = "level9.png",
+	}
+	Button9.x = display.contentCenterX+230
+	Button9.y = 500
+	Button9.destination = "level9"
+	Button9:addEventListener("tap", Button9)
+	Button9:addEventListener( "tap", gotoLevel9 )
+
+
+	--local highScoreButton = display.newText( "High Scores", display.contentCenterX, 810, native.systemFont, 44 )
+	--highScoreButton:setFillColor( 0.75, 0.78, 1 )
+
 end
 
--- On scene show...
+-- show()
 function scene:show( event )
-    local sceneGroup = self.view
 
-    if ( event.phase == "did" ) then
-    end
+	local sceneGroup = self.view
+	local phase = event.phase
+
+	if ( phase == "will" ) then
+		-- Code here runs when the scene is still off screen (but is about to come on screen)
+
+	elseif ( phase == "did" ) then
+		-- Code here runs when the scene is entirely on screen
+
+	end
 end
 
--- On scene hide...
+
+-- hide()
 function scene:hide( event )
-    local sceneGroup = self.view
 
-    if ( event.phase == "will" ) then
-    end
+	local sceneGroup = self.view
+	local phase = event.phase
+
+	if ( phase == "will" ) then
+		-- Code here runs when the scene is on screen (but is about to go off screen)
+
+	elseif ( phase == "did" ) then
+		-- Code here runs immediately after the scene goes entirely off screen
+
+	end
 end
 
--- On scene destroy...
+
+-- destroy()
 function scene:destroy( event )
-    local sceneGroup = self.view   
+
+	local sceneGroup = self.view
+	-- Code here runs prior to the removal of scene's view
+
 end
 
--- Composer scene listeners
+
+-- -----------------------------------------------------------------------------------
+-- Scene event function listeners
+-- -----------------------------------------------------------------------------------
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
+-- -----------------------------------------------------------------------------------
+
 return scene
