@@ -19,6 +19,11 @@ local function gotoLevelSelect()
     composer.gotoScene( "levelselect", { time = 800, effect = "crossFade" } )
 end
 
+local function gotoHighscore()
+    composer.removeScene( "highscore" )
+    composer.gotoScene( "highscore", { time = 800, effect = "crossFade" } )
+end
+
 
 -- -----------------------------------------------------------------------------------
 -- Scene event functions
@@ -41,7 +46,7 @@ function scene:create( event )
 
 	local playButton = widget.newButton
 	{
-	width = 500,
+	width = 450,
     height = 200,
     defaultFile = "playgame.png",
 	}
@@ -53,15 +58,27 @@ function scene:create( event )
 
 	local levelsButton = widget.newButton
 	{
-	width = 500,
+	width = 450,
     height = 200,
     defaultFile = "levels.png",
 	}
 	levelsButton.x = display.contentCenterX
-	levelsButton.y = 900
+	levelsButton.y = 850
 	levelsButton.destination = "levelselect"
 	levelsButton:addEventListener("tap", levelsButton)
 	levelsButton:addEventListener( "tap", gotoLevelSelect )
+
+	local highscoreButton = widget.newButton
+	{
+	width = 450,
+    height = 200,
+    defaultFile = "highscore.png",
+	}
+	highscoreButton.x = display.contentCenterX
+	highscoreButton.y = 1000
+	highscoreButton.destination = "highscore"
+	highscoreButton:addEventListener("tap", highscoreButton)
+	highscoreButton:addEventListener( "tap", gotoHighscore )
 
 
 	--local highScoreButton = display.newText( "High Scores", display.contentCenterX, 810, native.systemFont, 44 )
