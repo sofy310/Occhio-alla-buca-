@@ -185,7 +185,7 @@ local function createRuota()
 	physics.addBody(newRuota, "dynamic", {radius = 40, bounce = 0})
     newRuota.myName = "ruota"
    
-	local whereFrom = math.random(3)
+	local whereFrom = math.random(10)
 	
     if ( whereFrom == 1 ) then
         newRuota.x = display.contentCenterX -200
@@ -198,7 +198,12 @@ local function createRuota()
 	elseif ( whereFrom == 3 ) then
 		newRuota.x = display.contentCenterX
 		newRuota.y = -100
-		newRuota:setLinearVelocity(0, 100 )
+        newRuota:setLinearVelocity(0, 100 )
+    else 
+        newRuota.x = display.contentCenterX
+        newRuota.y = -200 
+        newRuota:setLinearVelocity(0, 0 )
+
 	end
 	newRuota:applyTorque( math.random( 3,5 ) )
 end
