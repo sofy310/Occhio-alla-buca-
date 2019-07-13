@@ -275,6 +275,14 @@ local function car1Loop()
 end
 car1LoopTimer = timer.performWithDelay( 5000, car1Loop, 0 )
 
+local function deleteCar()
+    for i = #carsTable, 1, -1 do
+        local thisCar = carsTable[i]
+        display.remove(thisCar)
+        table.remove( carsTable, i )
+
+    end
+end
 math.randomseed( os.time() )
 
 -- load BUCA1
@@ -535,6 +543,27 @@ local function onCollision( event )
         then
             display.remove(car3)
         end 
+
+        if ( (obj1.myName == "car1" and obj2.myName == "autobus") or
+        (obj1.myName == "autobus" and obj2.myName == "car1"))
+        then
+            if (died == false) then
+               died = true
+
+               --Update lives
+               lives = lives -1
+               livesText.text = "Lives: "..lives
+
+               if (lives == 0) then 
+                   display.remove(autobus)
+                   timer.performWithDelay( 2000, endGame )
+
+               else
+                   autobus.alpha = 0
+                   timer.performWithDelay( 1000, restoreAutobus)
+               end
+            end    
+       end
 
         if ( ( obj1.myName == "bordoDX" and obj2.myName == "autobus" ) or
              ( obj1.myName == "autobus" and obj2.myName == "bordoDX" ) )
