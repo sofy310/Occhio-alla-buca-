@@ -248,14 +248,14 @@ local function createCar1()
     if ( whereFrom == 1 ) then
         newCar1.x = display.contentCenterX -240
         newCar1.y = -100
-        --newCar1:setLinearVelocity(0, math.random( 120,300 ) )
-		newCar1:setLinearVelocity(0,100)
+        newCar1:setLinearVelocity(0, math.random( 120,300 ) )
+		--newCar1:setLinearVelocity(0,100)
 	elseif ( whereFrom == 2 ) then
 		newCar1.x = display.contentCenterX -100
 		newCar1.y = -100
-		--newCar1:setLinearVelocity(0, math.random( 120,300 ) )
-		newCar1:setLinearVelocity(0,100)
-	end
+		newCar1:setLinearVelocity(0, math.random( 120,300 ) )
+        --newCar1:setLinearVelocity(0,100)
+
 end
 -- loop CARS
 local function car1Loop()
@@ -529,19 +529,19 @@ local function onCollision( event )
         if ( (obj1.myName == "car1" and obj2.myName == "buca1") or
         (obj1.myName == "buca1" and obj2.myName == "car1"))
         then
-             display.remove(car1)
+            deleteCar()
         end
 
         if ( (obj1.myName == "car1" and obj2.myName == "buca2") or
         (obj1.myName == "buca2" and obj2.myName == "car1"))
         then
-            display.remove(car2)
+            deleteCar()
         end
 
         if ( (obj1.myName == "car1" and obj2.myName == "buca3") or
         (obj1.myName == "buca3" and obj2.myName == "car1"))
         then
-            display.remove(car3)
+            deleteCar()
         end 
 
         if ( (obj1.myName == "car1" and obj2.myName == "autobus") or
