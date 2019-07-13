@@ -73,23 +73,25 @@ function scene:create( event )
 	background.x = display.contentCenterX
 	background.y = display.contentCenterY
 
-	local highScoresHeader = display.newText( "High Scores", display.contentCenterX, 100, native.systemFont, 44 )
+	local highScoresHeader = display.newText( "High Scores", display.contentCenterX, 100, native.systemFontBold, 55 )
+    highScoresHeader:setFillColor(1, 0, 0)
 
 	for i = 1, 10 do
 		if ( scoresTable[i] ) then
 			local yPos = 150 + ( i * 56 )
 
-			local rankNum = display.newText(i .. ")", display.contentCenterX - 50, yPos, native.systemFont, 36 )
-			rankNum:setFillColor( 0.8 )
+			local rankNum = display.newText(i .. ")", display.contentCenterX - 50, yPos, native.systemFontBold, 50 )
+			rankNum:setFillColor(1, 0, 0 )
 			rankNum.anchorX = 1
 
-			local thisScore = display.newText( scoresTable[i], display.contentCenterX - 30, yPos, native.systemFont, 36 )
-			thisScore.anchorX = 0
+			local thisScore = display.newText( scoresTable[i], display.contentCenterX - 30, yPos, native.systemFontBold, 50 )
+            thisScore.anchorX = 0
+            thisScore:setFillColor(1, 0, 0)
 		end
 	end
 
-	local menuButton = display.newText("Menu", display.contentCenterX, 810, native.systemFont, 44 )
-    menuButton:setFillColor( 0.75, 0.78, 1 )
+	local menuButton = display.newText("Menu", display.contentCenterX, 810, native.systemFontBold, 55 )
+    menuButton:setFillColor(1, 0, 0)
     menuButton:addEventListener("tap", menuButton)
 	menuButton:addEventListener( "tap", gotoMenu )
 

@@ -1,4 +1,3 @@
-
 local composer = require( "composer" )
 
 local scene = composer.newScene()
@@ -464,6 +463,8 @@ local function onCollision( event )
 
                 if (lives == 0) then 
                     display.remove(autobus)
+                    timer.performWithDelay( 2000, endGame )
+
                 else
                     autobus.alpha = 0
                     timer.performWithDelay( 1000, restoreAutobus)
@@ -482,7 +483,9 @@ local function onCollision( event )
                 livesText.text = "Lives: "..lives
 
 				if (lives == 0) then 
-					display.remove(autobus)
+                    display.remove(autobus)
+                    timer.performWithDelay( 2000, endGame )
+
 				else
 					autobus.alpha = 0
 					timer.performWithDelay( 1000, restoreAutobus)
@@ -520,6 +523,7 @@ local function onCollision( event )
 
                 if (lives == 0) then 
                     display.remove(autobus)
+                    timer.performWithDelay( 2000, endGame )
                 else
                     autobus.alpha = 0
                     timer.performWithDelay( 1000, restoreAutobus)
@@ -539,6 +543,8 @@ local function onCollision( event )
 
                 if (lives == 0) then 
                     display.remove(autobus)
+                    timer.performWithDelay( 2000, endGame )
+
                 else
                     autobus.alpha = 0
                     timer.performWithDelay( 1000, restoreAutobus)
@@ -619,5 +625,4 @@ scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
 -- -----------------------------------------------------------------------------------
-
 return scene
