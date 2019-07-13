@@ -112,11 +112,11 @@ local mainGroup = display.newGroup()
 
 
 --Display lives, score and timer
-livesText = display.newText( uiGroup, "Lives: ".. lives, 180, -110, native.systemFontBold, 42)
+livesText = display.newText( uiGroup, "Lives: ".. lives, 180, -110, native.systemFontBold, 50)
 livesText:setFillColor( 1, 0, 0 )
-scoreText = display.newText( uiGroup, "Score: ", 357, -110, native.systemFontBold, 42)
+scoreText = display.newText( uiGroup, "Score: ", 377, -110, native.systemFontBold, 50)
 scoreText:setFillColor( 1, 0, 0 )
-punteggioText = display.newText( uiGroup, " ".. score, 455, -110, native.systemFontBold, 50)
+punteggioText = display.newText( uiGroup, " ".. score, 475, -110, native.systemFontBold, 55)
 punteggioText:setFillColor( 1, 0, 0 )
 timeText = display.newText(uiGroup, " "..timeLeft, 600, -110, native.systemFontBold, 75)
 timeText:setTextColor(0,0,1)
@@ -185,7 +185,7 @@ local function createRuota()
 	physics.addBody(newRuota, "dynamic", {radius = 40, bounce = 0})
     newRuota.myName = "ruota"
    
-	local whereFrom = math.random(10)
+	local whereFrom = math.random(7)
 	
     if ( whereFrom == 1 ) then
         newRuota.x = display.contentCenterX -200
@@ -225,10 +225,20 @@ local function ruotaLoop()
 end
 ruotaLoopTimer = timer.performWithDelay( 5000, ruotaLoop, 0 )
 
+local function deleteRuota()
+    for i = #ruoteTable, 1, -1 do
+        local thisRuota = ruoteTable[i]
+        display.remove(thisRuota)
+        table.remove( ruoteTable, i )
+
+    end
+end
+    
+
 -- Load CAR1
 local carsTable = {}
 local function createCar1()
-    local newCar1 = display.newImageRect(mainGroup, "car1.png", 80, 120)
+    local newCar1 = display.newImageRect(mainGroup, "car1.png", 100, 150)
 	table.insert(carsTable, newCar1)
 	physics.addBody(newCar1, "dynamic", {radius = 60, bounce = 0})
     newCar1.myName = "car1"
@@ -269,9 +279,9 @@ math.randomseed( os.time() )
 
 -- load BUCA1
 local function createBuca1()
-    local newBuca1 = display.newImageRect(mainGroup, "buca1.png", math.random(100, 200), math.random(100, 200))
+    local newBuca1 = display.newImageRect(mainGroup, "buca1.png", math.random(100, 150), math.random(100, 150))
     table.insert(bucheTable, newBuca1)
-    physics.addBody(newBuca1, "dynamic", {radius = 40, bounce = 0})
+    physics.addBody(newBuca1, "dynamic", {radius = 50, bounce = 0})
     newBuca1.myName = "buca1"
 
     local whereFrom = math.random(5)
@@ -307,9 +317,9 @@ end
 
 -- load BUCA2
 local function createBuca2()
-	local newBuca2 = display.newImageRect(mainGroup, "buca2.png", math.random(100, 200), math.random(100, 200))
+	local newBuca2 = display.newImageRect(mainGroup, "buca2.png", math.random(100, 150), math.random(100, 150))
     table.insert(bucheTable, newBuca2)
-    physics.addBody(newBuca2, "dynamic", {radius = 40, bounce = 0})
+    physics.addBody(newBuca2, "dynamic", {radius = 50, bounce = 0})
     newBuca2.myName = "buca2"
 
 	local whereFrom = math.random(3)
@@ -335,7 +345,7 @@ end
 -- load BUCA3
 local function createBuca3()
 
-	local newBuca3 = display.newImageRect(mainGroup, "buca3.png", math.random(100, 200), math.random(100, 200))
+	local newBuca3 = display.newImageRect(mainGroup, "buca3.png", math.random(100, 150), math.random(100, 150))
     table.insert(bucheTable, newBuca3)
     physics.addBody(newBuca3, "dynamic", {radius = 40, bounce = 0})
     newBuca3.myName = "buca3"
@@ -497,23 +507,33 @@ local function onCollision( event )
 				end
 			 end    
         end
+
+        if((obj1.myName == "ruota" and obj2.myName == "autobus") or
+        obj1.myName == "autobus" and obj2.myName == "ruota" )
+        then
+            deleteRuota()
+            if(lives == 2 or lives == 1) then
+                lives = lives +1
+                livesText.text = "Lives: "..lives
+            end
+        end
         
         if ( (obj1.myName == "car1" and obj2.myName == "buca1") or
         (obj1.myName == "buca1" and obj2.myName == "car1"))
         then
-             display.remove(newCar1)
+             display.remove(car1)
         end
 
         if ( (obj1.myName == "car1" and obj2.myName == "buca2") or
         (obj1.myName == "buca2" and obj2.myName == "car1"))
         then
-            display.remove(newCar1)
+            display.remove(car2)
         end
 
         if ( (obj1.myName == "car1" and obj2.myName == "buca3") or
         (obj1.myName == "buca3" and obj2.myName == "car1"))
         then
-            display.remove(newCar1)
+            display.remove(car3)
         end 
 
         if ( ( obj1.myName == "bordoDX" and obj2.myName == "autobus" ) or
