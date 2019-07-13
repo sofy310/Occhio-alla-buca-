@@ -414,6 +414,13 @@ local function restoreAutobus()
     } )
 end
 
+-- endGAME
+local function endGame()
+    composer.setVariable("finalScore", score)
+    composer.removeScene("highscore")
+    composer.gotoScene( "highscore", { time=800, effect="crossFade" } )
+end
+
 -- collisione AUTOBUS/BUCA e AUTOBUS/LINEE
 local function onCollision( event )
  
@@ -435,6 +442,8 @@ local function onCollision( event )
 
                 if ( lives == 0 ) then
                     display.remove( autobus )
+                    timer.performWithDelay( 2000, endGame )
+
                 else
                     autobus.alpha = 0
                     timer.performWithDelay( 1000, restoreAutobus )
