@@ -87,11 +87,11 @@ bordoDX.myName = "bordoDX"
 physics.addBody(bordoDX, "static")
 
 --Display finish
-local finish = display.newImageRect( "finish.png", 150, 150 )
-finish.x = display.contentCenterX+215
-finish.y = display.contentCenterY-600
-finish.myName = "finish"
-physics.addBody(finish, "static")
+--local finish = display.newImageRect( "finish.png", 150, 150 )
+--finish.x = display.contentCenterX+215
+--finish.y = display.contentCenterY-600
+--finish.myName = "finish"
+--physics.addBody(finish, "static")
 
 --Initialize variables
 local lives = 3
@@ -112,14 +112,14 @@ local mainGroup = display.newGroup()
 
 
 --Display lives, score and timer
-livesText = display.newText( uiGroup, "Lives: ".. lives, 180, -110, native.systemFontBold, 50)
+livesText = display.newText( uiGroup, "Lives: ".. lives, 280, -110, native.systemFontBold, 50)
 livesText:setFillColor( 1, 0, 0 )
-scoreText = display.newText( uiGroup, "Score: ", 377, -110, native.systemFontBold, 50)
+scoreText = display.newText( uiGroup, "Score: ", 477, -110, native.systemFontBold, 50)
 scoreText:setFillColor( 1, 0, 0 )
-punteggioText = display.newText( uiGroup, " ".. score, 475, -110, native.systemFontBold, 55)
+punteggioText = display.newText( uiGroup, " ".. score, 575, -110, native.systemFontBold, 55)
 punteggioText:setFillColor( 1, 0, 0 )
-timeText = display.newText(uiGroup, " "..timeLeft, 600, -110, native.systemFontBold, 75)
-timeText:setTextColor(0,0,1)
+--timeText = display.newText(uiGroup, " "..timeLeft, 600, -110, native.systemFontBold, 75)
+--timeText:setTextColor(0,0,1)
 
 --Timer UP
 local function timerUp()
@@ -134,22 +134,22 @@ end
 local timerUpTimer = timer.performWithDelay(1000, timerUp, 0)
 
 -- Timer DOWN
-local function timerDown()
-    timeLeft = timeLeft - 1
-    timeText.text = timeLeft
+--local function timerDown()
+   -- timeLeft = timeLeft - 1
+    ----timeText.text = timeLeft
    -- if(timeLimit==0)then
     --    display.remove(timeLeft)
     --    timer.cancel(timerr)
    --     storyboard.gotoScene("maxtime", "fade", 400)
    -- end
-end
+--end
 local countDownTimer = timer.performWithDelay( 1000, timerDown, timeLeft )
 
 --Load autobus
-local autobus = display.newImageRect(mainGroup, "autobus.png", 550, 250)
+local autobus = display.newImageRect(mainGroup, "autobus.png", 590, 280)
 autobus.x = display.contentCenterX
 autobus.y = display.contentHeight-30
-physics.addBody(autobus, "dynamic", {radius = 40, isSensor = true})
+physics.addBody(autobus, "dynamic", {radius = 100, isSensor = true})
 autobus.myName = "autobus"
 
 --Move the autobus
