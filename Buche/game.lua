@@ -17,7 +17,7 @@ background.y = display.contentCenterY
 local bg1
 local bg2
 local runtime = 0
-local scrollSpeed = 1.78
+local scrollSpeed = 2.78
 
 --Scrollable Background
 local function addScrollableBg()
@@ -84,7 +84,7 @@ local bordoDX = display.newImageRect( "bordo.png", 8, 2100)
 bordoDX.x = display.contentCenterX + 290
 bordoDX.y = display.contentCenterY
 bordoDX.myName = "bordoDX"
-physics.addBody(bordoDX, "static" )
+physics.addBody(bordoDX, "static")
 
 --Display finish
 local finish = display.newImageRect( "finish.png", 150, 150 )
@@ -185,20 +185,20 @@ local function createRuota()
 	physics.addBody(newRuota, "dynamic", {radius = 40, bounce = 0})
     newRuota.myName = "ruota"
    
-	local whereFrom = math.random(7)
+	local whereFrom = math.random(10)
 	
     if ( whereFrom == 1 ) then
         newRuota.x = display.contentCenterX -200
         newRuota.y = -100
-        newRuota:setLinearVelocity(0, 100 )
+        newRuota:setLinearVelocity(0, 150 )
 	elseif ( whereFrom == 2 ) then
 		newRuota.x = display.contentCenterX +200
 		newRuota.y = -100
-		newRuota:setLinearVelocity(0, 100 )
+		newRuota:setLinearVelocity(0, 150 )
 	elseif ( whereFrom == 3 ) then
 		newRuota.x = display.contentCenterX
 		newRuota.y = -100
-        newRuota:setLinearVelocity(0, 100 )
+        newRuota:setLinearVelocity(0, 150 )
     else 
         newRuota.x = display.contentCenterX
         newRuota.y = -200 
@@ -243,19 +243,24 @@ local function createCar1()
 	physics.addBody(newCar1, "dynamic", {radius = 60, bounce = 0})
     newCar1.myName = "car1"
    
-	local whereFrom = math.random(2)
+	local whereFrom = math.random(5)
 	
     if ( whereFrom == 1 ) then
         newCar1.x = display.contentCenterX -240
         newCar1.y = -100
-        newCar1:setLinearVelocity(0, math.random( 120,300 ) )
+        newCar1:setLinearVelocity(0, math.random( 190,350 ) )
 		--newCar1:setLinearVelocity(0,100)
 	elseif ( whereFrom == 2 ) then
 		newCar1.x = display.contentCenterX -100
 		newCar1.y = -100
-		newCar1:setLinearVelocity(0, math.random( 120,300 ) )
+		newCar1:setLinearVelocity(0, math.random( 190,350 ) )
         --newCar1:setLinearVelocity(0,100)
+    else 
+        newCar1.x = display.contentCenterX 
+        newCar1.y = -1000
+        newCar1:setLinearVelocity(0, 0 )
 
+    end 
 end
 -- loop CARS
 local function car1Loop()
@@ -287,9 +292,9 @@ math.randomseed( os.time() )
 
 -- load BUCA1
 local function createBuca1()
-    local newBuca1 = display.newImageRect(mainGroup, "buca1.png", math.random(100, 150), math.random(100, 150))
+    local newBuca1 = display.newImageRect(mainGroup, "buca1.png", math.random(90, 130), math.random(90, 130))
     table.insert(bucheTable, newBuca1)
-    physics.addBody(newBuca1, "dynamic", {radius = 50, bounce = 0})
+    physics.addBody(newBuca1, "kinematic", {radius = 50, bounce = 0})
     newBuca1.myName = "buca1"
 
     local whereFrom = math.random(5)
@@ -298,36 +303,36 @@ local function createBuca1()
         -- buca1 From the topLeft
         newBuca1.x = display.contentCenterX -200
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 100 )
+        newBuca1:setLinearVelocity(0, 150 )
     elseif ( whereFrom == 2 ) then
         -- buca1 From the topCenter
         newBuca1.x = display.contentCenterX
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 100 )
+        newBuca1:setLinearVelocity(0, 150 )
     elseif ( whereFrom == 3 ) then
         -- buca1 From the topRight
         newBuca1.x = display.contentCenterX +200
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 100 )
+        newBuca1:setLinearVelocity(0, 150 )
     elseif ( whereFrom == 4 ) then
         -- buca2 From the topLeft
         newBuca1.x = display.contentCenterX -96
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 100 )
+        newBuca1:setLinearVelocity(0, 150 )
     
     elseif ( whereFrom == 5 ) then
         -- buca2 From the topCenter
         newBuca1.x = display.contentCenterX +96
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 100 )
+        newBuca1:setLinearVelocity(0, 150 )
     end
 end
 
 -- load BUCA2
 local function createBuca2()
-	local newBuca2 = display.newImageRect(mainGroup, "buca2.png", math.random(100, 150), math.random(100, 150))
+	local newBuca2 = display.newImageRect(mainGroup, "buca2.png", math.random(90, 130), math.random(90, 130))
     table.insert(bucheTable, newBuca2)
-    physics.addBody(newBuca2, "dynamic", {radius = 50, bounce = 0})
+    physics.addBody(newBuca2, "kinematic", {radius = 50, bounce = 0})
     newBuca2.myName = "buca2"
 
 	local whereFrom = math.random(3)
@@ -336,26 +341,26 @@ local function createBuca2()
         -- buca2 From the topRight
         newBuca2.x = display.contentCenterX +96
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 100 )
+        newBuca2:setLinearVelocity(0, 150 )
     elseif ( whereFrom == 2 ) then
         -- buca3 From the topLeft
         newBuca2.x = display.contentCenterX -96
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 100 )  
+        newBuca2:setLinearVelocity(0, 150 )  
     elseif ( whereFrom == 3 ) then
         -- buca3 From the topCenter
         newBuca2.x = display.contentCenterX
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 100 )
+        newBuca2:setLinearVelocity(0, 150 )
 	end
 end
 
 -- load BUCA3
 local function createBuca3()
 
-	local newBuca3 = display.newImageRect(mainGroup, "buca3.png", math.random(100, 150), math.random(100, 150))
+	local newBuca3 = display.newImageRect(mainGroup, "buca3.png", math.random(90, 130), math.random(90, 130))
     table.insert(bucheTable, newBuca3)
-    physics.addBody(newBuca3, "dynamic", {radius = 40, bounce = 0})
+    physics.addBody(newBuca3, "kinematic", {radius = 40, bounce = 0})
     newBuca3.myName = "buca3"
 
 	local whereFrom = math.random(3)
@@ -364,17 +369,17 @@ local function createBuca3()
         -- buca3 From the topRight
         newBuca3.x = display.contentCenterX +96
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 100 ) 
+        newBuca3:setLinearVelocity(0, 150 ) 
     elseif ( whereFrom == 2 ) then
         -- From the topRight
         newBuca3.x = display.contentCenterX -96
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 100 )   
+        newBuca3:setLinearVelocity(0, 150 )   
     elseif ( whereFrom == 3 ) then
         -- From the topRight
         newBuca3.x = display.contentCenterX
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 100 )
+        newBuca3:setLinearVelocity(0, 150 )
 	end
 end
 
