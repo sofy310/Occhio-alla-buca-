@@ -12,7 +12,8 @@ local scene = composer.newScene()
 local clacson = audio.loadSound( "clacson.wav" )
 local crash = audio.loadSound("crash.wav")
 local live = audio.loadSound("lives.wav")
-
+local bounce = audio.loadSound("bounce.wav")
+local largeCrash = audio.loadSound("largeCrash.wav")
 --Load background
 local background = display.newImageRect( "background.png", 700, 1100)
 background.x = display.contentCenterX
@@ -546,24 +547,28 @@ local function onCollision( event )
         if ( (obj1.myName == "car1" and obj2.myName == "buca1") or
         (obj1.myName == "buca1" and obj2.myName == "car1"))
         then
+            audio.play(bounce)
             deleteCar()
         end
 
         if ( (obj1.myName == "car1" and obj2.myName == "buca2") or
         (obj1.myName == "buca2" and obj2.myName == "car1"))
         then
+            audio.play(bounce)
             deleteCar()
         end
 
         if ( (obj1.myName == "car1" and obj2.myName == "buca3") or
         (obj1.myName == "buca3" and obj2.myName == "car1"))
         then
+            audio.play(bounce)
             deleteCar()
         end 
 
         if ( (obj1.myName == "car1" and obj2.myName == "autobus") or
         (obj1.myName == "autobus" and obj2.myName == "car1"))
         then
+            audio.play(largeCrash)
             if (died == false) then
                died = true
 
@@ -585,6 +590,7 @@ local function onCollision( event )
         if ( ( obj1.myName == "bordoDX" and obj2.myName == "autobus" ) or
              ( obj1.myName == "autobus" and obj2.myName == "bordoDX" ) )
          then
+            audio.play(bounce)
             if (died == false) then
                 died = true
 
@@ -605,6 +611,7 @@ local function onCollision( event )
         if ( (obj1.myName == "bordoSX" and obj2.myName == "autobus") or
               obj1.myName == "autobus" and obj2.myName == "bordoSX") 
          then
+            audio.play(bounce)
             if (died == false) then
                 died = true
 

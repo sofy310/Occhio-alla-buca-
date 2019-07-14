@@ -40,6 +40,7 @@ local function saveScores()
 end
 
 local function gotoMenu()
+	composer.removeScene("menu")
 	composer.gotoScene( "menu", { time = 800, effect = "crossFade" } )
 end
 
