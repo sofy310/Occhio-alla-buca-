@@ -8,6 +8,10 @@ local scene = composer.newScene()
 -- main.lua
 --
 -----------------------------------------------------------------------------------------
+--Load sound effects
+local clacson = audio.loadSound( "clacson.wav" )
+local crash = audio.loadSound("crash.wav")
+local live = audio.loadSound("lives.wav")
 
 --Load background
 local background = display.newImageRect( "background.png", 700, 1100)
@@ -113,7 +117,7 @@ livesText = display.newText( uiGroup, "Lives: ".. lives, 280, -110, native.syste
 livesText:setFillColor( 1, 0, 0 )
 
 
-local countDown = 60
+local countDown = 100
 pauseTime = false;
 resumeTime = true;
 
@@ -148,7 +152,7 @@ function gameOver()
     countDown = countDown - 1
 end
 
-Timer1 = timer.performWithDelay( 1000, gameOver, 61 )
+Timer1 = timer.performWithDelay( 1000, gameOver, 101 )
 
 local function timeButton( event )
 if event.phase == "began" then
@@ -217,14 +221,17 @@ local function createRuota()
         newRuota.x = display.contentCenterX -200
         newRuota.y = -100
         newRuota:setLinearVelocity(0, 283 )
+
 	elseif ( whereFrom == 2 ) then
 		newRuota.x = display.contentCenterX +200
 		newRuota.y = -100
         newRuota:setLinearVelocity(0, 283 )
+
 	elseif ( whereFrom == 3 ) then
 		newRuota.x = display.contentCenterX
 		newRuota.y = -100
         newRuota:setLinearVelocity(0, 283 )
+
     else 
         newRuota.x = display.contentCenterX
         newRuota.y = -200 
@@ -275,11 +282,15 @@ local function createCar1()
         newCar1.x = display.contentCenterX -240
         newCar1.y = -100
         newCar1:setLinearVelocity(0, math.random( 283,500 ) )
+        audio.play( clacson)
+
 		--newCar1:setLinearVelocity(0,100)
 	elseif ( whereFrom == 2 ) then
 		newCar1.x = display.contentCenterX -100
 		newCar1.y = -100
-		newCar1:setLinearVelocity(0, math.random( 283,500 ) )
+        newCar1:setLinearVelocity(0, math.random( 283,500 ) )
+        audio.play( clacson)
+
         --newCar1:setLinearVelocity(0,100)
     else 
         newCar1.x = display.contentCenterX 
@@ -488,6 +499,8 @@ local function onCollision( event )
         if ( ( obj1.myName == "autobus" and obj2.myName == "buca1" ) or
              ( obj1.myName == "buca1" and obj2.myName == "autobus" ) )
         then
+            audio.play(crash)
+
             if ( died == false ) then
                 died = true
 
@@ -497,6 +510,8 @@ local function onCollision( event )
 
                 if ( lives == 0 ) then
                     display.remove( autobus )
+                    local looseText = display.newText( "You Loose!", 420, 197, "comic sans ms", 80)
+                    looseText:setTextColor(1, 0, 0)
                     timer.performWithDelay( 2000, endGame )
 
                 else
@@ -510,6 +525,8 @@ local function onCollision( event )
         if ( (obj1.myName == "autobus" and obj2.myName == "buca2") or
               obj1.myName == "buca2" and obj2.myName == "autobus") 
         then
+            audio.play(crash)
+
             if (died == false) then
                 died = true
 
@@ -531,6 +548,8 @@ local function onCollision( event )
         if ( (obj1.myName == "autobus" and obj2.myName == "buca3") or
               obj1.myName == "buca3" and obj2.myName == "autobus") 
         then
+            audio.play(crash)
+
              if (died == false) then
                 died = true
 
@@ -552,6 +571,8 @@ local function onCollision( event )
         if((obj1.myName == "ruota" and obj2.myName == "autobus") or
         obj1.myName == "autobus" and obj2.myName == "ruota" )
         then
+            audio.play(live)
+
             deleteRuota()
             if(lives == 2 or lives == 1) then
                 lives = lives +1

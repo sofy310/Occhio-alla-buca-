@@ -1,4 +1,3 @@
--- Menu Scene
 
 local composer = require( "composer" )
 
@@ -9,82 +8,21 @@ local scene = composer.newScene()
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
 
-local function gotoGame()
-    composer.removeScene( "game" )
-    composer.gotoScene( "game", { time = 800, effect = "crossFade" } )
-end
 
-local function gotoLevelSelect()
-    composer.removeScene( "levelselect" )
-    composer.gotoScene( "levelselect", { time = 800, effect = "crossFade" } )
-end
-
-local function gotoHighscore()
-    composer.removeScene( "highscore" )
-    composer.gotoScene( "highscore", { time = 800, effect = "crossFade" } )
-end
 
 
 -- -----------------------------------------------------------------------------------
 -- Scene event functions
 -- -----------------------------------------------------------------------------------
-local widget = require("widget")
-local background = display.newImageRect("sfondotitle.png", 800, 1400 )
-background.x = display.contentCenterX
-background.y = display.contentCenterY
-
---local logo = display.newImage("logo.png")
---logo.x = display.contentCenterX 
---logo.y = 350
-
-local playButton = widget.newButton
-{
-width = 450,
-height = 200,
-defaultFile = "playgame.png",
-}
-playButton.x = display.contentCenterX
-playButton.y = 700
-playButton.destination = "game"
-playButton:addEventListener("tap", playButton)
-playButton:addEventListener( "tap", gotoGame )
-
-local levelsButton = widget.newButton
-{
-width = 450,
-height = 200,
-defaultFile = "levels.png",
-}
-levelsButton.x = display.contentCenterX
-levelsButton.y = 850
-levelsButton.destination = "levelselect"
-levelsButton:addEventListener("tap", levelsButton)
-levelsButton:addEventListener( "tap", gotoLevelSelect )
-
-local highscoreButton = widget.newButton
-{
-width = 450,
-height = 200,
-defaultFile = "highscore.png",
-}
-highscoreButton.x = display.contentCenterX
-highscoreButton.y = 1000
-highscoreButton.destination = "highscore"
-highscoreButton:addEventListener("tap", highscoreButton)
-highscoreButton:addEventListener( "tap", gotoHighscore )
-
-
---local highScoreButton = display.newText( "High Scores", display.contentCenterX, 810, native.systemFont, 44 )
---highScoreButton:setFillColor( 0.75, 0.78, 1 )
-
 
 -- create()
 function scene:create( event )
 
 	local sceneGroup = self.view
-
+	-- Code here runs when the scene is first created but has not yet appeared on screen
 
 end
+
 
 -- show()
 function scene:show( event )
@@ -97,6 +35,7 @@ function scene:show( event )
 
 	elseif ( phase == "did" ) then
 		-- Code here runs when the scene is entirely on screen
+
 	end
 end
 
@@ -112,9 +51,7 @@ function scene:hide( event )
 
 	elseif ( phase == "did" ) then
 		-- Code here runs immediately after the scene goes entirely off screen
-		playButton.isVisible = false
-		highscoreButton.isVisible = false
-		levelsButton.isVisible = false
+
 	end
 end
 

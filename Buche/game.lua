@@ -8,6 +8,10 @@ local scene = composer.newScene()
 -- main.lua
 --
 -----------------------------------------------------------------------------------------
+--Load sound effects
+local clacson = audio.loadSound( "clacson.wav" )
+local crash = audio.loadSound("crash.wav")
+local live = audio.loadSound("lives.wav")
 
 --Load background
 local background = display.newImageRect( "background.png", 700, 1100)
@@ -61,12 +65,9 @@ local function enterFrame()
     moveBg(dt)
 end
 
-function init()
-    addScrollableBg()
-    Runtime:addEventListener("enterFrame", enterFrame)
-end
+addScrollableBg()
+Runtime:addEventListener("enterFrame", enterFrame)
 
-init()
 
 --Adding physics
 local physics = require( "physics" )
@@ -250,11 +251,16 @@ local function createCar1()
         newCar1.x = display.contentCenterX -240
         newCar1.y = -100
         newCar1:setLinearVelocity(0, math.random( 300,500 ) )
+        audio.play( clacson)
+
+
 		--newCar1:setLinearVelocity(0,100)
 	elseif ( whereFrom == 2 ) then
 		newCar1.x = display.contentCenterX -100
 		newCar1.y = -100
-		newCar1:setLinearVelocity(0, math.random( 300,500 ) )
+        newCar1:setLinearVelocity(0, math.random( 300,500 ) )
+        audio.play( clacson)
+
         --newCar1:setLinearVelocity(0,100)
     else 
         newCar1.x = display.contentCenterX 
@@ -461,6 +467,7 @@ local function onCollision( event )
         if ( ( obj1.myName == "autobus" and obj2.myName == "buca1" ) or
              ( obj1.myName == "buca1" and obj2.myName == "autobus" ) )
         then
+            audio.play(crash)
             if ( died == false ) then
                 died = true
 
@@ -483,6 +490,7 @@ local function onCollision( event )
         if ( (obj1.myName == "autobus" and obj2.myName == "buca2") or
               obj1.myName == "buca2" and obj2.myName == "autobus") 
         then
+            audio.play(crash)
             if (died == false) then
                 died = true
 
@@ -504,6 +512,8 @@ local function onCollision( event )
         if ( (obj1.myName == "autobus" and obj2.myName == "buca3") or
               obj1.myName == "buca3" and obj2.myName == "autobus") 
         then
+            audio.play(crash)
+
              if (died == false) then
                 died = true
 
@@ -525,6 +535,7 @@ local function onCollision( event )
         if((obj1.myName == "ruota" and obj2.myName == "autobus") or
         obj1.myName == "autobus" and obj2.myName == "ruota" )
         then
+            audio.play(live)
             deleteRuota()
             if(lives == 2 or lives == 1) then
                 lives = lives +1
@@ -640,11 +651,10 @@ function scene:show( event )
 
 	if ( phase == "will" ) then
 		-- Code here runs when the scene is still off screen (but is about to come on screen)
-
+        
 	elseif ( phase == "did" ) then
 		-- Code here runs when the scene is entirely on screen
         --Adding physics
-  
 
     end
     
@@ -661,14 +671,17 @@ function scene:hide( event )
 
 	if ( phase == "will" ) then
 		-- Code here runs when the scene is on screen (but is about to go off screen)
-		timer.cancel( gameLoopTimer )
+        timer.cancel( gameLoopTimer )
+        timer.cancel( car1LoopTimer)
+        timer.cancel( ruotaLoopTimer)
 
 	elseif ( phase == "did" ) then
-		-- Code here runs immediately after the scene goes entirely off screen
+        -- Code here runs immediately after the scene goes entirely off screen
         Runtime:removeEventListener( "collision", onCollision )
+        Runtime:removeEventListener( "enterFrame", enterFrame )
+
         physics.pause()
         audio.stop( 1 )
-
 	end
 end
 
