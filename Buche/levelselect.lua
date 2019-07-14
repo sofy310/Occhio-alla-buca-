@@ -63,14 +63,7 @@ end
 -- Scene event functions
 -- -----------------------------------------------------------------------------------
 local widget = require("widget")
-
-
--- create()
-function scene:create( event )
-
-	local sceneGroup = self.view
-
-	local background = display.newImageRect("corsa.png", 800, 1400 )
+local background = display.newImageRect("corsa.png", 800, 1400 )
 	background.x = display.contentCenterX
 	background.y = display.contentCenterY
 
@@ -202,6 +195,13 @@ function scene:create( event )
 	--local highScoreButton = display.newText( "High Scores", display.contentCenterX, 810, native.systemFont, 44 )
 	--highScoreButton:setFillColor( 0.75, 0.78, 1 )
 
+
+-- create()
+function scene:create( event )
+
+	local sceneGroup = self.view
+
+	
 end
 
 -- show()
@@ -231,7 +231,25 @@ function scene:hide( event )
 
 	elseif ( phase == "did" ) then
 		-- Code here runs immediately after the scene goes entirely off screen
-
+		Button1:removeEventListener("tap", Button1)
+		Button1:removeEventListener( "tap", gotoLevel1 )
+		Button2:removeEventListener("tap", Button2)
+		Button2:removeEventListener( "tap", gotoLevel2 )
+		Button3:removeEventListener("tap", Button3)
+		Button3:removeEventListener( "tap", gotoLevel3 )
+		Button4:removeEventListener("tap", Button4)
+		Button4:removeEventListener( "tap", gotoLevel4 )
+		Button5:removeEventListener("tap", Button5)
+		Button5:removeEventListener( "tap", gotoLevel5 )
+		Button6:removeEventListener("tap", Button6)
+		Button6:removeEventListener( "tap", gotoLevel6 )
+		Button7:removeEventListener("tap", Button7)
+		Button7:removeEventListener( "tap", gotoLevel7 )
+		Button8:removeEventListener("tap", Button8)
+		Button8:removeEventListener( "tap", gotoLevel8 )		
+		Button9:removeEventListener("tap", Button9)
+		Button9:removeEventListener( "tap", gotoLevel9 )
+	
 	end
 end
 
