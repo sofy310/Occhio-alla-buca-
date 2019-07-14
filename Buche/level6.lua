@@ -15,6 +15,7 @@ local live = audio.loadSound("lives.wav")
 local bounce = audio.loadSound("bounce.wav")
 local largeCrash = audio.loadSound("largeCrash.wav")
 local vittoria = audio.loadSound("vittoria.wav")
+local scream = audio.loadSound("scream.mp3")
 
 --Load background
 local background = display.newImageRect( "background.png", 700, 1100)
@@ -286,10 +287,12 @@ local function createPedone1()
         newPedone1.x = display.contentCenterX -250
         newPedone1.y = -100
         newPedone1:setLinearVelocity(math.random( 100,300 ), 460 )
+        audio.play(scream)
     elseif ( whereFrom == 2 ) then
         newPedone1.x = display.contentCenterX -250
         newPedone1.y = 0
         newPedone1:setLinearVelocity(math.random( 100,300 ), 460 )
+        audio.play(scream)
 	end
 end
 
@@ -306,10 +309,12 @@ local function createPedone2()
         newPedone2.x = display.contentCenterX +250
         newPedone2.y = -100
         newPedone2:setLinearVelocity(math.random( -300,-100 ), 460 )
+        audio.play(scream)
     elseif ( whereFrom == 2 ) then
         newPedone2.x = display.contentCenterX +250
         newPedone2.y = 0
         newPedone2:setLinearVelocity(math.random( -300,-100 ), 460 )
+        audio.play(scream)
 	end
 end
 -- loop PEDONI
@@ -343,8 +348,24 @@ local function pedoniLoop()
 		end
     end
 end
-pedoniLoopTimer = timer.performWithDelay(2500, pedoniLoop, 0 )
+pedoniLoopTimer = timer.performWithDelay(3500, pedoniLoop, 0 )
 
+--Delete pedone
+local function deletePedone1()
+    for i = #pedoniTable, 1, -1 do
+        local thisPedone1 = pedoniTable[i]
+        display.remove(thisPedone1)
+        table.remove( pedoniTable, i )
+    end
+end
+
+local function deletePedone2()
+    for i = #pedoniTable, 1, -1 do
+        local thisPedone2 = pedoniTable[i]
+        display.remove(thisPedone2)
+        table.remove( pedoniTable, i )
+    end
+end
 -- Load CAR1
 local carsTable = {}
 local function createCar1()
@@ -678,6 +699,48 @@ local function onCollision( event )
             deleteCar()
         end 
 
+        if ( (obj1.myName == "pedone1" and obj2.myName == "buca1") or
+        (obj1.myName == "buca1" and obj2.myName == "pedone1"))
+        then
+            audio.play(bounce)
+            deletePedone1()
+        end
+
+        if ( (obj1.myName == "pedone1" and obj2.myName == "buca2") or
+        (obj1.myName == "buca2" and obj2.myName == "pedone1"))
+        then
+            audio.play(bounce)
+            deletePedone1()
+        end
+
+        if ( (obj1.myName == "pedone1" and obj2.myName == "buca3") or
+        (obj1.myName == "buca3" and obj2.myName == "pedone1"))
+        then
+            audio.play(bounce)
+            deletePedone1()
+        end 
+
+        if ( (obj1.myName == "pedone2" and obj2.myName == "buca1") or
+        (obj1.myName == "buca1" and obj2.myName == "pedone2"))
+        then
+            audio.play(bounce)
+            deletePedone2()
+        end
+
+        if ( (obj1.myName == "pedone2" and obj2.myName == "buca2") or
+        (obj1.myName == "buca2" and obj2.myName == "pedone2"))
+        then
+            audio.play(bounce)
+            deletePedone2()
+        end
+
+        if ( (obj1.myName == "pedone2" and obj2.myName == "buca3") or
+        (obj1.myName == "buca3" and obj2.myName == "pedone2"))
+        then
+            audio.play(bounce)
+            deletePedone2()
+        end 
+
         if ( (obj1.myName == "car1" and obj2.myName == "autobus") or
         (obj1.myName == "autobus" and obj2.myName == "car1"))
         then
@@ -840,6 +903,9 @@ function scene:hide( event )
         timer.cancel( gameLoopTimer )
         timer.cancel( car1LoopTimer)
         timer.cancel( ruotaLoopTimer)
+        timer.cancel( pedoniLoopTimer)
+        timer.cancel(Timer1)
+
 
 	elseif ( phase == "did" ) then
 		-- Code here runs immediately after the scene goes entirely off screen
