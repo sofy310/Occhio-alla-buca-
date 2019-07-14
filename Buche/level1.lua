@@ -14,6 +14,8 @@ local crash = audio.loadSound("crash.wav")
 local live = audio.loadSound("lives.wav")
 local bounce = audio.loadSound("bounce.wav")
 local largeCrash = audio.loadSound("largeCrash.wav")
+local vittoria = audio.loadSound("vittoria.wav")
+
 --Load background
 local background = display.newImageRect( "background.png", 700, 1100)
 background.x = display.contentCenterX
@@ -143,6 +145,7 @@ function gameOver()
             currentTime = countDown
             timerText.text = countDown
             local winText = display.newText( "You Win!", 420, 197, "comic sans ms", 80)
+            local vittoria = audio.loadSound("vittoria.wav")
             winText:setTextColor(1, 0, 0)
 
             timer.performWithDelay(3000, delay_trans)
@@ -462,7 +465,7 @@ local function gameLoop()
         end
     end
 end
-gameLoopTimer = timer.performWithDelay(2830, gameLoop, 0 )
+gameLoopTimer = timer.performWithDelay(1500, gameLoop, 0 )
 
 -- restore AUTOBUS
 local function restoreAutobus()

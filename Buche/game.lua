@@ -23,7 +23,7 @@ local backgroundMusic = audio.loadStream( "occhioAllaBuca.wav" )
 local bg1
 local bg2
 local runtime = 0
-local scrollSpeed = 5
+local scrollSpeed = 7
 
 --Scrollable Background
 local function addScrollableBg()
@@ -193,15 +193,15 @@ local function createRuota()
     if ( whereFrom == 1 ) then
         newRuota.x = display.contentCenterX -200
         newRuota.y = -100
-        newRuota:setLinearVelocity(0, 283 )
+        newRuota:setLinearVelocity(0, 385 )
 	elseif ( whereFrom == 2 ) then
 		newRuota.x = display.contentCenterX +200
 		newRuota.y = -100
-        newRuota:setLinearVelocity(0, 283 )
+        newRuota:setLinearVelocity(0, 385 )
 	elseif ( whereFrom == 3 ) then
 		newRuota.x = display.contentCenterX
 		newRuota.y = -100
-        newRuota:setLinearVelocity(0, 283 )
+        newRuota:setLinearVelocity(0, 385 )
     else 
         newRuota.x = display.contentCenterX
         newRuota.y = -200 
@@ -311,28 +311,28 @@ local function createBuca1()
         -- buca1 From the topLeft
         newBuca1.x = display.contentCenterX -200
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 283 )
+        newBuca1:setLinearVelocity(0, 385 )
     elseif ( whereFrom == 2 ) then
         -- buca1 From the topCenter
         newBuca1.x = display.contentCenterX
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 283 )
+        newBuca1:setLinearVelocity(0, 385 )
     elseif ( whereFrom == 3 ) then
         -- buca1 From the topRight
         newBuca1.x = display.contentCenterX +200
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 283 )
+        newBuca1:setLinearVelocity(0, 385 )
     elseif ( whereFrom == 4 ) then
         -- buca2 From the topLeft
         newBuca1.x = display.contentCenterX -96
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 283 )
+        newBuca1:setLinearVelocity(0, 385 )
     
     elseif ( whereFrom == 5 ) then
         -- buca2 From the topCenter
         newBuca1.x = display.contentCenterX +96
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 283 )
+        newBuca1:setLinearVelocity(0, 385 )
     end
 end
 
@@ -349,17 +349,17 @@ local function createBuca2()
         -- buca2 From the topRight
         newBuca2.x = display.contentCenterX +96
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 283 )
+        newBuca2:setLinearVelocity(0, 385 )
     elseif ( whereFrom == 2 ) then
         -- buca3 From the topLeft
         newBuca2.x = display.contentCenterX -96
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 283 )  
+        newBuca2:setLinearVelocity(0, 385 )  
     elseif ( whereFrom == 3 ) then
         -- buca3 From the topCenter
         newBuca2.x = display.contentCenterX
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 283 )
+        newBuca2:setLinearVelocity(0, 385 )
 	end
 end
 
@@ -377,17 +377,17 @@ local function createBuca3()
         -- buca3 From the topRight
         newBuca3.x = display.contentCenterX +96
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 283 ) 
+        newBuca3:setLinearVelocity(0, 385 ) 
     elseif ( whereFrom == 2 ) then
         -- From the topRight
         newBuca3.x = display.contentCenterX -96
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 283 )   
+        newBuca3:setLinearVelocity(0, 385 )   
     elseif ( whereFrom == 3 ) then
         -- From the topRight
         newBuca3.x = display.contentCenterX
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 283 )
+        newBuca3:setLinearVelocity(0, 385 )
 	end
 end
 

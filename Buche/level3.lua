@@ -14,6 +14,7 @@ local crash = audio.loadSound("crash.wav")
 local live = audio.loadSound("lives.wav")
 local bounce = audio.loadSound("bounce.wav")
 local largeCrash = audio.loadSound("largeCrash.wav")
+local vittoria = audio.loadSound("vittoria.wav")
 --Load background
 local background = display.newImageRect( "background.png", 700, 1100)
 background.x = display.contentCenterX
@@ -101,7 +102,6 @@ physics.addBody(bordoDX, "static")
 
 --Initialize variables
 local lives = 3
-local timeLeft = 5
 local died = false
 local livesText
 local punteggioText
@@ -143,6 +143,7 @@ function gameOver()
             currentTime = countDown
             timerText.text = countDown
             local winText = display.newText( "You Win!", 420, 197, "comic sans ms", 80)
+            audio.play(vittoria)
             winText:setTextColor(1, 0, 0)
 
             timer.performWithDelay(3000, delay_trans)
@@ -282,14 +283,14 @@ local function createCar1()
     if ( whereFrom == 1 ) then
         newCar1.x = display.contentCenterX -240
         newCar1.y = -100
-        newCar1:setLinearVelocity(0, math.random( 345,500 ) )
+        newCar1:setLinearVelocity(0, math.random( 450,600 ) )
         audio.play( clacson)
 
 		--newCar1:setLinearVelocity(0,100)
 	elseif ( whereFrom == 2 ) then
 		newCar1.x = display.contentCenterX -100
 		newCar1.y = -100
-        newCar1:setLinearVelocity(0, math.random( 345,500 ) )
+        newCar1:setLinearVelocity(0, math.random( 450,600 ) )
         audio.play( clacson)
 
         --newCar1:setLinearVelocity(0,100)
@@ -462,7 +463,7 @@ local function gameLoop()
         end
     end
 end
-gameLoopTimer = timer.performWithDelay(3450, gameLoop, 0 )
+gameLoopTimer = timer.performWithDelay(1300, gameLoop, 0 )
 
 -- restore AUTOBUS
 local function restoreAutobus()
