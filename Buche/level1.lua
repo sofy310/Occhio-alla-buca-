@@ -112,35 +112,64 @@ local mainGroup = display.newGroup()
 livesText = display.newText( uiGroup, "Lives: ".. lives, 280, -110, native.systemFontBold, 50)
 livesText:setFillColor( 1, 0, 0 )
 
---punteggioText = display.newText( uiGroup, " ".. score, 575, -110, native.systemFontBold, 55)
---punteggioText:setFillColor( 1, 0, 0 )
 
-local secondsLeft = 5  -- 10 minutes * 60 seconds
- 
-local clockText = display.newText( "00:05", display.contentCenterX, 5, native.systemFont, 72 )
-clockText:setFillColor(1,0,0)
+local countDown = 60
+pauseTime = false;
+resumeTime = true;
 
-local function updateTime( event )
- 
-    -- Decrement the number of seconds
-    secondsLeft = secondsLeft - 1
- 
-    -- Time is tracked in seconds; convert it to minutes and seconds
-    local minutes = math.floor( secondsLeft / 60 )
-    local seconds = secondsLeft % 60
- 
-    -- Make it a formatted string
-    local timeDisplay = string.format( "%02d:%02d", minutes, seconds )
-     
-    -- Update the text object
-    clockText.text = timeDisplay
+local timerText = display.newText( "", 620, -110, "comic sans ms", 60)
 
+timerText:setTextColor( 1, 0, 0 )
+
+local timeBut = display.newRect( 50, 50, 100, 50 );
+timeBut.x = 440;
+timeBut.y = 40;
+timeBut.alpha = 0.01;
+
+local function delay_trans(event)
+    display.remove(autobus)
+    composer.removeScene("levelselect")
+    composer.gotoScene( "levelselect", { time=1500, effect="crossFade" } )
 end
 
+function gameOver()
+    if countDown == 0 then
+            countDown = 0
+            currentTime = countDown
+            timerText.text = countDown
+            local winText = display.newText( "You Win!", 420, 197, "comic sans ms", 80)
+            winText:setTextColor(1, 0, 0)
 
-local countDownTimer = timer.performWithDelay( 1000, updateTime, secondsLeft )
+            timer.performWithDelay(3000, delay_trans)
+            display.remove(autobus)
+    end
+    timerText.text = countDown
+    currentTime = countDown
+    countDown = countDown - 1
+end
 
+Timer1 = timer.performWithDelay( 1000, gameOver, 61 )
 
+local function timeButton( event )
+if event.phase == "began" then
+
+    if resumeTime == true then
+    timer.pause( Timer1 )
+    pauseTime = true
+    resumeTime = false
+    pauseBtn.alpha = 1;
+    resumeBtn.alpha = 0;
+    elseif pauseTime == true then
+    timer.resume(Timer1)
+    pauseTime = false
+    resumeTime = true
+    pauseBtn.alpha = 0;
+    resumeBtn.alpha = 1;
+    end
+end
+end
+
+timeBut:addEventListener( "touch", timeButton )
 
 --Load autobus
 local autobus = display.newImageRect(mainGroup, "autobus.png", 590, 280)
