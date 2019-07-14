@@ -13,11 +13,12 @@ local scene = composer.newScene()
 local background = display.newImageRect( "background.png", 700, 1100)
 background.x = display.contentCenterX
 background.y = display.contentCenterY
+local backgroundMusic = audio.loadStream( "occhioAllaBuca.wav" )
 
 local bg1
 local bg2
 local runtime = 0
-local scrollSpeed = 2.78
+local scrollSpeed = 5
 
 --Scrollable Background
 local function addScrollableBg()
@@ -190,15 +191,15 @@ local function createRuota()
     if ( whereFrom == 1 ) then
         newRuota.x = display.contentCenterX -200
         newRuota.y = -100
-        newRuota:setLinearVelocity(0, 150 )
+        newRuota:setLinearVelocity(0, 281 )
 	elseif ( whereFrom == 2 ) then
 		newRuota.x = display.contentCenterX +200
 		newRuota.y = -100
-		newRuota:setLinearVelocity(0, 150 )
+		newRuota:setLinearVelocity(0, 281 )
 	elseif ( whereFrom == 3 ) then
 		newRuota.x = display.contentCenterX
 		newRuota.y = -100
-        newRuota:setLinearVelocity(0, 150 )
+        newRuota:setLinearVelocity(0, 281 )
     else 
         newRuota.x = display.contentCenterX
         newRuota.y = -200 
@@ -248,12 +249,12 @@ local function createCar1()
     if ( whereFrom == 1 ) then
         newCar1.x = display.contentCenterX -240
         newCar1.y = -100
-        newCar1:setLinearVelocity(0, math.random( 190,350 ) )
+        newCar1:setLinearVelocity(0, math.random( 300,500 ) )
 		--newCar1:setLinearVelocity(0,100)
 	elseif ( whereFrom == 2 ) then
 		newCar1.x = display.contentCenterX -100
 		newCar1.y = -100
-		newCar1:setLinearVelocity(0, math.random( 190,350 ) )
+		newCar1:setLinearVelocity(0, math.random( 300,500 ) )
         --newCar1:setLinearVelocity(0,100)
     else 
         newCar1.x = display.contentCenterX 
@@ -303,28 +304,28 @@ local function createBuca1()
         -- buca1 From the topLeft
         newBuca1.x = display.contentCenterX -200
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 150 )
+        newBuca1:setLinearVelocity(0, 281 )
     elseif ( whereFrom == 2 ) then
         -- buca1 From the topCenter
         newBuca1.x = display.contentCenterX
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 150 )
+        newBuca1:setLinearVelocity(0, 281 )
     elseif ( whereFrom == 3 ) then
         -- buca1 From the topRight
         newBuca1.x = display.contentCenterX +200
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 150 )
+        newBuca1:setLinearVelocity(0, 281 )
     elseif ( whereFrom == 4 ) then
         -- buca2 From the topLeft
         newBuca1.x = display.contentCenterX -96
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 150 )
+        newBuca1:setLinearVelocity(0, 281 )
     
     elseif ( whereFrom == 5 ) then
         -- buca2 From the topCenter
         newBuca1.x = display.contentCenterX +96
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 150 )
+        newBuca1:setLinearVelocity(0, 281 )
     end
 end
 
@@ -341,17 +342,17 @@ local function createBuca2()
         -- buca2 From the topRight
         newBuca2.x = display.contentCenterX +96
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 150 )
+        newBuca2:setLinearVelocity(0, 281 )
     elseif ( whereFrom == 2 ) then
         -- buca3 From the topLeft
         newBuca2.x = display.contentCenterX -96
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 150 )  
+        newBuca2:setLinearVelocity(0, 281 )  
     elseif ( whereFrom == 3 ) then
         -- buca3 From the topCenter
         newBuca2.x = display.contentCenterX
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 150 )
+        newBuca2:setLinearVelocity(0, 281 )
 	end
 end
 
@@ -369,17 +370,17 @@ local function createBuca3()
         -- buca3 From the topRight
         newBuca3.x = display.contentCenterX +96
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 150 ) 
+        newBuca3:setLinearVelocity(0, 281 ) 
     elseif ( whereFrom == 2 ) then
         -- From the topRight
         newBuca3.x = display.contentCenterX -96
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 150 )   
+        newBuca3:setLinearVelocity(0, 281 )   
     elseif ( whereFrom == 3 ) then
         -- From the topRight
         newBuca3.x = display.contentCenterX
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 150 )
+        newBuca3:setLinearVelocity(0, 281 )
 	end
 end
 
@@ -645,7 +646,10 @@ function scene:show( event )
         --Adding physics
   
 
-	end
+    end
+    
+    audio.play( backgroundMusic, { channel=1, loops=-1 } )
+
 end
 
 
@@ -663,6 +667,8 @@ function scene:hide( event )
 		-- Code here runs immediately after the scene goes entirely off screen
         Runtime:removeEventListener( "collision", onCollision )
         physics.pause()
+        audio.stop( 1 )
+
 	end
 end
 

@@ -5,3 +5,6 @@ display.setStatusBar( display.HiddenStatusBar )
 math.randomseed( os.time() )
 
 composer.gotoScene( "menu" )
+
+
+audio.reserveChannels( 1 )
