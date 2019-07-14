@@ -40,7 +40,7 @@ background.y = display.contentCenterY
 local playButton = widget.newButton
 {
 width = 450,
-height = 200,
+height = 180,
 defaultFile = "playgame.png",
 }
 playButton.x = display.contentCenterX
@@ -52,11 +52,11 @@ playButton:addEventListener( "tap", gotoGame )
 local levelsButton = widget.newButton
 {
 width = 450,
-height = 200,
+height = 180,
 defaultFile = "levels.png",
 }
 levelsButton.x = display.contentCenterX
-levelsButton.y = 850
+levelsButton.y = 890
 levelsButton.destination = "levelselect"
 levelsButton:addEventListener("tap", levelsButton)
 levelsButton:addEventListener( "tap", gotoLevelSelect )
@@ -64,11 +64,11 @@ levelsButton:addEventListener( "tap", gotoLevelSelect )
 local highscoreButton = widget.newButton
 {
 width = 450,
-height = 200,
+height = 180,
 defaultFile = "highscore.png",
 }
 highscoreButton.x = display.contentCenterX
-highscoreButton.y = 1000
+highscoreButton.y = 1070
 highscoreButton.destination = "highscore"
 highscoreButton:addEventListener("tap", highscoreButton)
 highscoreButton:addEventListener( "tap", gotoHighscore )
