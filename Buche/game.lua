@@ -77,14 +77,14 @@ physics.setGravity( 0, 0 )
 
 -- load BORDO SX
 local bordoSX = display.newImageRect( "bordo.png", 8, 2100)
-bordoSX.x = display.contentCenterX - 290
+bordoSX.x = display.contentCenterX - 360
 bordoSX.y = display.contentCenterY
 bordoSX.myName = "bordoSX"
 physics.addBody(bordoSX, "static")
 
 -- load BORDO DX
 local bordoDX = display.newImageRect( "bordo.png", 8, 2100)
-bordoDX.x = display.contentCenterX + 290
+bordoDX.x = display.contentCenterX + 360
 bordoDX.y = display.contentCenterY
 bordoDX.myName = "bordoDX"
 physics.addBody(bordoDX, "static")

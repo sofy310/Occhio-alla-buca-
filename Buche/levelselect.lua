@@ -249,7 +249,8 @@ function scene:hide( event )
 		Button8:removeEventListener( "tap", gotoLevel8 )		
 		Button9:removeEventListener("tap", Button9)
 		Button9:removeEventListener( "tap", gotoLevel9 )
-	
+		ButtonUndo:removeEventListener("tap", ButtonUndo)
+		ButtonUndo:removeEventListener( "tap", gotoMenu)
 	end
 end
 

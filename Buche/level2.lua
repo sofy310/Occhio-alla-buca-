@@ -80,14 +80,14 @@ physics.setGravity( 0, 0 )
 
 -- load BORDO SX
 local bordoSX = display.newImageRect( "bordo.png", 8, 2100)
-bordoSX.x = display.contentCenterX - 345
+bordoSX.x = display.contentCenterX - 360
 bordoSX.y = display.contentCenterY
 bordoSX.myName = "bordoSX"
 physics.addBody(bordoSX, "static")
 
 -- load BORDO DX
 local bordoDX = display.newImageRect( "bordo.png", 8, 2100)
-bordoDX.x = display.contentCenterX + 345
+bordoDX.x = display.contentCenterX + 360
 bordoDX.y = display.contentCenterY
 bordoDX.myName = "bordoDX"
 physics.addBody(bordoDX, "static")
@@ -221,17 +221,17 @@ local function createRuota()
     if ( whereFrom == 1 ) then
         newRuota.x = display.contentCenterX -200
         newRuota.y = -100
-        newRuota:setLinearVelocity(0, 345 )
+        newRuota:setLinearVelocity(0, 320 )
 
 	elseif ( whereFrom == 2 ) then
 		newRuota.x = display.contentCenterX +200
 		newRuota.y = -100
-        newRuota:setLinearVelocity(0, 345 )
+        newRuota:setLinearVelocity(0, 320 )
 
 	elseif ( whereFrom == 3 ) then
 		newRuota.x = display.contentCenterX
 		newRuota.y = -100
-        newRuota:setLinearVelocity(0, 345 )
+        newRuota:setLinearVelocity(0, 320 )
 
     else 
         newRuota.x = display.contentCenterX
@@ -282,14 +282,14 @@ local function createCar1()
     if ( whereFrom == 1 ) then
         newCar1.x = display.contentCenterX -240
         newCar1.y = -100
-        newCar1:setLinearVelocity(0, math.random( 345,500 ) )
+        newCar1:setLinearVelocity(0, math.random( 320,500 ) )
         audio.play( clacson)
 
 		--newCar1:setLinearVelocity(0,100)
 	elseif ( whereFrom == 2 ) then
 		newCar1.x = display.contentCenterX -100
 		newCar1.y = -100
-        newCar1:setLinearVelocity(0, math.random( 345,500 ) )
+        newCar1:setLinearVelocity(0, math.random( 320,500 ) )
         audio.play( clacson)
 
         --newCar1:setLinearVelocity(0,100)
@@ -341,28 +341,28 @@ local function createBuca1()
         -- buca1 From the topLeft
         newBuca1.x = display.contentCenterX -200
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 345 )
+        newBuca1:setLinearVelocity(0, 320 )
     elseif ( whereFrom == 2 ) then
         -- buca1 From the topCenter
         newBuca1.x = display.contentCenterX
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 345 )
+        newBuca1:setLinearVelocity(0, 320 )
     elseif ( whereFrom == 3 ) then
         -- buca1 From the topRight
         newBuca1.x = display.contentCenterX +200
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 345 )
+        newBuca1:setLinearVelocity(0, 320 )
     elseif ( whereFrom == 4 ) then
         -- buca2 From the topLeft
         newBuca1.x = display.contentCenterX -96
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 345 )
+        newBuca1:setLinearVelocity(0, 320 )
     
     elseif ( whereFrom == 5 ) then
         -- buca2 From the topCenter
         newBuca1.x = display.contentCenterX +96
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 345 )
+        newBuca1:setLinearVelocity(0, 320 )
     end
 end
 
@@ -379,17 +379,17 @@ local function createBuca2()
         -- buca2 From the topRight
         newBuca2.x = display.contentCenterX +96
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 345 )
+        newBuca2:setLinearVelocity(0, 320 )
     elseif ( whereFrom == 2 ) then
         -- buca3 From the topLeft
         newBuca2.x = display.contentCenterX -96
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 345 )  
+        newBuca2:setLinearVelocity(0, 320 )  
     elseif ( whereFrom == 3 ) then
         -- buca3 From the topCenter
         newBuca2.x = display.contentCenterX
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 345 )
+        newBuca2:setLinearVelocity(0, 320 )
 	end
 end
 
@@ -407,17 +407,17 @@ local function createBuca3()
         -- buca3 From the topRight
         newBuca3.x = display.contentCenterX +96
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 345 ) 
+        newBuca3:setLinearVelocity(0, 320 ) 
     elseif ( whereFrom == 2 ) then
         -- From the topRight
         newBuca3.x = display.contentCenterX -96
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 345 )   
+        newBuca3:setLinearVelocity(0, 320 )   
     elseif ( whereFrom == 3 ) then
         -- From the topRight
         newBuca3.x = display.contentCenterX
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 345 )
+        newBuca3:setLinearVelocity(0, 320 )
 	end
 end
 
@@ -462,7 +462,7 @@ local function gameLoop()
         end
     end
 end
-gameLoopTimer = timer.performWithDelay(3450, gameLoop, 0 )
+gameLoopTimer = timer.performWithDelay(3200, gameLoop, 0 )
 
 -- restore AUTOBUS
 local function restoreAutobus()
