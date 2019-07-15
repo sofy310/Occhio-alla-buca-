@@ -183,6 +183,46 @@ end
 
 autobus: addEventListener( "touch", moveAutobus)
 
+--explosionSheet
+local sheetOptions =
+{
+    width = 64,
+    height = 65,
+    numFrames = 20
+}
+
+local sheet_explosion = graphics.newImageSheet( "explosionSheet.png", sheetOptions )
+
+local sequences_exp = {
+    -- consecutive frames sequence
+    {
+        name = "normalExplosion",
+        start = 1,
+        count = 20,
+        time = 800,
+        loopCount = 0,
+        loopDirection = "forward"
+    }
+}
+
+local explosion = display.newSprite( sheet_explosion, sequences_exp )
+explosion.x = display.contentCenterX
+explosion.y = display.contentCenterY
+
+-- sprite listener function
+local function spriteListener( event )
+ 
+    local thisSprite = event.target  -- "event.target" references the sprite
+ 
+    if ( event.phase == "ended" ) then 
+        thisSprite:setSequence( "explosion" )  -- switch to "fastRun" sequence
+        thisSprite:play()  -- play the new sequence
+    end
+end
+ 
+-- add the event listener to the sprite
+explosion:addEventListener( "sprite", spriteListener )
+
 
 -- Load RUOTA
 local ruoteTable = {}
