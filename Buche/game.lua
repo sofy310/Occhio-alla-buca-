@@ -186,8 +186,8 @@ autobus: addEventListener( "touch", moveAutobus)
 --explosionSheet
 local sheetOptions =
 {
-    width = 64,
-    height = 65,
+    width = 192,
+    height = 195,
     numFrames = 20
 }
 
@@ -199,15 +199,16 @@ local sequences_exp = {
         name = "normalExplosion",
         start = 1,
         count = 20,
-        time = 800,
-        loopCount = 0,
-        loopDirection = "forward"
+        time = 1000,
     }
 }
 
-local explosion = display.newSprite( sheet_explosion, sequences_exp )
-explosion.x = display.contentCenterX
-explosion.y = display.contentCenterY
+local explosion = display.newSprite( sheet_explosion, sequences_exp)
+explosion.x = 1111111
+explosion.y = 1111111
+
+
+
 
 -- sprite listener function
 local function spriteListener( event )
@@ -222,7 +223,6 @@ end
  
 -- add the event listener to the sprite
 explosion:addEventListener( "sprite", spriteListener )
-
 
 -- Load RUOTA
 local ruoteTable = {}
@@ -483,6 +483,7 @@ local function restoreAutobus()
     autobus.isBodyActive = false
     autobus.x = display.contentCenterX
     autobus.y = display.contentHeight - 30
+    explosion:pause() 
 
     -- Fade in the autobus
     transition.to( autobus, { alpha=1, time=4000,
@@ -512,6 +513,10 @@ local function onCollision( event )
         if ( ( obj1.myName == "autobus" and obj2.myName == "buca1" ) or
              ( obj1.myName == "buca1" and obj2.myName == "autobus" ) )
         then
+            explosion:play() 
+            explosion.x = autobus.x
+            explosion.y = autobus.y
+            
             audio.play(crash)
 
             if ( died == false ) then
@@ -536,6 +541,10 @@ local function onCollision( event )
         if ( (obj1.myName == "autobus" and obj2.myName == "buca2") or
               obj1.myName == "buca2" and obj2.myName == "autobus") 
         then
+            explosion:play() 
+            explosion.x = autobus.x
+            explosion.y = autobus.y
+            
             audio.play(crash)
  
             if (died == false) then
@@ -559,6 +568,10 @@ local function onCollision( event )
         if ( (obj1.myName == "autobus" and obj2.myName == "buca3") or
               obj1.myName == "buca3" and obj2.myName == "autobus") 
         then
+            explosion:play() 
+            explosion.x = autobus.x
+            explosion.y = autobus.y
+            
             audio.play(crash)
 
              if (died == false) then
@@ -594,6 +607,10 @@ local function onCollision( event )
         if ( (obj1.myName == "car1" and obj2.myName == "buca1") or
         (obj1.myName == "buca1" and obj2.myName == "car1"))
         then
+            explosion:play() 
+            explosion.x = autobus.x
+            explosion.y = autobus.y
+            
             audio.play(bounce)
    
             deleteCar()
@@ -602,6 +619,10 @@ local function onCollision( event )
         if ( (obj1.myName == "car1" and obj2.myName == "buca2") or
         (obj1.myName == "buca2" and obj2.myName == "car1"))
         then
+            explosion:play() 
+            explosion.x = autobus.x
+            explosion.y = autobus.y
+            
             audio.play(bounce)
 
             deleteCar()
@@ -610,6 +631,10 @@ local function onCollision( event )
         if ( (obj1.myName == "car1" and obj2.myName == "buca3") or
         (obj1.myName == "buca3" and obj2.myName == "car1"))
         then
+            explosion:play() 
+            explosion.x = autobus.x
+            explosion.y = autobus.y
+            
             audio.play(bounce)
 
             deleteCar()
@@ -618,6 +643,10 @@ local function onCollision( event )
         if ( (obj1.myName == "car1" and obj2.myName == "autobus") or
         (obj1.myName == "autobus" and obj2.myName == "car1"))
         then
+            explosion:play() 
+            explosion.x = autobus.x
+            explosion.y = autobus.y
+            
             audio.play(largeCrash)
    
             if (died == false) then
@@ -641,6 +670,10 @@ local function onCollision( event )
         if ( ( obj1.myName == "bordoDX" and obj2.myName == "autobus" ) or
              ( obj1.myName == "autobus" and obj2.myName == "bordoDX" ) )
          then
+            explosion:play() 
+            explosion.x = autobus.x
+            explosion.y = autobus.y
+            
             audio.play(bounce)
  
             if (died == false) then
@@ -663,6 +696,10 @@ local function onCollision( event )
         if ( (obj1.myName == "bordoSX" and obj2.myName == "autobus") or
               obj1.myName == "autobus" and obj2.myName == "bordoSX") 
          then
+            explosion:play() 
+            explosion.x = autobus.x
+            explosion.y = autobus.y
+            
             audio.play(bounce)
 
             
