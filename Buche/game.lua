@@ -155,30 +155,42 @@ autobus.y = display.contentHeight-30
 physics.addBody(autobus, "dynamic", {radius = 100, isSensor = true})
 autobus.myName = "autobus"
 
+
 --Move the autobus
 local function moveAutobus(event)
     local autobus = event.target
     local phase = event.phase
 
-    if ( "began" == phase ) then
-        -- Set touch focus on the autobus
+    if ( phase == "began" ) then
+        -- Set touch focus on autobus
         display.currentStage:setFocus( autobus )
         -- Store initial offset position
         autobus.touchOffsetX = event.x - autobus.x
- 
-    elseif ( "moved" == phase ) then
-        -- Move the autobus to the new touch position
+    elseif ( phase == "moved" ) then
+        -- Move the sjip to the new touch position
         autobus.x = event.x - autobus.touchOffsetX
-    
-    elseif ( "ended" == phase or "cancelled" == phase ) then
-        --Release touch focus on the autobus
-        display.currentStage: setFocus(nil)
+    elseif ( phase == "ended" or phase == "cancelled" ) then
+        -- Release touch focus on the autobus
+        display.currentStage:setFocus( nil )
     end
-    
-    return true
+
+    return true -- Prevent touch propagation to underlying objects
 end
 
 autobus: addEventListener( "touch", moveAutobus)
+
+--Load explosion
+local movieclip = require("movieclip")
+local explosionTable = {"explosion/e1.png", "explosion/e2.png", "explosion/e3.png", 
+"explosion/e4.png", "explosion/e5.png", "explosion/e6.png", "explosion/e7.png", "explosion/e8.png", 
+"explosion/e9.png", "explosion/e10.png", "explosion/e11.png", "explosion/e12.png", "explosion/e13.png"}
+
+
+local explosion = movieclip.newAnim(explosionTable)
+explosion.x = autobus.x
+explosion.y = autobus.y
+explosion.height = 300
+explosion.width = 300
 
 -- Load RUOTA
 local ruoteTable = {}
@@ -193,15 +205,15 @@ local function createRuota()
     if ( whereFrom == 1 ) then
         newRuota.x = display.contentCenterX -200
         newRuota.y = -100
-        newRuota:setLinearVelocity(0, 385 )
+        newRuota:setLinearVelocity(0, 427 )
 	elseif ( whereFrom == 2 ) then
 		newRuota.x = display.contentCenterX +200
 		newRuota.y = -100
-        newRuota:setLinearVelocity(0, 385 )
+        newRuota:setLinearVelocity(0, 427 )
 	elseif ( whereFrom == 3 ) then
 		newRuota.x = display.contentCenterX
 		newRuota.y = -100
-        newRuota:setLinearVelocity(0, 385 )
+        newRuota:setLinearVelocity(0, 427 )
     else 
         newRuota.x = display.contentCenterX
         newRuota.y = -200 
@@ -251,7 +263,7 @@ local function createCar1()
     if ( whereFrom == 1 ) then
         newCar1.x = display.contentCenterX -240
         newCar1.y = -100
-        newCar1:setLinearVelocity(0, math.random( 300,500 ) )
+        newCar1:setLinearVelocity(0, math.random( 500, 700 ) )
         audio.play( clacson)
 
 
@@ -259,7 +271,7 @@ local function createCar1()
 	elseif ( whereFrom == 2 ) then
 		newCar1.x = display.contentCenterX -100
 		newCar1.y = -100
-        newCar1:setLinearVelocity(0, math.random( 300,500 ) )
+        newCar1:setLinearVelocity(0, math.random( 500, 700 ) )
         audio.play( clacson)
 
         --newCar1:setLinearVelocity(0,100)
@@ -311,28 +323,28 @@ local function createBuca1()
         -- buca1 From the topLeft
         newBuca1.x = display.contentCenterX -200
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 385 )
+        newBuca1:setLinearVelocity(0, 427 )
     elseif ( whereFrom == 2 ) then
         -- buca1 From the topCenter
         newBuca1.x = display.contentCenterX
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 385 )
+        newBuca1:setLinearVelocity(0, 427 )
     elseif ( whereFrom == 3 ) then
         -- buca1 From the topRight
         newBuca1.x = display.contentCenterX +200
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 385 )
+        newBuca1:setLinearVelocity(0, 427 )
     elseif ( whereFrom == 4 ) then
         -- buca2 From the topLeft
         newBuca1.x = display.contentCenterX -96
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 385 )
+        newBuca1:setLinearVelocity(0, 427 )
     
     elseif ( whereFrom == 5 ) then
         -- buca2 From the topCenter
         newBuca1.x = display.contentCenterX +96
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 385 )
+        newBuca1:setLinearVelocity(0, 427 )
     end
 end
 
@@ -349,17 +361,17 @@ local function createBuca2()
         -- buca2 From the topRight
         newBuca2.x = display.contentCenterX +96
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 385 )
+        newBuca2:setLinearVelocity(0, 427 )
     elseif ( whereFrom == 2 ) then
         -- buca3 From the topLeft
         newBuca2.x = display.contentCenterX -96
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 385 )  
+        newBuca2:setLinearVelocity(0, 427 )  
     elseif ( whereFrom == 3 ) then
         -- buca3 From the topCenter
         newBuca2.x = display.contentCenterX
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 385 )
+        newBuca2:setLinearVelocity(0, 427 )
 	end
 end
 
@@ -377,17 +389,17 @@ local function createBuca3()
         -- buca3 From the topRight
         newBuca3.x = display.contentCenterX +96
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 385 ) 
+        newBuca3:setLinearVelocity(0, 427 ) 
     elseif ( whereFrom == 2 ) then
         -- From the topRight
         newBuca3.x = display.contentCenterX -96
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 385 )   
+        newBuca3:setLinearVelocity(0, 427 )   
     elseif ( whereFrom == 3 ) then
         -- From the topRight
         newBuca3.x = display.contentCenterX
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 385 )
+        newBuca3:setLinearVelocity(0, 427 )
 	end
 end
 
@@ -432,14 +444,15 @@ local function gameLoop()
         end
     end
 end
-gameLoopTimer = timer.performWithDelay(3000, gameLoop, 0 )
+gameLoopTimer = timer.performWithDelay(1500, gameLoop, 0 )
 
 -- restore AUTOBUS
 local function restoreAutobus()
     autobus.isBodyActive = false
     autobus.x = display.contentCenterX
     autobus.y = display.contentHeight - 30
- 
+    explosion:stop()
+
     -- Fade in the autobus
     transition.to( autobus, { alpha=1, time=4000,
         onComplete = function()
@@ -451,6 +464,7 @@ end
 
 -- endGAME
 local function endGame()
+    explosion:stop()
     composer.setVariable("finalScore", score)
     composer.removeScene("highscore")
     composer.gotoScene( "highscore", { time=800, effect="crossFade" } )
@@ -458,7 +472,8 @@ end
 
 -- collisione AUTOBUS/BUCA e AUTOBUS/LINEE
 local function onCollision( event )
- 
+    explosion:stop()
+
     if ( event.phase == "began" ) then
  
         local obj1 = event.object1
@@ -469,6 +484,7 @@ local function onCollision( event )
              ( obj1.myName == "buca1" and obj2.myName == "autobus" ) )
         then
             audio.play(crash)
+            explosion:play()
             if ( died == false ) then
                 died = true
 
@@ -491,6 +507,7 @@ local function onCollision( event )
         if ( (obj1.myName == "autobus" and obj2.myName == "buca2") or
               obj1.myName == "buca2" and obj2.myName == "autobus") 
         then
+            explosion:play()
             audio.play(crash)
             if (died == false) then
                 died = true
@@ -513,6 +530,7 @@ local function onCollision( event )
         if ( (obj1.myName == "autobus" and obj2.myName == "buca3") or
               obj1.myName == "buca3" and obj2.myName == "autobus") 
         then
+            explosion:play()
             audio.play(crash)
 
              if (died == false) then
