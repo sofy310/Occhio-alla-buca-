@@ -230,13 +230,13 @@ function pauseGame(event)
     --if end of touch event
     if(event.phase == "ended") then
         --pause the physics
-        physics.pause()
+        physics.pause(1)
         Runtime:removeEventListener( "enterFrame", enterFrame )
         audio.pause( 1 )
-        timer.cancel( gameLoopTimer )
-        timer.cancel( car1LoopTimer)
-        timer.cancel( ruotaLoopTimer)
-        timer.cancel( timerUpTimer)
+        timer.pause( gameLoopTimer )
+        timer.pause( car1LoopTimer)
+        timer.pause( ruotaLoopTimer)
+        timer.pause( timerUpTimer)
         autobus:removeEventListener("touch", moveAutobus)
 
         --make pause button invisible
@@ -256,8 +256,11 @@ function resumeGame(event)
         physics.start()
         Runtime:addEventListener( "enterFrame", enterFrame )
         autobus:addEventListener("touch", moveAutobus)
-
-        audio.play( 1 )
+        timer.resume( gameLoopTimer )
+        timer.resume( car1LoopTimer)
+        timer.resume( ruotaLoopTimer)
+        timer.resume( timerUpTimer)
+        audio.resume( 1 )
 
         --make pause button visible
         pauseBtn.isVisible = true

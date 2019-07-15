@@ -238,6 +238,80 @@ explosion.y = 1111111
 
 
 
+--pause game
+function pauseGame(event)
+    --if end of touch event
+    if(event.phase == "ended") then
+        --pause the physics
+        physics.pause(1)
+        Runtime:removeEventListener( "enterFrame", enterFrame )
+        audio.pause( 1 )
+        timer.pause( gameLoopTimer )
+        timer.pause( car1LoopTimer)
+        timer.pause( ruotaLoopTimer)
+        timer.pause( Timer1)
+        timer.pause( pedoniLoopTimer)
+        autobus:removeEventListener("touch", moveAutobus)
+
+        --make pause button invisible
+        pauseBtn.isVisible = false
+        --make resume button visible
+        resumeBtn.isVisible = true
+        -- indicates successful touch
+        return true
+    end
+end
+ 
+--resume game
+function resumeGame(event)
+    --if end of touch event
+    if(event.phase == "ended") then
+        --resume physics
+        physics.start()
+        Runtime:addEventListener( "enterFrame", enterFrame )
+        autobus:addEventListener("touch", moveAutobus)
+        timer.resume( gameLoopTimer )
+        timer.resume( car1LoopTimer)
+        timer.resume( ruotaLoopTimer)
+        timer.resume( Timer1)
+        timer.resume(pedoniLoopTimer)
+        audio.resume( 1 )
+
+        --make pause button visible
+        pauseBtn.isVisible = true
+        --make resume button invisible
+        resumeBtn.isVisible = false
+        -- indicates successful touch
+        return true
+    end
+end
+
+    --define button dimensions
+    local btnW, btnH = 200, 80
+     
+    --create pause button
+    pauseBtn = display.newImageRect( "pause.png", btnW, btnH )
+     
+    --place button in center
+    pauseBtn.x, pauseBtn.y = display.contentCenterX, display.contentHeight-1000
+     
+    --add event
+    pauseBtn:addEventListener( "touch", pauseGame ) 
+     
+    --create resume button
+    resumeBtn = display.newImageRect( "resume.png", btnW, btnH )
+     
+    --put it on pause button
+    resumeBtn.x, resumeBtn.y = display.contentCenterX, display.contentHeight-1000
+     
+    --and hide it
+    resumeBtn.isVisible = false
+     
+    --add event
+    resumeBtn:addEventListener( "touch", resumeGame ) 
+
+
+
 -- Load RUOTA
 local ruoteTable = {}
 local function createRuota()
