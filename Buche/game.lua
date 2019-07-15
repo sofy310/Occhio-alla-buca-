@@ -236,6 +236,7 @@ function pauseGame(event)
         timer.cancel( gameLoopTimer )
         timer.cancel( car1LoopTimer)
         timer.cancel( ruotaLoopTimer)
+        timer.cancel( timerUpTimer)
         autobus:removeEventListener("touch", moveAutobus)
 
         --make pause button invisible
