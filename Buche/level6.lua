@@ -181,7 +181,7 @@ end
 timeBut:addEventListener( "touch", timeButton )
 
 --Load autobus
-local autobus = display.newImageRect(mainGroup, "autobus.png", 120, 280)
+local autobus = display.newImageRect(mainGroup, "autobus.png", 100, 260)
 autobus.x = display.contentCenterX
 autobus.y = display.contentHeight-30
 physics.addBody(autobus, "dynamic", {isSensor = true})
@@ -246,7 +246,7 @@ local function createRuota()
 	physics.addBody(newRuota, "dynamic", { bounce = 0})
     newRuota.myName = "ruota"
    
-	local whereFrom = math.random(10)
+	local whereFrom = math.random(3)
 	
     if ( whereFrom == 1 ) then
         newRuota.x = display.contentCenterX -200
@@ -262,12 +262,6 @@ local function createRuota()
 		newRuota.x = display.contentCenterX
 		newRuota.y = -100
         newRuota:setLinearVelocity(0, 460 )
-
-    else 
-        newRuota.x = display.contentCenterX
-        newRuota.y = -200 
-        newRuota:setLinearVelocity(0, 0 )
-
 	end
 	newRuota:applyTorque( math.random( 3,5 ) )
 end
@@ -287,7 +281,7 @@ local function ruotaLoop()
         end
     end
 end
-ruotaLoopTimer = timer.performWithDelay( 5000, ruotaLoop, 0 )
+ruotaLoopTimer = timer.performWithDelay( 10000, ruotaLoop, 0 )
 
 local function deleteRuota()
     for i = #ruoteTable, 1, -1 do
@@ -400,7 +394,7 @@ local function createCar1()
 	physics.addBody(newCar1, "dynamic", {bounce = 0})
     newCar1.myName = "car1"
    
-	local whereFrom = math.random(5)
+	local whereFrom = math.random(2)
 	
     if ( whereFrom == 1 ) then
         newCar1.x = display.contentCenterX -240
@@ -416,10 +410,6 @@ local function createCar1()
         audio.play( clacson)
 
         --newCar1:setLinearVelocity(0,100)
-    else 
-        newCar1.x = display.contentCenterX 
-        newCar1.y = -1000
-        newCar1:setLinearVelocity(0, 0 )
 
     end 
 end
@@ -439,7 +429,7 @@ local function car1Loop()
         end
     end
 end
-car1LoopTimer = timer.performWithDelay( 5000, car1Loop, 0 )
+car1LoopTimer = timer.performWithDelay( 6000, car1Loop, 0 )
 
 local function deleteCar()
     for i = #carsTable, 1, -1 do

@@ -70,6 +70,7 @@ addScrollableBg()
 Runtime:addEventListener("enterFrame", enterFrame)
 
 
+
 --Adding physics
 local physics = require( "physics" )
 physics.start()
@@ -149,7 +150,7 @@ local timerUpTimer = timer.performWithDelay(1000, timerUp, 0)
 local countDownTimer = timer.performWithDelay( 1000, timerDown, timeLeft )
 
 --Load autobus
-local autobus = display.newImageRect(mainGroup, "autobus.png", 120, 280)
+local autobus = display.newImageRect(mainGroup, "autobus.png", 100, 260)
 autobus.x = display.contentCenterX
 autobus.y = display.contentHeight-30
 physics.addBody(autobus, "dynamic", {isSensor = true})
@@ -223,6 +224,75 @@ end
 -- add the event listener to the sprite
 explosion:addEventListener( "sprite", spriteListener )
 
+
+--pause game
+function pauseGame(event)
+    --if end of touch event
+    if(event.phase == "ended") then
+        --pause the physics
+        physics.pause()
+        Runtime:removeEventListener( "enterFrame", enterFrame )
+        audio.pause( 1 )
+        timer.cancel( gameLoopTimer )
+        timer.cancel( car1LoopTimer)
+        timer.cancel( ruotaLoopTimer)
+        autobus:removeEventListener("touch", moveAutobus)
+
+        --make pause button invisible
+        pauseBtn.isVisible = false
+        --make resume button visible
+        resumeBtn.isVisible = true
+        -- indicates successful touch
+        return true
+    end
+end
+ 
+--resume game
+function resumeGame(event)
+    --if end of touch event
+    if(event.phase == "ended") then
+        --resume physics
+        physics.start()
+        Runtime:addEventListener( "enterFrame", enterFrame )
+        autobus:addEventListener("touch", moveAutobus)
+
+        audio.play( 1 )
+
+        --make pause button visible
+        pauseBtn.isVisible = true
+        --make resume button invisible
+        resumeBtn.isVisible = false
+        -- indicates successful touch
+        return true
+    end
+end
+
+    --define button dimensions
+    local btnW, btnH = 200, 80
+     
+    --create pause button
+    pauseBtn = display.newImageRect( "pause.png", btnW, btnH )
+     
+    --place button in center
+    pauseBtn.x, pauseBtn.y = display.contentCenterX, display.contentHeight-1000
+     
+    --add event
+    pauseBtn:addEventListener( "touch", pauseGame ) 
+     
+    --create resume button
+    resumeBtn = display.newImageRect( "resume.png", btnW, btnH )
+     
+    --put it on pause button
+    resumeBtn.x, resumeBtn.y = display.contentCenterX, display.contentHeight-1000
+     
+    --and hide it
+    resumeBtn.isVisible = false
+     
+    --add event
+    resumeBtn:addEventListener( "touch", resumeGame ) 
+
+
+
 -- Load RUOTA
 local ruoteTable = {}
 local function createRuota()
@@ -236,15 +306,15 @@ local function createRuota()
     if ( whereFrom == 1 ) then
         newRuota.x = display.contentCenterX -200
         newRuota.y = -100
-        newRuota:setLinearVelocity(0, 427 )
+        newRuota:setLinearVelocity(0, 390)
 	elseif ( whereFrom == 2 ) then
 		newRuota.x = display.contentCenterX +200
 		newRuota.y = -100
-        newRuota:setLinearVelocity(0, 427 )
+        newRuota:setLinearVelocity(0, 390)
 	elseif ( whereFrom == 3 ) then
 		newRuota.x = display.contentCenterX
 		newRuota.y = -100
-        newRuota:setLinearVelocity(0, 427 )
+        newRuota:setLinearVelocity(0, 390)
     else 
         newRuota.x = display.contentCenterX
         newRuota.y = -200 
@@ -289,7 +359,7 @@ local function createCar1()
 	physics.addBody(newCar1, "dynamic", {bounce = 0})
     newCar1.myName = "car1"
    
-	local whereFrom = math.random(5)
+	local whereFrom = math.random(2)
 	
     if ( whereFrom == 1 ) then
         newCar1.x = display.contentCenterX -240
@@ -304,12 +374,6 @@ local function createCar1()
 		newCar1.y = -100
         newCar1:setLinearVelocity(0, math.random( 500, 700 ) )
         audio.play( clacson)
-
-        --newCar1:setLinearVelocity(0,100)
-    else 
-        newCar1.x = display.contentCenterX 
-        newCar1.y = -1000
-        newCar1:setLinearVelocity(0, 0 )
 
     end 
 end
@@ -354,28 +418,28 @@ local function createBuca1()
         -- buca1 From the topLeft
         newBuca1.x = display.contentCenterX -200
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 427 )
+        newBuca1:setLinearVelocity(0, 390)
     elseif ( whereFrom == 2 ) then
         -- buca1 From the topCenter
         newBuca1.x = display.contentCenterX
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 427 )
+        newBuca1:setLinearVelocity(0, 390)
     elseif ( whereFrom == 3 ) then
         -- buca1 From the topRight
         newBuca1.x = display.contentCenterX +200
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 427 )
+        newBuca1:setLinearVelocity(0, 390)
     elseif ( whereFrom == 4 ) then
         -- buca2 From the topLeft
         newBuca1.x = display.contentCenterX -96
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 427 )
+        newBuca1:setLinearVelocity(0, 390)
     
     elseif ( whereFrom == 5 ) then
         -- buca2 From the topCenter
         newBuca1.x = display.contentCenterX +96
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 427 )
+        newBuca1:setLinearVelocity(0, 390)
     end
 end
 
@@ -392,17 +456,17 @@ local function createBuca2()
         -- buca2 From the topRight
         newBuca2.x = display.contentCenterX +96
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 427 )
+        newBuca2:setLinearVelocity(0, 390)
     elseif ( whereFrom == 2 ) then
         -- buca3 From the topLeft
         newBuca2.x = display.contentCenterX -96
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 427 )  
+        newBuca2:setLinearVelocity(0, 390)  
     elseif ( whereFrom == 3 ) then
         -- buca3 From the topCenter
         newBuca2.x = display.contentCenterX
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 427 )
+        newBuca2:setLinearVelocity(0, 390)
 	end
 end
 
@@ -420,17 +484,17 @@ local function createBuca3()
         -- buca3 From the topRight
         newBuca3.x = display.contentCenterX +96
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 427 ) 
+        newBuca3:setLinearVelocity(0, 390) 
     elseif ( whereFrom == 2 ) then
         -- From the topRight
         newBuca3.x = display.contentCenterX -96
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 427 )   
+        newBuca3:setLinearVelocity(0, 390)   
     elseif ( whereFrom == 3 ) then
         -- From the topRight
         newBuca3.x = display.contentCenterX
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 427 )
+        newBuca3:setLinearVelocity(0, 390)
 	end
 end
 
@@ -760,6 +824,7 @@ function scene:hide( event )
         timer.cancel( gameLoopTimer )
         timer.cancel( car1LoopTimer)
         timer.cancel( ruotaLoopTimer)
+        timer.cancel( timerUpTimer)
 
 	elseif ( phase == "did" ) then
         -- Code here runs immediately after the scene goes entirely off screen

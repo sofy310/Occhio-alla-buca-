@@ -181,7 +181,7 @@ end
 timeBut:addEventListener( "touch", timeButton )
 
 --Load autobus
-local autobus = display.newImageRect(mainGroup, "autobus.png", 120, 280)
+local autobus = display.newImageRect(mainGroup, "autobus.png", 100, 260)
 autobus.x = display.contentCenterX
 autobus.y = display.contentHeight-30
 physics.addBody(autobus, "dynamic", { isSensor = true})
