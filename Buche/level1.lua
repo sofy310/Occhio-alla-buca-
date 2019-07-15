@@ -180,10 +180,10 @@ end
 timeBut:addEventListener( "touch", timeButton )
 
 --Load autobus
-local autobus = display.newImageRect(mainGroup, "autobus.png", 590, 280)
+local autobus = display.newImageRect(mainGroup, "autobus.png", 100, 260)
 autobus.x = display.contentCenterX
 autobus.y = display.contentHeight-30
-physics.addBody(autobus, "dynamic", {radius = 100, isSensor = true})
+physics.addBody(autobus, "dynamic", { isSensor = true})
 autobus.myName = "autobus"
 
 --Move the autobus
@@ -256,7 +256,7 @@ local ruoteTable = {}
 local function createRuota()
     local newRuota = display.newImageRect(mainGroup, "ruota.png", 100, 100)
 	table.insert(ruoteTable, newRuota)
-	physics.addBody(newRuota, "dynamic", {radius = 40, bounce = 0})
+	physics.addBody(newRuota, "dynamic", {bounce = 0})
     newRuota.myName = "ruota"
    
 	local whereFrom = math.random(10)
@@ -317,7 +317,7 @@ local carsTable = {}
 local function createCar1()
     local newCar1 = display.newImageRect(mainGroup, "car1.png", 100, 150)
 	table.insert(carsTable, newCar1)
-	physics.addBody(newCar1, "dynamic", {radius = 60, bounce = 0})
+	physics.addBody(newCar1, "dynamic", { bounce = 0})
     newCar1.myName = "car1"
    
 	local whereFrom = math.random(5)
@@ -375,7 +375,7 @@ math.randomseed( os.time() )
 local function createBuca1()
     local newBuca1 = display.newImageRect(mainGroup, "buca1.png", math.random(90, 130), math.random(90, 130))
     table.insert(bucheTable, newBuca1)
-    physics.addBody(newBuca1, "kinematic", {radius = 50, bounce = 0})
+    physics.addBody(newBuca1, "kinematic", {bounce = 0})
     newBuca1.myName = "buca1"
 
     local whereFrom = math.random(5)
@@ -413,7 +413,7 @@ end
 local function createBuca2()
 	local newBuca2 = display.newImageRect(mainGroup, "buca2.png", math.random(90, 130), math.random(90, 130))
     table.insert(bucheTable, newBuca2)
-    physics.addBody(newBuca2, "kinematic", {radius = 50, bounce = 0})
+    physics.addBody(newBuca2, "kinematic", {bounce = 0})
     newBuca2.myName = "buca2"
 
 	local whereFrom = math.random(3)
@@ -441,7 +441,7 @@ local function createBuca3()
 
 	local newBuca3 = display.newImageRect(mainGroup, "buca3.png", math.random(90, 130), math.random(90, 130))
     table.insert(bucheTable, newBuca3)
-    physics.addBody(newBuca3, "kinematic", {radius = 40, bounce = 0})
+    physics.addBody(newBuca3, "kinematic", { bounce = 0})
     newBuca3.myName = "buca3"
 
 	local whereFrom = math.random(3)
