@@ -728,12 +728,15 @@ function pauseGame(event)
         --pause the physics
         physics.pause()
         Runtime:removeEventListener( "enterFrame", enterFrame )
+        Runtime:removeEventListener( "collision", onCollision )
+
         audio.pause( 1 )
         timer.pause( gameLoopTimer )
         timer.pause( car1LoopTimer)
         timer.pause( ruotaLoopTimer)
         timer.pause( Timer1)
         autobus:removeEventListener("touch", moveAutobus)
+        explosion:pause() 
 
         --make pause button invisible
         pauseBtn.isVisible = false
@@ -754,6 +757,8 @@ function resumeGame(event)
         physics.start()
         Runtime:addEventListener( "enterFrame", enterFrame )
         autobus:addEventListener("touch", moveAutobus)
+        Runtime:addEventListener( "collision", onCollision )
+
         timer.resume( gameLoopTimer )
         timer.resume( car1LoopTimer)
         timer.resume( ruotaLoopTimer)
@@ -869,6 +874,8 @@ function scene:hide( event )
 		-- Code here runs immediately after the scene goes entirely off screen
         Runtime:removeEventListener( "collision", onCollision )
         Runtime:removeEventListener("enterFrame", enterFrame)
+        pauseBtn:removeEventListener( "touch", pauseGame ) 
+        explosion:pause() 
 
         physics.pause()
         audio.stop( 1 )
@@ -895,3 +902,4 @@ scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
 -- -----------------------------------------------------------------------------------
 return scene
+

@@ -1,3 +1,4 @@
+
 local composer = require( "composer" )
 
 local scene = composer.newScene()
@@ -718,6 +719,7 @@ function pauseGame(event)
         timer.pause( ruotaLoopTimer)
         timer.pause( Timer1)
         autobus:removeEventListener("touch", moveAutobus)
+        explosion:pause() 
 
         --make pause button invisible
         pauseBtn.isVisible = false
@@ -858,6 +860,8 @@ function scene:hide( event )
 		-- Code here runs immediately after the scene goes entirely off screen
         Runtime:removeEventListener( "collision", onCollision )
         Runtime:removeEventListener("enterFrame", enterFrame)
+        pauseBtn:removeEventListener( "touch", pauseGame ) 
+        explosion:pause() 
 
         physics.pause()
         audio.stop( 1 )

@@ -588,6 +588,8 @@ end
 
 -- endGAME
 local function endGame()
+    explosion:pause() 
+
     composer.setVariable("finalScore", score)
     composer.removeScene("highscore")
     composer.gotoScene( "highscore", { time=800, effect="crossFade" } )
@@ -859,6 +861,8 @@ function scene:hide( event )
         -- Code here runs immediately after the scene goes entirely off screen
         Runtime:removeEventListener( "collision", onCollision )
         Runtime:removeEventListener( "enterFrame", enterFrame )
+        pauseBtn:removeEventListener( "touch", pauseGame ) 
+        explosion:pause() 
 
         physics.pause()
         audio.stop( 1 )

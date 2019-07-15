@@ -906,6 +906,8 @@ function pauseGame(event)
         timer.pause( ruotaLoopTimer)
         timer.pause( Timer1)
         timer.pause(pedoniLoopTimer)
+        explosion:pause() 
+
         autobus:removeEventListener("touch", moveAutobus)
         Runtime:removeEventListener("collision", onCollision)
         --make pause button invisible
@@ -1049,6 +1051,8 @@ function scene:hide( event )
 		-- Code here runs immediately after the scene goes entirely off screen
         Runtime:removeEventListener( "collision", onCollision )
         Runtime:removeEventListener("enterFrame", enterFrame)
+        pauseBtn:removeEventListener( "touch", pauseGame ) 
+        explosion:pause() 
 
         physics.pause()
         audio.stop( 1 )
