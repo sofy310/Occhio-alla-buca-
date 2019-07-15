@@ -215,9 +215,8 @@ local function spriteListener( event )
  
     local thisSprite = event.target  -- "event.target" references the sprite
  
-    if ( event.phase == "ended" ) then 
-        thisSprite:setSequence( "explosion" )  -- switch to "fastRun" sequence
-        thisSprite:play()  -- play the new sequence
+    if ( event.phase == "ended" ) then
+         
     end
 end
  
