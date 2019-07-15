@@ -20,6 +20,15 @@ background.x = display.contentCenterX
 background.y = display.contentCenterY
 local backgroundMusic = audio.loadStream( "occhioAllaBuca.wav" )
 
+
+
+--Adding physics
+local physics = require( "physics" )
+physics.start()
+physics.setGravity( 0, 0 )
+
+
+
 local bg1
 local bg2
 local runtime = 0
@@ -70,11 +79,6 @@ addScrollableBg()
 Runtime:addEventListener("enterFrame", enterFrame)
 
 
-
---Adding physics
-local physics = require( "physics" )
-physics.start()
-physics.setGravity( 0, 0 )
 
 -- load BORDO SX
 local bordoSX = display.newImageRect( "bordo.png", 8, 2100)
@@ -172,6 +176,9 @@ local function moveAutobus(event)
  
     elseif ( "moved" == phase ) then
         -- Move the autobus to the new touch position
+        if (autobus.touchOffsetX == nil) then
+            autobus.touchOffsetX = autobus.x
+        end
         autobus.x = event.x - autobus.touchOffsetX
     
     elseif ( "ended" == phase or "cancelled" == phase ) then
@@ -819,6 +826,7 @@ function scene:create( event )
 
 	local sceneGroup = self.view
 	-- Code here runs when the scene is first created but has not yet appeared on screen
+    autobus: addEventListener( "touch", moveAutobus)
 
 
 end

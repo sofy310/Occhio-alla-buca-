@@ -29,13 +29,11 @@ end
 -- Scene event functions
 -- -----------------------------------------------------------------------------------
 local widget = require("widget")
-local background = display.newImageRect("sfondotitle.png", 800, 1400 )
-background.x = display.contentCenterX
-background.y = display.contentCenterY
+local sfondotitle = display.newImageRect("sfondoTitle.png", 800, 1400 )
+sfondotitle.x = display.contentCenterX
+sfondotitle.y = display.contentCenterY
 
---local logo = display.newImage("logo.png")
---logo.x = display.contentCenterX 
---logo.y = 350
+
 
 local playButton = widget.newButton
 {

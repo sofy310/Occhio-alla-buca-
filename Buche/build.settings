@@ -1,5 +1,5 @@
 --
--- For more information on build.settings, see the Project Build Settings guide at:
+-- For more information on build.settings see the Corona SDK Build Guide at:
 -- https://docs.coronalabs.com/guide/distribution/buildSettings
 --
 
@@ -9,12 +9,54 @@ settings =
 	{
 		-- Supported values for orientation:
 		-- portrait, portraitUpsideDown, landscapeLeft, landscapeRight
+
 		default = "portrait",
 		supported = { "portrait", },
 	},
+	
+	excludeFiles =
+	{
+		-- Include only the necessary icon files on each platform
+		iphone = { "Icon-*dpi.png", },
+		android = { "Icon.png", "Icon-Small-*.png", "Icon*@2x.png", },
+	},
 
 	--
-	-- Android section
+	-- iOS Section
+	--
+	iphone =
+	{
+		plist =
+		{
+			UIStatusBarHidden = false,
+			UIPrerenderedIcon = true, -- set to false for "shine" overlay
+			--UIApplicationExitsOnSuspend = true, -- uncomment to quit app on suspend
+
+			CFBundleIconFiles =
+			{
+				"Icon.png",
+				"Icon@2x.png",
+				"Icon-167.png",
+				"Icon-60.png",
+				"Icon-60@2x.png",
+				"Icon-60@3x.png",
+				"Icon-72.png",
+				"Icon-72@2x.png",
+				"Icon-76.png",
+				"Icon-76@2x.png",
+				"Icon-Small.png",
+				"Icon-Small@2x.png",
+				"Icon-Small@3x.png",
+				"Icon-Small-40.png",
+				"Icon-Small-40@2x.png",
+				"Icon-Small-50.png",
+				"Icon-Small-50@2x.png",
+			},
+		},
+	},
+	
+	--
+	-- Android Section
 	--
 	android =
 	{
@@ -22,36 +64,5 @@ settings =
 		{
 			"android.permission.INTERNET",
 		},
-	},
-
-	--
-	-- iOS section
-	--
-	iphone =
-	{
-		xcassets = "Images.xcassets",
-		plist =
-		{
-			UIStatusBarHidden = false,
-			UILaunchStoryboardName = "LaunchScreen",
-		},
-	},
-
-	--
-	-- Plugins section
-	--
-	plugins =
-	{
-
-	},
-
-	--
-	-- Project section
-	--
-	excludeFiles =
-	{
-		-- Exclude unnecessary files for each platform
-		all = { "Icon.png", "Icon-*dpi.png", "Images.xcassets", },
-		android = { "LaunchScreen.storyboardc", },
 	},
 }

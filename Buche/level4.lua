@@ -179,6 +179,9 @@ local function moveAutobus(event)
  
     elseif ( "moved" == phase ) then
         -- Move the autobus to the new touch position
+        if (autobus.touchOffsetX == nil) then
+            autobus.touchOffsetX = autobus.x
+        end
         autobus.x = event.x - autobus.touchOffsetX
     
     elseif ( "ended" == phase or "cancelled" == phase ) then
@@ -707,107 +710,6 @@ local function onCollision( event )
 end
 Runtime:addEventListener( "collision", onCollision )
 
---pause game
-function pauseGame(event)
-    --if end of touch event
-    if(event.phase == "ended") then
-        --pause the physics
-        physics.pause(1)
-        Runtime:removeEventListener( "enterFrame", enterFrame )
-        Runtime:removeEventListener("collision", onCollision)
-
-        audio.pause( 1 )
-        timer.pause( gameLoopTimer )
-        timer.pause( car1LoopTimer)
-        timer.pause( ruotaLoopTimer)
-        timer.pause( Timer1)
-        autobus:removeEventListener("touch", moveAutobus)
-        explosion:pause() 
-
-        --make pause button invisible
-        pauseBtn.isVisible = false
-        --make resume button visible
-        resumeBtn.isVisible = true
-        menuBtn.isVisible = true
-
-        -- indicates successful touch
-        return true
-    end
-end
- 
---resume game
-function resumeGame(event)
-    --if end of touch event
-    if(event.phase == "ended") then
-        --resume physics
-        physics.start()
-        Runtime:addEventListener( "enterFrame", enterFrame )
-        autobus:addEventListener("touch", moveAutobus)
-        Runtime:addEventListener("collision", onCollision)
-
-        timer.resume( gameLoopTimer )
-        timer.resume( car1LoopTimer)
-        timer.resume( ruotaLoopTimer)
-        timer.resume( Timer1)
-        audio.resume( 1 )
-
-        --make pause button visible
-        pauseBtn.isVisible = true
-        --make resume button invisible
-        resumeBtn.isVisible = false
-        --make menu button invisible
-        menuBtn.isVisible = false
-        -- indicates successful touch
-        return true
-    end
-end
-local function gotoMenu()
-	composer.removeScene("menu")
-    composer.gotoScene( "menu", { time = 800, effect = "crossFade" } )
-            --make pause button visible
-        pauseBtn.isVisible = false
-        --make resume button invisible
-        resumeBtn.isVisible = false
-        --make menu button invisible
-        menuBtn.isVisible = false
-end
-
-    --define button dimensions
-    local btnW, btnH = 250, 100
-     
-    --create pause button
-    pauseBtn = display.newImageRect( "pause.png", btnW, btnH )
-     
-    --place button in center
-    pauseBtn.x, pauseBtn.y = display.contentCenterX, display.contentHeight-1000
-     
-    --add event
-    pauseBtn:addEventListener( "touch", pauseGame ) 
-     
-    --create resume button
-    resumeBtn = display.newImageRect( "resume.png", btnW, btnH )
-     
-    --put it on pause button
-    resumeBtn.x, resumeBtn.y = display.contentCenterX, display.contentHeight-1000
-     
-    --and hide it
-    resumeBtn.isVisible = false
-     
-    --add event
-    resumeBtn:addEventListener( "touch", resumeGame ) 
-
-    --create menu button
-    menuBtn = display.newImageRect( "menu.png", btnW, btnH )
-     
-    --put it on pause button
-    menuBtn.x, menuBtn.y = display.contentCenterX, display.contentHeight-850
-     
-    --and hide it
-    menuBtn.isVisible = false
-     
-    --add event
-    menuBtn:addEventListener( "touch", gotoMenu ) 
-
 
 -- -----------------------------------------------------------------------------------
 -- Scene event functions
@@ -860,7 +762,6 @@ function scene:hide( event )
 		-- Code here runs immediately after the scene goes entirely off screen
         Runtime:removeEventListener( "collision", onCollision )
         Runtime:removeEventListener("enterFrame", enterFrame)
-        pauseBtn:removeEventListener( "touch", pauseGame ) 
         explosion:pause() 
 
         physics.pause()
