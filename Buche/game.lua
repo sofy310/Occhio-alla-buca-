@@ -230,7 +230,7 @@ function pauseGame(event)
     --if end of touch event
     if(event.phase == "ended") then
         --pause the physics
-        physics.pause(1)
+        physics.pause()
         Runtime:removeEventListener( "enterFrame", enterFrame )
         audio.pause( 1 )
         timer.pause( gameLoopTimer )
@@ -243,6 +243,8 @@ function pauseGame(event)
         pauseBtn.isVisible = false
         --make resume button visible
         resumeBtn.isVisible = true
+        menuBtn.isVisible = true
+
         -- indicates successful touch
         return true
     end
@@ -266,13 +268,25 @@ function resumeGame(event)
         pauseBtn.isVisible = true
         --make resume button invisible
         resumeBtn.isVisible = false
+        --make menu button invisible
+        menuBtn.isVisible = false
         -- indicates successful touch
         return true
     end
 end
+local function gotoMenu()
+	composer.removeScene("menu")
+    composer.gotoScene( "menu", { time = 800, effect = "crossFade" } )
+            --make pause button visible
+        pauseBtn.isVisible = false
+        --make resume button invisible
+        resumeBtn.isVisible = false
+        --make menu button invisible
+        menuBtn.isVisible = false
+end
 
     --define button dimensions
-    local btnW, btnH = 200, 80
+    local btnW, btnH = 250, 100
      
     --create pause button
     pauseBtn = display.newImageRect( "pause.png", btnW, btnH )
@@ -295,6 +309,17 @@ end
     --add event
     resumeBtn:addEventListener( "touch", resumeGame ) 
 
+    --create menu button
+    menuBtn = display.newImageRect( "menu.png", btnW, btnH )
+     
+    --put it on pause button
+    menuBtn.x, menuBtn.y = display.contentCenterX, display.contentHeight-850
+     
+    --and hide it
+    menuBtn.isVisible = false
+     
+    --add event
+    menuBtn:addEventListener( "touch", gotoMenu ) 
 
 
 -- Load RUOTA
