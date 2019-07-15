@@ -93,7 +93,7 @@ function newAnim (imageTable)
 				if (loopCount == loop) then
 					-- stop looping
 					currentFrame = currentFrame - 1
-					animFrames[currentFrame].isVisible = false
+					animFrames[currentFrame].isVisible = true
 					Runtime:removeEventListener( "enterFrame", self )
 
 					if (remove) then
@@ -346,9 +346,7 @@ function newAnim (imageTable)
 	end
 	
 	function g:stop()
-        Runtime:removeEventListener( "enterFrame", self )
-        animFrames[currentFrame].isVisible = false
-
+		Runtime:removeEventListener( "enterFrame", self )
 	end
 
 	function g:stopAtFrame(label)

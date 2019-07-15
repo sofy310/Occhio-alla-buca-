@@ -156,25 +156,29 @@ physics.addBody(autobus, "dynamic", {radius = 100, isSensor = true})
 autobus.myName = "autobus"
 
 
+
+
 --Move the autobus
 local function moveAutobus(event)
     local autobus = event.target
     local phase = event.phase
 
-    if ( phase == "began" ) then
-        -- Set touch focus on autobus
+    if ( "began" == phase ) then
+        -- Set touch focus on the autobus
         display.currentStage:setFocus( autobus )
         -- Store initial offset position
         autobus.touchOffsetX = event.x - autobus.x
-    elseif ( phase == "moved" ) then
-        -- Move the sjip to the new touch position
+ 
+    elseif ( "moved" == phase ) then
+        -- Move the autobus to the new touch position
         autobus.x = event.x - autobus.touchOffsetX
-    elseif ( phase == "ended" or phase == "cancelled" ) then
-        -- Release touch focus on the autobus
-        display.currentStage:setFocus( nil )
+    
+    elseif ( "ended" == phase or "cancelled" == phase ) then
+        --Release touch focus on the autobus
+        display.currentStage: setFocus(nil)
     end
-
-    return true -- Prevent touch propagation to underlying objects
+    
+    return true
 end
 
 autobus: addEventListener( "touch", moveAutobus)
@@ -185,12 +189,14 @@ local explosionTable = {"explosion/e1.png", "explosion/e2.png", "explosion/e3.pn
 "explosion/e4.png", "explosion/e5.png", "explosion/e6.png", "explosion/e7.png", "explosion/e8.png", 
 "explosion/e9.png", "explosion/e10.png", "explosion/e11.png", "explosion/e12.png", "explosion/e13.png"}
 
-
 local explosion = movieclip.newAnim(explosionTable)
 explosion.x = autobus.x
 explosion.y = autobus.y
 explosion.height = 300
 explosion.width = 300
+
+
+
 
 -- Load RUOTA
 local ruoteTable = {}
@@ -451,7 +457,6 @@ local function restoreAutobus()
     autobus.isBodyActive = false
     autobus.x = display.contentCenterX
     autobus.y = display.contentHeight - 30
-    explosion:stop()
 
     -- Fade in the autobus
     transition.to( autobus, { alpha=1, time=4000,
@@ -464,7 +469,6 @@ end
 
 -- endGAME
 local function endGame()
-    explosion:stop()
     composer.setVariable("finalScore", score)
     composer.removeScene("highscore")
     composer.gotoScene( "highscore", { time=800, effect="crossFade" } )
@@ -472,8 +476,7 @@ end
 
 -- collisione AUTOBUS/BUCA e AUTOBUS/LINEE
 local function onCollision( event )
-    explosion:stop()
-
+ 
     if ( event.phase == "began" ) then
  
         local obj1 = event.object1
@@ -485,6 +488,8 @@ local function onCollision( event )
         then
             audio.play(crash)
             explosion:play()
+            explosion:play{ startFrame=1, endFrame=13, loop=1, remove=true }
+
             if ( died == false ) then
                 died = true
 
@@ -507,8 +512,10 @@ local function onCollision( event )
         if ( (obj1.myName == "autobus" and obj2.myName == "buca2") or
               obj1.myName == "buca2" and obj2.myName == "autobus") 
         then
-            explosion:play()
             audio.play(crash)
+            explosion:play()
+            explosion:play{ startFrame=1, endFrame=13, loop=1, remove=true }      
+
             if (died == false) then
                 died = true
 
@@ -530,8 +537,9 @@ local function onCollision( event )
         if ( (obj1.myName == "autobus" and obj2.myName == "buca3") or
               obj1.myName == "buca3" and obj2.myName == "autobus") 
         then
-            explosion:play()
             audio.play(crash)
+            explosion:play()
+            explosion:play{ startFrame=1, endFrame=13, loop=1, remove=true }
 
              if (died == false) then
                 died = true
@@ -555,6 +563,7 @@ local function onCollision( event )
         obj1.myName == "autobus" and obj2.myName == "ruota" )
         then
             audio.play(live)
+
             deleteRuota()
             if(lives == 2 or lives == 1) then
                 lives = lives +1
@@ -566,6 +575,9 @@ local function onCollision( event )
         (obj1.myName == "buca1" and obj2.myName == "car1"))
         then
             audio.play(bounce)
+            explosion:play()
+            explosion:play{ startFrame=1, endFrame=13, loop=1, remove=true }
+            
             deleteCar()
         end
 
@@ -573,6 +585,9 @@ local function onCollision( event )
         (obj1.myName == "buca2" and obj2.myName == "car1"))
         then
             audio.play(bounce)
+            explosion:play()
+            explosion:play{ startFrame=1, endFrame=13, loop=1, remove=true }
+            
             deleteCar()
         end
 
@@ -580,6 +595,9 @@ local function onCollision( event )
         (obj1.myName == "buca3" and obj2.myName == "car1"))
         then
             audio.play(bounce)
+            explosion:play()
+            explosion:play{ startFrame=1, endFrame=13, loop=1, remove=true }
+            
             deleteCar()
         end 
 
@@ -587,6 +605,9 @@ local function onCollision( event )
         (obj1.myName == "autobus" and obj2.myName == "car1"))
         then
             audio.play(largeCrash)
+            explosion:play()
+            explosion:play{ startFrame=1, endFrame=13, loop=1, remove=true }
+            
             if (died == false) then
                died = true
 
@@ -609,6 +630,9 @@ local function onCollision( event )
              ( obj1.myName == "autobus" and obj2.myName == "bordoDX" ) )
          then
             audio.play(bounce)
+            explosion:play()
+            explosion:play{ startFrame=1, endFrame=13, loop=1, remove=true }
+            
             if (died == false) then
                 died = true
 
@@ -630,6 +654,9 @@ local function onCollision( event )
               obj1.myName == "autobus" and obj2.myName == "bordoSX") 
          then
             audio.play(bounce)
+            explosion:play()
+            explosion:play{ startFrame=1, endFrame=13, loop=1, remove=true }
+            
             if (died == false) then
                 died = true
 
@@ -651,7 +678,6 @@ local function onCollision( event )
     end
 end
 Runtime:addEventListener( "collision", onCollision )
-
 
 
 -- -----------------------------------------------------------------------------------
