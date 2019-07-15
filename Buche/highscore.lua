@@ -44,6 +44,19 @@ local function gotoMenu()
 	composer.gotoScene( "menu", { time = 800, effect = "crossFade" } )
 end
 
+local widget = require("widget")
+	local ButtonUndo = widget.newButton
+	{
+	width = 160,
+    height = 66,
+    defaultFile = "undoBlack.png",
+	}
+	ButtonUndo.x = display.contentCenterX-320
+	ButtonUndo.y = -100
+	ButtonUndo.destination = "menu"
+	ButtonUndo:addEventListener("tap", ButtonUndo)
+	ButtonUndo:addEventListener( "tap", gotoMenu)
+
 -- -----------------------------------------------------------------------------------
 -- Scene event functions
 -- -----------------------------------------------------------------------------------
@@ -91,18 +104,7 @@ function scene:create( event )
 		end
 	end
 
-	local widget = require("widget")
-	local ButtonUndo = widget.newButton
-	{
-	width = 160,
-    height = 66,
-    defaultFile = "undoBlack.png",
-	}
-	ButtonUndo.x = display.contentCenterX-320
-	ButtonUndo.y = -100
-	ButtonUndo.destination = "menu"
-	ButtonUndo:addEventListener("tap", ButtonUndo)
-	ButtonUndo:addEventListener( "tap", gotoMenu)
+	
 
 end
 
@@ -134,7 +136,8 @@ function scene:hide( event )
 
 	elseif ( phase == "did" ) then
 		-- Code here runs immediately after the scene goes entirely off screen
-
+		ButtonUndo:removeEventListener("tap", ButtonUndo)
+		ButtonUndo:removeEventListener( "tap", gotoMenu)
 	end
 end
 
