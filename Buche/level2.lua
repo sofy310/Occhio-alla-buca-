@@ -211,6 +211,32 @@ end
 
 autobus: addEventListener( "touch", moveAutobus)
 
+--explosionSheet
+local sheetOptions =
+{
+    width = 192,
+    height = 195,
+    numFrames = 20
+}
+
+local sheet_explosion = graphics.newImageSheet( "explosionSheet.png", sheetOptions )
+
+local sequences_exp = {
+    -- consecutive frames sequence
+    {
+        name = "normalExplosion",
+        start = 1,
+        count = 20,
+        time = 1000,
+    }
+}
+
+local explosion = display.newSprite( sheet_explosion, sequences_exp)
+explosion.x = 1111111
+explosion.y = 1111111
+
+
+
 -- Load RUOTA
 local ruoteTable = {}
 local function createRuota()
@@ -472,7 +498,8 @@ local function restoreAutobus()
     autobus.isBodyActive = false
     autobus.x = display.contentCenterX
     autobus.y = display.contentHeight - 30
- 
+    explosion:pause() 
+
     -- Fade in the autobus
     transition.to( autobus, { alpha=1, time=4000,
         onComplete = function()
@@ -504,6 +531,10 @@ local function onCollision( event )
              ( obj1.myName == "buca1" and obj2.myName == "autobus" ) )
         then
             audio.play(crash)
+            explosion:play() 
+            explosion.x = autobus.x
+            explosion.y = autobus.y
+
 
             if ( died == false ) then
                 died = true
@@ -530,6 +561,9 @@ local function onCollision( event )
               obj1.myName == "buca2" and obj2.myName == "autobus") 
         then
             audio.play(crash)
+            explosion:play() 
+            explosion.x = autobus.x
+            explosion.y = autobus.y
 
             if (died == false) then
                 died = true
@@ -553,6 +587,9 @@ local function onCollision( event )
               obj1.myName == "buca3" and obj2.myName == "autobus") 
         then
             audio.play(crash)
+            explosion:play() 
+            explosion.x = autobus.x
+            explosion.y = autobus.y
 
              if (died == false) then
                 died = true
@@ -609,6 +646,10 @@ local function onCollision( event )
         (obj1.myName == "autobus" and obj2.myName == "car1"))
         then
             audio.play(largeCrash)
+            explosion:play() 
+            explosion.x = autobus.x
+            explosion.y = autobus.y
+
             if (died == false) then
                died = true
 
@@ -631,6 +672,10 @@ local function onCollision( event )
              ( obj1.myName == "autobus" and obj2.myName == "bordoDX" ) )
          then
             audio.play(bounce)
+            explosion:play() 
+            explosion.x = autobus.x
+            explosion.y = autobus.y
+
             if (died == false) then
                 died = true
 
@@ -652,6 +697,10 @@ local function onCollision( event )
               obj1.myName == "autobus" and obj2.myName == "bordoSX") 
          then
             audio.play(bounce)
+            explosion:play() 
+            explosion.x = autobus.x
+            explosion.y = autobus.y
+
             if (died == false) then
                 died = true
 

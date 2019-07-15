@@ -606,10 +606,6 @@ local function onCollision( event )
         if ( (obj1.myName == "car1" and obj2.myName == "buca1") or
         (obj1.myName == "buca1" and obj2.myName == "car1"))
         then
-            explosion:play() 
-            explosion.x = autobus.x
-            explosion.y = autobus.y
-            
             audio.play(bounce)
    
             deleteCar()
@@ -618,10 +614,7 @@ local function onCollision( event )
         if ( (obj1.myName == "car1" and obj2.myName == "buca2") or
         (obj1.myName == "buca2" and obj2.myName == "car1"))
         then
-            explosion:play() 
-            explosion.x = autobus.x
-            explosion.y = autobus.y
-            
+
             audio.play(bounce)
 
             deleteCar()
@@ -630,10 +623,7 @@ local function onCollision( event )
         if ( (obj1.myName == "car1" and obj2.myName == "buca3") or
         (obj1.myName == "buca3" and obj2.myName == "car1"))
         then
-            explosion:play() 
-            explosion.x = autobus.x
-            explosion.y = autobus.y
-            
+
             audio.play(bounce)
 
             deleteCar()

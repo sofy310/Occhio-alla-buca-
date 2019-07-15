@@ -211,6 +211,46 @@ end
 
 autobus: addEventListener( "touch", moveAutobus)
 
+--explosionSheet
+local sheetOptions =
+{
+    width = 192,
+    height = 195,
+    numFrames = 20
+}
+
+local sheet_explosion = graphics.newImageSheet( "explosionSheet.png", sheetOptions )
+
+local sequences_exp = {
+    -- consecutive frames sequence
+    {
+        name = "normalExplosion",
+        start = 1,
+        count = 20,
+        time = 1000,
+    }
+}
+
+local explosion = display.newSprite( sheet_explosion, sequences_exp)
+explosion.x = 1111111
+explosion.y = 1111111
+
+
+
+
+-- sprite listener function
+local function spriteListener( event )
+ 
+    local thisSprite = event.target  -- "event.target" references the sprite
+ 
+    if ( event.phase == "ended" ) then
+         
+    end
+end
+ 
+-- add the event listener to the sprite
+explosion:addEventListener( "sprite", spriteListener )
+
 -- Load RUOTA
 local ruoteTable = {}
 local function createRuota()
@@ -472,7 +512,8 @@ local function restoreAutobus()
     autobus.isBodyActive = false
     autobus.x = display.contentCenterX
     autobus.y = display.contentHeight - 30
- 
+    explosion:pause() 
+
     -- Fade in the autobus
     transition.to( autobus, { alpha=1, time=4000,
         onComplete = function()
@@ -504,6 +545,9 @@ local function onCollision( event )
              ( obj1.myName == "buca1" and obj2.myName == "autobus" ) )
         then
             audio.play(crash)
+            explosion:play() 
+            explosion.x = autobus.x
+            explosion.y = autobus.y
 
             if ( died == false ) then
                 died = true
@@ -530,6 +574,9 @@ local function onCollision( event )
               obj1.myName == "buca2" and obj2.myName == "autobus") 
         then
             audio.play(crash)
+            explosion:play() 
+            explosion.x = autobus.x
+            explosion.y = autobus.y
 
             if (died == false) then
                 died = true
@@ -553,6 +600,9 @@ local function onCollision( event )
               obj1.myName == "buca3" and obj2.myName == "autobus") 
         then
             audio.play(crash)
+            explosion:play() 
+            explosion.x = autobus.x
+            explosion.y = autobus.y
 
              if (died == false) then
                 died = true
@@ -576,6 +626,7 @@ local function onCollision( event )
         obj1.myName == "autobus" and obj2.myName == "ruota" )
         then
             audio.play(live)
+            
 
             deleteRuota()
             if(lives == 2 or lives == 1) then
@@ -589,6 +640,7 @@ local function onCollision( event )
         then
             audio.play(bounce)
             deleteCar()
+
         end
 
         if ( (obj1.myName == "car1" and obj2.myName == "buca2") or
@@ -596,6 +648,7 @@ local function onCollision( event )
         then
             audio.play(bounce)
             deleteCar()
+
         end
 
         if ( (obj1.myName == "car1" and obj2.myName == "buca3") or
@@ -603,6 +656,7 @@ local function onCollision( event )
         then
             audio.play(bounce)
             deleteCar()
+
         end 
 
         if ( (obj1.myName == "car1" and obj2.myName == "autobus") or
@@ -611,6 +665,9 @@ local function onCollision( event )
             audio.play(largeCrash)
             if (died == false) then
                died = true
+               explosion:play() 
+               explosion.x = autobus.x
+               explosion.y = autobus.y
 
                --Update lives
                lives = lives -1
@@ -631,6 +688,10 @@ local function onCollision( event )
              ( obj1.myName == "autobus" and obj2.myName == "bordoDX" ) )
          then
             audio.play(bounce)
+            explosion:play() 
+            explosion.x = autobus.x
+            explosion.y = autobus.y
+
             if (died == false) then
                 died = true
 
@@ -652,6 +713,10 @@ local function onCollision( event )
               obj1.myName == "autobus" and obj2.myName == "bordoSX") 
          then
             audio.play(bounce)
+            explosion:play() 
+            explosion.x = autobus.x
+            explosion.y = autobus.y
+
             if (died == false) then
                 died = true
 
