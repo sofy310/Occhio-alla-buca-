@@ -70,12 +70,12 @@ function scene:create( event )
 	-- save the scores
 	saveScores()
 
-	local background = display.newImageRect("title.png", 800, 1400 )
+	local background = display.newImageRect("sfondo_highscore.png", 800, 1400 )
 	background.x = display.contentCenterX
 	background.y = display.contentCenterY
 
-	local highScoresHeader = display.newText( "High Scores", display.contentCenterX, 100, native.systemFontBold, 55 )
-    highScoresHeader:setFillColor(1, 0, 0)
+	--local highScoresHeader = display.newText( "High Scores", display.contentCenterX, 100, native.systemFontBold, 55 )
+    --highScoresHeader:setFillColor(1, 0, 0)
 
 	for i = 1, 10 do
 		if ( scoresTable[i] ) then
@@ -91,10 +91,18 @@ function scene:create( event )
 		end
 	end
 
-	local menuButton = display.newText("Menu", display.contentCenterX, 810, native.systemFontBold, 55 )
-    menuButton:setFillColor(1, 0, 0)
-    menuButton:addEventListener("tap", menuButton)
-	menuButton:addEventListener( "tap", gotoMenu )
+	local widget = require("widget")
+	local ButtonUndo = widget.newButton
+	{
+	width = 160,
+    height = 66,
+    defaultFile = "undoBlack.png",
+	}
+	ButtonUndo.x = display.contentCenterX-320
+	ButtonUndo.y = -100
+	ButtonUndo.destination = "menu"
+	ButtonUndo:addEventListener("tap", ButtonUndo)
+	ButtonUndo:addEventListener( "tap", gotoMenu)
 
 end
 
