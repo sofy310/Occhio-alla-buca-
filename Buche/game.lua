@@ -665,7 +665,7 @@ end
 -- endGAME
 local function endGame()
     explosion:pause() 
-    composer.setVariable("finalCoins", coins)
+
     composer.setVariable("finalScore", score)
     composer.removeScene("highscore")
     composer.gotoScene( "highscore", { time=800, effect="crossFade" } )
