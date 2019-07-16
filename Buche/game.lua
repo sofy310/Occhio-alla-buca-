@@ -50,8 +50,8 @@ local function addScrollableBg()
 end
 
 local function moveBg()
-    bg1.y = bg1.y + 6.6667
-    bg2.y = bg2.y + 6.6667
+    bg1.y = bg1.y + 10
+    bg2.y = bg2.y + 10
     if (bg1.y - display.contentHeight/2) > display.actualContentHeight then
         bg1:translate(0, -bg1.contentHeight * 2)
     end
@@ -67,7 +67,7 @@ end
 
 addScrollableBg()
 Runtime:addEventListener("enterFrame", enterFrame)
-sdfs
+
 
 
 -- load BORDO SX
@@ -332,15 +332,15 @@ local function createRuota()
     if ( whereFrom == 1 ) then
         newRuota.x = display.contentCenterX -200
         newRuota.y = -100
-        newRuota:setLinearVelocity(0, 390)
+        newRuota:setLinearVelocity(0, 600)
 	elseif ( whereFrom == 2 ) then
 		newRuota.x = display.contentCenterX +200
 		newRuota.y = -100
-        newRuota:setLinearVelocity(0, 390)
+        newRuota:setLinearVelocity(0, 600)
 	elseif ( whereFrom == 3 ) then
 		newRuota.x = display.contentCenterX
 		newRuota.y = -100
-        newRuota:setLinearVelocity(0, 390)
+        newRuota:setLinearVelocity(0, 600)
     else 
         newRuota.x = display.contentCenterX
         newRuota.y = -200 
@@ -390,7 +390,7 @@ local function createCar1()
     if ( whereFrom == 1 ) then
         newCar1.x = display.contentCenterX -240
         newCar1.y = -100
-        newCar1:setLinearVelocity(0, math.random( 500, 700 ) )
+        newCar1:setLinearVelocity(0, math.random( 650, 850 ) )
         audio.play( clacson)
 
 
@@ -444,28 +444,28 @@ local function createBuca1()
         -- buca1 From the topLeft
         newBuca1.x = display.contentCenterX -200
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 390)
+        newBuca1:setLinearVelocity(0, 600)
     elseif ( whereFrom == 2 ) then
         -- buca1 From the topCenter
         newBuca1.x = display.contentCenterX
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 390)
+        newBuca1:setLinearVelocity(0, 600)
     elseif ( whereFrom == 3 ) then
         -- buca1 From the topRight
         newBuca1.x = display.contentCenterX +200
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 390)
+        newBuca1:setLinearVelocity(0, 600)
     elseif ( whereFrom == 4 ) then
         -- buca2 From the topLeft
         newBuca1.x = display.contentCenterX -96
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 390)
+        newBuca1:setLinearVelocity(0, 600)
     
     elseif ( whereFrom == 5 ) then
         -- buca2 From the topCenter
         newBuca1.x = display.contentCenterX +96
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 390)
+        newBuca1:setLinearVelocity(0, 600)
     end
 end
 
@@ -482,17 +482,17 @@ local function createBuca2()
         -- buca2 From the topRight
         newBuca2.x = display.contentCenterX +96
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 390)
+        newBuca2:setLinearVelocity(0, 600)
     elseif ( whereFrom == 2 ) then
         -- buca3 From the topLeft
         newBuca2.x = display.contentCenterX -96
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 390)  
+        newBuca2:setLinearVelocity(0, 600)  
     elseif ( whereFrom == 3 ) then
         -- buca3 From the topCenter
         newBuca2.x = display.contentCenterX
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 390)
+        newBuca2:setLinearVelocity(0, 600)
 	end
 end
 
@@ -510,17 +510,17 @@ local function createBuca3()
         -- buca3 From the topRight
         newBuca3.x = display.contentCenterX +96
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 390) 
+        newBuca3:setLinearVelocity(0, 600) 
     elseif ( whereFrom == 2 ) then
         -- From the topRight
         newBuca3.x = display.contentCenterX -96
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 390)   
+        newBuca3:setLinearVelocity(0, 600)   
     elseif ( whereFrom == 3 ) then
         -- From the topRight
         newBuca3.x = display.contentCenterX
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 390)
+        newBuca3:setLinearVelocity(0, 600)
 	end
 end
 
