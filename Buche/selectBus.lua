@@ -69,6 +69,10 @@ local sfondotitle = display.newImageRect("asfalto.jpg", 800, 1400 )
 sfondotitle.x = display.contentCenterX
 sfondotitle.y = display.contentCenterY
 
+local shop = display.newImageRect("autobus/shop.png", 600, 250)
+shop.x = display.contentCenterX
+shop.y = display.contentCenterY - 550
+
 local widget = require("widget")
 	
 	local menuButton = widget.newButton
@@ -85,10 +89,10 @@ local widget = require("widget")
     
 local function showTotalCoins()
     local total = getTotal()
-    local imageCoin = display.newImageRect("coin.png", 80, 80)
-    imageCoin.x = display.contentCenterX+50
-    imageCoin.y = display.contentCenterY-550
-    coinsText = display.newText( " ".. total, 575, -40, native.systemFontBold, 55)
+    local imageCoin = display.newImageRect("coin.png", 100, 100)
+    imageCoin.x = display.contentCenterX-100
+    imageCoin.y = display.contentCenterY-400
+    coinsText = display.newText( " ".. total, 450, 115, native.systemFontBold, 70)
     coinsText:setFillColor( 1, 0, 0 )
 end
 
