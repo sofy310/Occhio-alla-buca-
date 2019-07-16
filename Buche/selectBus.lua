@@ -151,11 +151,45 @@ function scene:destroy( event )
 
 end
 
-local function showAutobus()
-
+local function showAutobusBlu()
+    local prezzo = 10000
+    local autobusBlu = display.newImageRect("autobus/autobusBlu.png", 150, 390)
+    autobusBlu.x = display.contentCenterX
+    autobusBlu.y = display.contentCenterY
+    local prezzoImage = display.newImageRect("coin.png", 60, 60)
+    prezzoImage.x = display.contentCenterX - 70
+    prezzoImage.y = display.contentCenterY + 250
+    local prezzoText = display.newText( " ".. prezzo, 400, 760, native.systemFontBold, 40)
+    prezzoText:setFillColor( 1, 0, 0 ) 
 end
 
+local function showAutobusGiallo()
+    local prezzo = 5000
+    local autobusGiallo = display.newImageRect("autobus/autobusGiallo.png", 150, 390)
+    autobusGiallo.x = display.contentCenterX - 260
+    autobusGiallo.y = display.contentCenterY
+    local prezzoImage = display.newImageRect("coin.png", 60, 60)
+    prezzoImage.x = display.contentCenterX - 330
+    prezzoImage.y = display.contentCenterY + 250
+    local prezzoText = display.newText( " ".. prezzo, 130, 760, native.systemFontBold, 40)
+    prezzoText:setFillColor( 1, 0, 0 ) 
+end
 
+local function showAutobusRosa()
+    local prezzo = 20000
+    local autobusRosa = display.newImageRect("autobus/autobusRosa.png", 150, 390)
+    autobusRosa.x = display.contentCenterX + 260
+    autobusRosa.y = display.contentCenterY
+    local prezzoImage = display.newImageRect("coin.png", 60, 60)
+    prezzoImage.x = display.contentCenterX +190
+    prezzoImage.y = display.contentCenterY + 250
+    local prezzoText = display.newText( " ".. prezzo, 660, 760, native.systemFontBold, 40)
+    prezzoText:setFillColor( 1, 0, 0 )
+end
+
+showAutobusBlu()
+showAutobusGiallo()
+showAutobusRosa()
 -- -----------------------------------------------------------------------------------
 -- Scene event function listeners
 -- -----------------------------------------------------------------------------------
