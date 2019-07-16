@@ -94,14 +94,12 @@ physics.addBody(bordoDX, "static")
 --Initialize variables
 local lives = 3
 local score = 0
-local coins = 0
 --local scoreLimit = 30
 local timeLeft = 90
 local died = false
 
 local livesText
 local scoreText
-local coinsText
 local punteggioText
 local timeText
 local bucheTable = {}
@@ -116,26 +114,34 @@ livesText = display.newText( uiGroup, "Lives: ".. lives, 280, -110, native.syste
 livesText:setFillColor( 1, 0, 0 )
 scoreText = display.newText( uiGroup, "Score: ", 477, -110, native.systemFontBold, 50)
 scoreText:setFillColor( 1, 0, 0 )
-coinsText = display.newText( uiGroup, "Coins: ", 477, -40, native.systemFontBold, 50)
-coinsText:setFillColor( 1, 0, 0 )
 punteggioText = display.newText( uiGroup, " ".. score, 575, -110, native.systemFontBold, 55)
 punteggioText:setFillColor( 1, 0, 0 )
-numeroCoinsText = display.newText( uiGroup, " ".. coins, 575, -40, native.systemFontBold, 55)
-numeroCoinsText:setFillColor( 1, 0, 0 )
+--timeText = display.newText(uiGroup, " "..timeLeft, 780, -110, native.systemFontBold, 75)
+--timeText:setTextColor(0,0,1)
 
 --Timer UP
 local function timerUp()
     score = score + 1
     punteggioText.text = score
+   -- if score >= scoreLimit then
+    --    display.remove(scoreText)
+    --    timer.cancel(timerUpTimer)
+    --    storyboard.gotoScene("maxtime", "fade", 400)
+   -- end
 end
+local timerUpTimer = timer.performWithDelay(1000, timerUp, 0)
 
-
-local function coinsUp()
-    coins = coins + 1
-    numeroCoinsText.text = coins
-end
-
-local timerUpTimer = timer.performWithDelay( 1000, timerUp, 0 )
+-- Timer DOWN
+--local function timerDown()
+   -- timeLeft = timeLeft - 1
+    ----timeText.text = timeLeft
+   -- if(timeLimit==0)then
+    --    display.remove(timeLeft)
+    --    timer.cancel(timerr)
+   --     storyboard.gotoScene("maxtime", "fade", 400)
+   -- end
+--end
+local countDownTimer = timer.performWithDelay( 1000, timerDown, timeLeft )
 
 --Load autobus
 local autobus = display.newImageRect(mainGroup, "autobus.png", 100, 260)
@@ -228,8 +234,6 @@ function pauseGame(event)
         timer.pause( car1LoopTimer)
         timer.pause( ruotaLoopTimer)
         timer.pause( timerUpTimer)
-        timer.pause( coinsLoopTimer)
-
         autobus:removeEventListener("touch", moveAutobus)
 
         --make pause button invisible
@@ -255,8 +259,6 @@ function resumeGame(event)
         timer.resume( car1LoopTimer)
         timer.resume( ruotaLoopTimer)
         timer.resume( timerUpTimer)
-        timer.resume( coinsLoopTimer)
-
         audio.resume( 1 )
 
         --make pause button visible
@@ -287,7 +289,7 @@ end
     pauseBtn = display.newImageRect( "pause.png", btnW, btnH )
      
     --place button in center
-    pauseBtn.x, pauseBtn.y = display.contentCenterX, display.contentHeight-900
+    pauseBtn.x, pauseBtn.y = display.contentCenterX, display.contentHeight-1000
      
     --add event
     pauseBtn:addEventListener( "touch", pauseGame ) 
@@ -296,7 +298,7 @@ end
     resumeBtn = display.newImageRect( "resume.png", btnW, btnH )
      
     --put it on pause button
-    resumeBtn.x, resumeBtn.y = display.contentCenterX, display.contentHeight-900
+    resumeBtn.x, resumeBtn.y = display.contentCenterX, display.contentHeight-1000
      
     --and hide it
     resumeBtn.isVisible = false
@@ -308,7 +310,7 @@ end
     menuBtn = display.newImageRect( "menu.png", btnW, btnH )
      
     --put it on pause button
-    menuBtn.x, menuBtn.y = display.contentCenterX, display.contentHeight-800
+    menuBtn.x, menuBtn.y = display.contentCenterX, display.contentHeight-850
      
     --and hide it
     menuBtn.isVisible = false
@@ -936,21 +938,7 @@ local function onCollision( event )
                 obj2.isVisible = false            
             end
         end     
-        --Collisione tra AUTOBUS e COIN
-        if((obj1.myName == "coin" and obj2.myName == "autobus") or
-        obj1.myName == "autobus" and obj2.myName == "coin" )
-        then
-            audio.play(live)
-            coinsUp()
-            if(obj1.myName == "coin")then 
-                obj1.isBodyActive = false
-                obj1.isVisible = false
-            end
-            if(obj2.myName == "coin")then
-                obj2.isBodyActive = false
-                obj2.isVisible = false            
-            end
-        end       
+               
         
     end
 end
@@ -1004,8 +992,6 @@ function scene:hide( event )
         timer.cancel( car1LoopTimer)
         timer.cancel( ruotaLoopTimer)
         timer.cancel( timerUpTimer)
-        timer.cancel( coinsLoopTimer)
-
         Runtime:removeEventListener( "collision", onCollision )
         Runtime:removeEventListener( "enterFrame", enterFrame )
         pauseBtn:removeEventListener( "touch", pauseGame ) 
