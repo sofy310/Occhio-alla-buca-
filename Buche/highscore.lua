@@ -64,7 +64,9 @@ end
 	background.x = display.contentCenterX
 	background.y = display.contentCenterY
 
-
+	local title = display.newImageRect("highscores/highscores_title.png", 650, 200)
+	title.x = display.contentCenterX
+	title.y = display.contentCenterY-550
 
 	local rankNum1 = display.newImageRect("highscores/1.png", 100, 100)
 	rankNum1.x = display.contentCenterX -40
@@ -105,6 +107,23 @@ end
 	local thisScore5 = display.newText( scoreTable[5], display.contentCenterX - 10, 590, native.systemFontBold, 70 )
 	thisScore5:setFillColor( 0.9, 0, 0.2 )
 	thisScore5.anchorX = 0
+
+	local rankNum6 = display.newImageRect("highscores/6.png", 100, 100)
+	rankNum6.x = display.contentCenterX -40
+	rankNum6.y = 700 
+	rankNum6.anchorX = 1
+	local thisScore6 = display.newText( scoreTable[6], display.contentCenterX - 10, 700, native.systemFontBold, 70 )
+	thisScore6:setFillColor( 0.9, 0, 0.2 )
+	thisScore6.anchorX = 0
+
+	local rankNum7 = display.newImageRect("highscores/7.png", 100, 100)
+	rankNum7.x = display.contentCenterX -40
+	rankNum7.y = 810 
+	rankNum7.anchorX = 1
+	local thisScore7 = display.newText( scoreTable[7], display.contentCenterX - 10, 810, native.systemFontBold, 70 )
+	thisScore7:setFillColor( 0.9, 0, 0.2 )
+	thisScore7.anchorX = 0
+
 
 	local widget = require("widget")
 	
