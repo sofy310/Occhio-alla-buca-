@@ -24,6 +24,11 @@ local function gotoHighscore()
     composer.gotoScene( "highscore", { time = 800, effect = "crossFade" } )
 end
 
+local function gotoSelectBus()
+    composer.removeScene( "selectBus" )
+    composer.gotoScene( "selectBus", { time = 800, effect = "crossFade" } )
+end
+
 
 -- -----------------------------------------------------------------------------------
 -- Scene event functions
@@ -71,6 +76,17 @@ highscoreButton.destination = "highscore"
 highscoreButton:addEventListener("tap", highscoreButton)
 highscoreButton:addEventListener( "tap", gotoHighscore )
 
+local coinButton = widget.newButton
+{
+width = 120,
+height = 120,
+defaultFile = "coin.png",
+}
+coinButton.x = display.contentCenterX - 300
+coinButton.y = 700
+coinButton.destination = "selectBus"
+coinButton:addEventListener("tap", coinButton)
+coinButton:addEventListener( "tap", gotoSelectBus )
 
 --local highScoreButton = display.newText( "High Scores", display.contentCenterX, 810, native.systemFont, 44 )
 --highScoreButton:setFillColor( 0.75, 0.78, 1 )
@@ -92,7 +108,9 @@ function scene:show( event )
 
 	if ( phase == "will" ) then
 		-- Code here runs when the scene is still off screen (but is about to come on screen)
-
+		playButton.isVisible = true
+		highscoreButton.isVisible = true
+		levelsButton.isVisible = true
 	elseif ( phase == "did" ) then
 		-- Code here runs when the scene is entirely on screen
 	end
