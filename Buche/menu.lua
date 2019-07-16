@@ -24,6 +24,11 @@ local function gotoHighscore()
     composer.gotoScene( "highscore", { time = 800, effect = "crossFade" } )
 end
 
+local function gotoCoins()
+    composer.removeScene( "coins" )
+    composer.gotoScene( "coins", { time = 800, effect = "crossFade" } )
+end
+
 
 -- -----------------------------------------------------------------------------------
 -- Scene event functions
@@ -31,42 +36,53 @@ end
 local widget = require("widget")
 local sfondotitle = display.newImageRect("sfondoTitle.png", 800, 1400 )
 sfondotitle.x = display.contentCenterX
-sfondotitle.y = display.contentCenterY
+sfondotitle.y = display.contentCenterY-30
 
+local coinsButton = widget.newButton
+{
+width = 420,
+height = 150,
+defaultFile = "coinsButton.png",
+}
+coinsButton.x = display.contentCenterX
+coinsButton.y = 650
+coinsButton.destination = "coins"
+coinsButton:addEventListener("tap", coinsButton)
+coinsButton:addEventListener( "tap", gotoCoins )
 
 
 local playButton = widget.newButton
 {
-width = 450,
-height = 180,
+width = 420,
+height = 150,
 defaultFile = "playgame.png",
 }
 playButton.x = display.contentCenterX
-playButton.y = 700
+playButton.y = 800
 playButton.destination = "game"
 playButton:addEventListener("tap", playButton)
 playButton:addEventListener( "tap", gotoGame )
 
 local levelsButton = widget.newButton
 {
-width = 450,
-height = 180,
+width = 420,
+height = 150,
 defaultFile = "levels.png",
 }
 levelsButton.x = display.contentCenterX
-levelsButton.y = 890
+levelsButton.y = 950
 levelsButton.destination = "levelselect"
 levelsButton:addEventListener("tap", levelsButton)
 levelsButton:addEventListener( "tap", gotoLevelSelect )
 
 local highscoreButton = widget.newButton
 {
-width = 450,
-height = 180,
+width = 420,
+height = 150,
 defaultFile = "highscore.png",
 }
 highscoreButton.x = display.contentCenterX
-highscoreButton.y = 1070
+highscoreButton.y = 1100
 highscoreButton.destination = "highscore"
 highscoreButton:addEventListener("tap", highscoreButton)
 highscoreButton:addEventListener( "tap", gotoHighscore )
