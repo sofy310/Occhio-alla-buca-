@@ -24,7 +24,7 @@ local function gotoHighscore()
     composer.gotoScene( "highscore", { time = 800, effect = "crossFade" } )
 end
 
-local function gotoSelectBus()
+local function gotoShop()
     composer.removeScene( "selectBus" )
     composer.gotoScene( "selectBus", { time = 800, effect = "crossFade" } )
 end
@@ -39,54 +39,54 @@ sfondotitle.x = display.contentCenterX
 sfondotitle.y = display.contentCenterY
 
 
-
 local playButton = widget.newButton
 {
-width = 450,
-height = 180,
+width = 420,
+height = 140,
 defaultFile = "playgame.png",
 }
 playButton.x = display.contentCenterX
-playButton.y = 700
+playButton.y = 650
 playButton.destination = "game"
 playButton:addEventListener("tap", playButton)
 playButton:addEventListener( "tap", gotoGame )
 
 local levelsButton = widget.newButton
 {
-width = 450,
-height = 180,
+width = 420,
+height = 150,
 defaultFile = "levels.png",
 }
 levelsButton.x = display.contentCenterX
-levelsButton.y = 890
+levelsButton.y = 810
 levelsButton.destination = "levelselect"
 levelsButton:addEventListener("tap", levelsButton)
 levelsButton:addEventListener( "tap", gotoLevelSelect )
 
 local highscoreButton = widget.newButton
 {
-width = 450,
-height = 180,
+width = 420,
+height = 150,
 defaultFile = "highscore.png",
 }
 highscoreButton.x = display.contentCenterX
-highscoreButton.y = 1070
+highscoreButton.y = 970
 highscoreButton.destination = "highscore"
 highscoreButton:addEventListener("tap", highscoreButton)
 highscoreButton:addEventListener( "tap", gotoHighscore )
 
-local coinButton = widget.newButton
+
+local shopButton = widget.newButton
 {
-width = 120,
-height = 120,
-defaultFile = "coin.png",
+width = 420,
+height = 150,
+defaultFile = "shopButton.png",
 }
-coinButton.x = display.contentCenterX - 300
-coinButton.y = 700
-coinButton.destination = "selectBus"
-coinButton:addEventListener("tap", coinButton)
-coinButton:addEventListener( "tap", gotoSelectBus )
+shopButton.x = display.contentCenterX
+shopButton.y = 1130
+shopButton.destination = "selectBus"
+shopButton:addEventListener("tap", shopButton)
+shopButton:addEventListener( "tap", gotoShop )
 
 --local highScoreButton = display.newText( "High Scores", display.contentCenterX, 810, native.systemFont, 44 )
 --highScoreButton:setFillColor( 0.75, 0.78, 1 )
@@ -131,6 +131,7 @@ function scene:hide( event )
 		playButton.isVisible = false
 		highscoreButton.isVisible = false
 		levelsButton.isVisible = false
+		shopButton.isVisible = false
 	end
 end
 
