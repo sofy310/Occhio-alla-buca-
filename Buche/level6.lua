@@ -14,7 +14,6 @@ local crash = audio.loadSound("crash.wav")
 local live = audio.loadSound("lives.wav")
 local bounce = audio.loadSound("bounce.wav")
 local largeCrash = audio.loadSound("largeCrash.wav")
-local vittoria = audio.loadSound("vittoria.wav")
 local scream = audio.loadSound("scream.mp3")
 
 --Load background
@@ -23,10 +22,17 @@ background.x = display.contentCenterX
 background.y = display.contentCenterY
 local backgroundMusic = audio.loadStream( "occhioAllaBuca.wav" )
 
+
+
+--Adding physics
+local physics = require( "physics" )
+physics.start()
+physics.setGravity( 0, 0 )
+
+
+
 local bg1
 local bg2
-local runtime = 0
-local scrollSpeed = 8.5
 
 --Scrollable Background
 local function addScrollableBg()
@@ -45,10 +51,9 @@ local function addScrollableBg()
     bg2.y = display.contentCenterY - display.actualContentHeight
 end
 
-local function moveBg(dt)
-    bg1.y = bg1.y + scrollSpeed * dt
-    bg2.y = bg2.y + scrollSpeed * dt
-
+local function moveBg()
+    bg1.y = bg1.y + 18
+    bg2.y = bg2.y + 18
     if (bg1.y - display.contentHeight/2) > display.actualContentHeight then
         bg1:translate(0, -bg1.contentHeight * 2)
     end
@@ -57,40 +62,26 @@ local function moveBg(dt)
     end
 end
 
-local function getDeltaTime()
-   local temp = system.getTimer()
-   local dt = (temp-runtime) / (1000/60)
-   runtime = temp
-   return dt
-end
 
 local function enterFrame()
-    local dt = getDeltaTime()
-    moveBg(dt)
+    moveBg()
 end
 
-function init()
-    addScrollableBg()
-    Runtime:addEventListener("enterFrame", enterFrame)
-end
+addScrollableBg()
+Runtime:addEventListener("enterFrame", enterFrame)
 
-init()
 
---Adding physics
-local physics = require( "physics" )
-physics.start()
-physics.setGravity( 0, 0 )
 
 -- load BORDO SX
 local bordoSX = display.newImageRect( "bordo.png", 8, 2100)
-bordoSX.x = display.contentCenterX - 460
+bordoSX.x = display.contentCenterX - 360
 bordoSX.y = display.contentCenterY
 bordoSX.myName = "bordoSX"
 physics.addBody(bordoSX, "static")
 
 -- load BORDO DX
 local bordoDX = display.newImageRect( "bordo.png", 8, 2100)
-bordoDX.x = display.contentCenterX + 460
+bordoDX.x = display.contentCenterX + 360
 bordoDX.y = display.contentCenterY
 bordoDX.myName = "bordoDX"
 physics.addBody(bordoDX, "static")
@@ -98,15 +89,19 @@ physics.addBody(bordoDX, "static")
 --Display finish
 --local finish = display.newImageRect( "finish.png", 150, 150 )
 --finish.x = display.contentCenterX+215
---finish.y = display.contentCenterY-600
+--finish.y = display.contentCenterY-1080
 --finish.myName = "finish"
 --physics.addBody(finish, "static")
 
 --Initialize variables
 local lives = 3
-local timeLeft = 5
+local score = 0
+--local scoreLimit = 30
+local timeLeft = 90
 local died = false
+
 local livesText
+local scoreText
 local punteggioText
 local timeText
 local bucheTable = {}
@@ -116,12 +111,13 @@ local uiGroup = display.newGroup()
 local mainGroup = display.newGroup()
 
 
+
 --Display lives, score and timer
 livesText = display.newText( uiGroup, "Lives: ".. lives, 280, -110, native.systemFontBold, 50)
 livesText:setFillColor( 1, 0, 0 )
 
 
-local countDown = 100
+local countDown = 60
 pauseTime = false;
 resumeTime = true;
 
@@ -157,7 +153,7 @@ function gameOver()
     countDown = countDown - 1
 end
 
-Timer1 = timer.performWithDelay( 1000, gameOver, 101 )
+Timer1 = timer.performWithDelay( 1000, gameOver, 61 )
 
 
 --Load autobus
@@ -166,6 +162,9 @@ autobus.x = display.contentCenterX
 autobus.y = display.contentHeight-30
 physics.addBody(autobus, "dynamic", {isSensor = true})
 autobus.myName = "autobus"
+
+
+
 
 --Move the autobus
 local function moveAutobus(event)
@@ -222,61 +221,117 @@ explosion.y = 1111111
 
 
 
--- Load RUOTA
-local ruoteTable = {}
-local function createRuota()
-    local newRuota = display.newImageRect(mainGroup, "ruota.png", 100, 100)
-	table.insert(ruoteTable, newRuota)
-	physics.addBody(newRuota, "dynamic", { bounce = 0})
-    newRuota.myName = "ruota"
-   
-	local whereFrom = math.random(3)
-	
-    if ( whereFrom == 1 ) then
-        newRuota.x = display.contentCenterX -200
-        newRuota.y = -100
-        newRuota:setLinearVelocity(0, 460 )
-
-	elseif ( whereFrom == 2 ) then
-		newRuota.x = display.contentCenterX +200
-		newRuota.y = -100
-        newRuota:setLinearVelocity(0, 460 )
-
-	elseif ( whereFrom == 3 ) then
-		newRuota.x = display.contentCenterX
-		newRuota.y = -100
-        newRuota:setLinearVelocity(0, 460 )
-	end
-	newRuota:applyTorque( math.random( 3,5 ) )
-end
--- loop RUOTA
-local function ruotaLoop()
-	createRuota()
-	for i = #ruoteTable, 1, -1 do
-        local thisRuota = ruoteTable[i]
+-- sprite listener function
+local function spriteListener( event )
  
-        if ( thisRuota.x < -100 or
-             thisRuota.x > display.contentWidth + 100 or
-             thisRuota.y < -100 or
-             thisRuota.y > display.contentHeight + 100 )
-        then
-            display.remove( thisRuota )
-            table.remove( ruoteTable, i )
-        end
+    local thisSprite = event.target  -- "event.target" references the sprite
+ 
+    if ( event.phase == "ended" ) then
+         
     end
 end
-ruotaLoopTimer = timer.performWithDelay( 10000, ruotaLoop, 0 )
+ 
+-- add the event listener to the sprite
+explosion:addEventListener( "sprite", spriteListener )
 
-local function deleteRuota()
-    for i = #ruoteTable, 1, -1 do
-        local thisRuota = ruoteTable[i]
-        display.remove(thisRuota)
-        table.remove( ruoteTable, i )
 
+--pause game
+function pauseGame(event)
+    --if end of touch event
+    if(event.phase == "ended") then
+        --pause the physics
+        physics.pause()
+        Runtime:removeEventListener( "enterFrame", enterFrame )
+        audio.pause( 1 )
+        timer.pause( gameLoopTimer )
+        timer.pause( car1LoopTimer)
+        timer.pause( ruotaLoopTimer)
+        timer.pause( Timer1)
+        autobus:removeEventListener("touch", moveAutobus)
+
+        --make pause button invisible
+        pauseBtn.isVisible = false
+        --make resume button visible
+        resumeBtn.isVisible = true
+        menuBtn.isVisible = true
+
+        -- indicates successful touch
+        return true
     end
 end
-    
-local pedoniTable = {}
+ 
+--resume game
+function resumeGame(event)
+    --if end of touch event
+    if(event.phase == "ended") then
+        --resume physics
+        physics.start()
+        Runtime:addEventListener( "enterFrame", enterFrame )
+        autobus:addEventListener("touch", moveAutobus)
+        timer.resume( gameLoopTimer )
+        timer.resume( car1LoopTimer)
+        timer.resume( ruotaLoopTimer)
+        timer.resume( Timer1)
+        audio.resume( 1 )
+
+        --make pause button visible
+        pauseBtn.isVisible = true
+        --make resume button invisible
+        resumeBtn.isVisible = false
+        --make menu button invisible
+        menuBtn.isVisible = false
+        -- indicates successful touch
+        return true
+    end
+end
+local function gotoMenu()
+	composer.removeScene("menu")
+    composer.gotoScene( "menu", { time = 800, effect = "crossFade" } )
+            --make pause button visible
+        pauseBtn.isVisible = false
+        --make resume button invisible
+        resumeBtn.isVisible = false
+        --make menu button invisible
+        menuBtn.isVisible = false
+end
+
+    --define button dimensions
+    local btnW, btnH = 250, 100
+     
+    --create pause button
+    pauseBtn = display.newImageRect( "pause.png", btnW, btnH )
+     
+    --place button in center
+    pauseBtn.x, pauseBtn.y = display.contentCenterX, display.contentHeight-1000
+     
+    --add event
+    pauseBtn:addEventListener( "touch", pauseGame ) 
+     
+    --create resume button
+    resumeBtn = display.newImageRect( "resume.png", btnW, btnH )
+     
+    --put it on pause button
+    resumeBtn.x, resumeBtn.y = display.contentCenterX, display.contentHeight-1000
+     
+    --and hide it
+    resumeBtn.isVisible = false
+     
+    --add event
+    resumeBtn:addEventListener( "touch", resumeGame ) 
+
+    --create menu button
+    menuBtn = display.newImageRect( "menu.png", btnW, btnH )
+     
+    --put it on pause button
+    menuBtn.x, menuBtn.y = display.contentCenterX, display.contentHeight-850
+     
+    --and hide it
+    menuBtn.isVisible = false
+     
+    --add event
+    menuBtn:addEventListener( "touch", gotoMenu ) 
+
+    local pedoniTable = {}
 -- load PEDONE1 (SX)
 local function createPedone1()
     local newPedone1 = display.newImageRect(mainGroup, "pedonesx.png", 125, 130)
@@ -290,12 +345,12 @@ local function createPedone1()
     if ( whereFrom == 1 ) then
         newPedone1.x = display.contentCenterX -250
         newPedone1.y = -100
-        newPedone1:setLinearVelocity(math.random( 100,300 ), 460 )
+        newPedone1:setLinearVelocity(math.random( 100,300 ), 1080 )
         audio.play(scream)
     elseif ( whereFrom == 2 ) then
         newPedone1.x = display.contentCenterX -250
         newPedone1.y = 0
-        newPedone1:setLinearVelocity(math.random( 100,300 ), 460 )
+        newPedone1:setLinearVelocity(math.random( 100,300 ), 1080 )
         audio.play(scream)
 	end
 end
@@ -370,6 +425,65 @@ local function deletePedone2()
         table.remove( pedoniTable, i )
     end
 end
+
+-- Load RUOTA
+local ruoteTable = {}
+local function createRuota()
+    local newRuota = display.newImageRect(mainGroup, "ruota.png", 100, 100)
+	table.insert(ruoteTable, newRuota)
+	physics.addBody(newRuota, "dynamic", {radius = 40, bounce = 0})
+    newRuota.myName = "ruota"
+   
+	local whereFrom = math.random(10)
+	
+    if ( whereFrom == 1 ) then
+        newRuota.x = display.contentCenterX -200
+        newRuota.y = -100
+        newRuota:setLinearVelocity(0, 1080)
+	elseif ( whereFrom == 2 ) then
+		newRuota.x = display.contentCenterX +200
+		newRuota.y = -100
+        newRuota:setLinearVelocity(0, 1080)
+	elseif ( whereFrom == 3 ) then
+		newRuota.x = display.contentCenterX
+		newRuota.y = -100
+        newRuota:setLinearVelocity(0, 1080)
+    else 
+        newRuota.x = display.contentCenterX
+        newRuota.y = -200 
+        newRuota:setLinearVelocity(0, 0 )
+
+	end
+	newRuota:applyTorque( math.random( 3,5 ) )
+end
+-- loop RUOTA
+local function ruotaLoop()
+	createRuota()
+	for i = #ruoteTable, 1, -1 do
+        local thisRuota = ruoteTable[i]
+ 
+        if ( thisRuota.x < -100 or
+             thisRuota.x > display.contentWidth + 100 or
+             thisRuota.y < -100 or
+             thisRuota.y > display.contentHeight + 100 )
+        then
+            display.remove( thisRuota )
+            table.remove( ruoteTable, i )
+        end
+    end
+end
+ruotaLoopTimer = timer.performWithDelay( 10000, ruotaLoop, 0 )
+
+local function deleteRuota()
+    for i = #ruoteTable, 1, -1 do
+        local thisRuota = ruoteTable[i]
+        display.remove(thisRuota)
+        table.remove( ruoteTable, i )
+
+    end
+end
+    
+
 -- Load CAR1
 local carsTable = {}
 local function createCar1()
@@ -383,17 +497,16 @@ local function createCar1()
     if ( whereFrom == 1 ) then
         newCar1.x = display.contentCenterX -240
         newCar1.y = -100
-        newCar1:setLinearVelocity(0, math.random( 500,750 ) )
+        newCar1:setLinearVelocity(0, math.random( 1300, 1500 ) )
         audio.play( clacson)
+
 
 		--newCar1:setLinearVelocity(0,100)
 	elseif ( whereFrom == 2 ) then
 		newCar1.x = display.contentCenterX -100
 		newCar1.y = -100
-        newCar1:setLinearVelocity(0, math.random( 500,750 ) )
+        newCar1:setLinearVelocity(0, math.random( 1300, 1500 ) )
         audio.play( clacson)
-
-        --newCar1:setLinearVelocity(0,100)
 
     end 
 end
@@ -413,7 +526,7 @@ local function car1Loop()
         end
     end
 end
-car1LoopTimer = timer.performWithDelay( 6000, car1Loop, 0 )
+car1LoopTimer = timer.performWithDelay( 5000, car1Loop, 0 )
 
 local function deleteCar()
     for i = #carsTable, 1, -1 do
@@ -438,28 +551,28 @@ local function createBuca1()
         -- buca1 From the topLeft
         newBuca1.x = display.contentCenterX -200
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 460 )
+        newBuca1:setLinearVelocity(0, 1080)
     elseif ( whereFrom == 2 ) then
         -- buca1 From the topCenter
         newBuca1.x = display.contentCenterX
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 460 )
+        newBuca1:setLinearVelocity(0, 1080)
     elseif ( whereFrom == 3 ) then
         -- buca1 From the topRight
         newBuca1.x = display.contentCenterX +200
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 460 )
+        newBuca1:setLinearVelocity(0, 1080)
     elseif ( whereFrom == 4 ) then
         -- buca2 From the topLeft
         newBuca1.x = display.contentCenterX -96
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 460 )
+        newBuca1:setLinearVelocity(0, 1080)
     
     elseif ( whereFrom == 5 ) then
         -- buca2 From the topCenter
         newBuca1.x = display.contentCenterX +96
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 460 )
+        newBuca1:setLinearVelocity(0, 1080)
     end
 end
 
@@ -467,7 +580,7 @@ end
 local function createBuca2()
 	local newBuca2 = display.newImageRect(mainGroup, "buca2.png", math.random(90, 130), math.random(90, 130))
     table.insert(bucheTable, newBuca2)
-    physics.addBody(newBuca2, "kinematic", { bounce = 0})
+    physics.addBody(newBuca2, "kinematic", {bounce = 0})
     newBuca2.myName = "buca2"
 
 	local whereFrom = math.random(3)
@@ -476,17 +589,17 @@ local function createBuca2()
         -- buca2 From the topRight
         newBuca2.x = display.contentCenterX +96
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 460 )
+        newBuca2:setLinearVelocity(0, 1080)
     elseif ( whereFrom == 2 ) then
         -- buca3 From the topLeft
         newBuca2.x = display.contentCenterX -96
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 460 )  
+        newBuca2:setLinearVelocity(0, 1080)  
     elseif ( whereFrom == 3 ) then
         -- buca3 From the topCenter
         newBuca2.x = display.contentCenterX
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 460 )
+        newBuca2:setLinearVelocity(0, 1080)
 	end
 end
 
@@ -495,7 +608,7 @@ local function createBuca3()
 
 	local newBuca3 = display.newImageRect(mainGroup, "buca3.png", math.random(90, 130), math.random(90, 130))
     table.insert(bucheTable, newBuca3)
-    physics.addBody(newBuca3, "kinematic", { bounce = 0})
+    physics.addBody(newBuca3, "kinematic", {bounce = 0})
     newBuca3.myName = "buca3"
 
 	local whereFrom = math.random(3)
@@ -504,17 +617,17 @@ local function createBuca3()
         -- buca3 From the topRight
         newBuca3.x = display.contentCenterX +96
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 460 ) 
+        newBuca3:setLinearVelocity(0, 1080) 
     elseif ( whereFrom == 2 ) then
         -- From the topRight
         newBuca3.x = display.contentCenterX -96
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 460 )   
+        newBuca3:setLinearVelocity(0, 1080)   
     elseif ( whereFrom == 3 ) then
         -- From the topRight
         newBuca3.x = display.contentCenterX
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 460 )
+        newBuca3:setLinearVelocity(0, 1080)
 	end
 end
 
@@ -579,12 +692,12 @@ end
 
 -- endGAME
 local function endGame()
-    composer.removeScene("levelselect")
-    composer.gotoScene( "levelselect", { time=800, effect="crossFade" } )
+    explosion:pause() 
+
+    composer.setVariable("finalScore", score)
+    composer.removeScene("highscore")
+    composer.gotoScene( "highscore", { time=800, effect="crossFade" } )
 end
-
-
-
 
 -- collisione AUTOBUS/BUCA e AUTOBUS/LINEE
 local function onCollision( event )
@@ -598,10 +711,11 @@ local function onCollision( event )
         if ( ( obj1.myName == "autobus" and obj2.myName == "buca1" ) or
              ( obj1.myName == "buca1" and obj2.myName == "autobus" ) )
         then
-            audio.play(crash)
             explosion:play() 
             explosion.x = autobus.x
             explosion.y = autobus.y
+            
+            audio.play(crash)
 
             if ( died == false ) then
                 died = true
@@ -612,8 +726,6 @@ local function onCollision( event )
 
                 if ( lives == 0 ) then
                     display.remove( autobus )
-                    local looseText = display.newText( "You Loose!", 420, 197, "comic sans ms", 80)
-                    looseText:setTextColor(1, 0, 0)
                     timer.performWithDelay( 2000, endGame )
 
                 else
@@ -627,11 +739,12 @@ local function onCollision( event )
         if ( (obj1.myName == "autobus" and obj2.myName == "buca2") or
               obj1.myName == "buca2" and obj2.myName == "autobus") 
         then
-            audio.play(crash)
             explosion:play() 
             explosion.x = autobus.x
             explosion.y = autobus.y
-
+            
+            audio.play(crash)
+ 
             if (died == false) then
                 died = true
 
@@ -653,10 +766,11 @@ local function onCollision( event )
         if ( (obj1.myName == "autobus" and obj2.myName == "buca3") or
               obj1.myName == "buca3" and obj2.myName == "autobus") 
         then
-            audio.play(crash)
             explosion:play() 
             explosion.x = autobus.x
             explosion.y = autobus.y
+            
+            audio.play(crash)
 
              if (died == false) then
                 died = true
@@ -692,23 +806,108 @@ local function onCollision( event )
         (obj1.myName == "buca1" and obj2.myName == "car1"))
         then
             audio.play(bounce)
+   
             deleteCar()
         end
 
         if ( (obj1.myName == "car1" and obj2.myName == "buca2") or
         (obj1.myName == "buca2" and obj2.myName == "car1"))
         then
+
             audio.play(bounce)
+
             deleteCar()
         end
 
         if ( (obj1.myName == "car1" and obj2.myName == "buca3") or
         (obj1.myName == "buca3" and obj2.myName == "car1"))
         then
+
             audio.play(bounce)
+
             deleteCar()
         end 
 
+        if ( (obj1.myName == "car1" and obj2.myName == "autobus") or
+        (obj1.myName == "autobus" and obj2.myName == "car1"))
+        then
+            explosion:play() 
+            explosion.x = autobus.x
+            explosion.y = autobus.y
+            
+            audio.play(largeCrash)
+   
+            if (died == false) then
+               died = true
+
+               --Update lives
+               lives = lives -1
+               livesText.text = "Lives: "..lives
+
+               if (lives == 0) then 
+                   display.remove(autobus)
+                   timer.performWithDelay( 2000, endGame )
+
+               else
+                   autobus.alpha = 0
+                   timer.performWithDelay( 1000, restoreAutobus)
+               end
+            end    
+       end
+
+        if ( ( obj1.myName == "bordoDX" and obj2.myName == "autobus" ) or
+             ( obj1.myName == "autobus" and obj2.myName == "bordoDX" ) )
+         then
+            explosion:play() 
+            explosion.x = autobus.x
+            explosion.y = autobus.y
+            
+            audio.play(bounce)
+ 
+            if (died == false) then
+                died = true
+
+                --Update lives
+                lives = lives -1
+                livesText.text = "Lives: "..lives
+
+                if (lives == 0) then 
+                    display.remove(autobus)
+                    timer.performWithDelay( 2000, endGame )
+                else
+                    autobus.alpha = 0
+                    timer.performWithDelay( 1000, restoreAutobus)
+                end
+            end    
+        end
+
+        if ( (obj1.myName == "bordoSX" and obj2.myName == "autobus") or
+              obj1.myName == "autobus" and obj2.myName == "bordoSX") 
+         then
+            explosion:play() 
+            explosion.x = autobus.x
+            explosion.y = autobus.y
+            
+            audio.play(bounce)
+
+            
+            if (died == false) then
+                died = true
+
+                --Update lives
+                lives = lives -1
+                livesText.text = "Lives: "..lives
+
+                if (lives == 0) then 
+                    display.remove(autobus)
+                    timer.performWithDelay( 2000, endGame )
+
+                else
+                    autobus.alpha = 0
+                    timer.performWithDelay( 1000, restoreAutobus)
+                end
+            end    
+        end     
         if ( (obj1.myName == "pedone1" and obj2.myName == "buca1") or
         (obj1.myName == "buca1" and obj2.myName == "pedone1"))
         then
@@ -749,83 +948,6 @@ local function onCollision( event )
         then
             audio.play(bounce)
             deletePedone2()
-        end 
-
-        if ( (obj1.myName == "car1" and obj2.myName == "autobus") or
-        (obj1.myName == "autobus" and obj2.myName == "car1"))
-        then
-            audio.play(largeCrash)
-            explosion:play() 
-            explosion.x = autobus.x
-            explosion.y = autobus.y
-
-            if (died == false) then
-               died = true
-
-               --Update lives
-               lives = lives -1
-               livesText.text = "Lives: "..lives
-
-               if (lives == 0) then 
-                   display.remove(autobus)
-                   timer.performWithDelay( 2000, endGame )
-
-               else
-                   autobus.alpha = 0
-                   timer.performWithDelay( 1000, restoreAutobus)
-               end
-            end    
-       end
-
-        if ( ( obj1.myName == "bordoDX" and obj2.myName == "autobus" ) or
-             ( obj1.myName == "autobus" and obj2.myName == "bordoDX" ) )
-         then
-            audio.play(bounce)
-            explosion:play() 
-            explosion.x = autobus.x
-            explosion.y = autobus.y
-
-            if (died == false) then
-                died = true
-
-                --Update lives
-                lives = lives -1
-                livesText.text = "Lives: "..lives
-
-                if (lives == 0) then 
-                    display.remove(autobus)
-                    timer.performWithDelay( 2000, endGame )
-                else
-                    autobus.alpha = 0
-                    timer.performWithDelay( 1000, restoreAutobus)
-                end
-            end    
-        end
-
-        if ( (obj1.myName == "bordoSX" and obj2.myName == "autobus") or
-              obj1.myName == "autobus" and obj2.myName == "bordoSX") 
-         then
-            audio.play(bounce)
-            explosion:play() 
-            explosion.x = autobus.x
-            explosion.y = autobus.y
-
-            if (died == false) then
-                died = true
-
-                --Update lives
-                lives = lives -1
-                livesText.text = "Lives: "..lives
-
-                if (lives == 0) then 
-                    display.remove(autobus)
-                    timer.performWithDelay( 2000, endGame )
-
-                else
-                    autobus.alpha = 0
-                    timer.performWithDelay( 1000, restoreAutobus)
-                end
-            end    
         end  
         if ( ( obj1.myName == "autobus" and obj2.myName == "pedone1" ) or
         ( obj1.myName == "" and obj2.myName == "autobus" ) ) then
@@ -878,13 +1000,11 @@ local function onCollision( event )
                     autobus.alpha = 0
                     timer.performWithDelay( 1000, restoreAutobus )
                 end
-            end            
+            end             
         end
     end
 end
 Runtime:addEventListener( "collision", onCollision )
-
-
 
 
 -- -----------------------------------------------------------------------------------
@@ -896,6 +1016,7 @@ function scene:create( event )
 
 	local sceneGroup = self.view
 	-- Code here runs when the scene is first created but has not yet appeared on screen
+    autobus: addEventListener( "touch", moveAutobus)
 
 
 end
@@ -909,11 +1030,10 @@ function scene:show( event )
 
 	if ( phase == "will" ) then
 		-- Code here runs when the scene is still off screen (but is about to come on screen)
-
+        
 	elseif ( phase == "did" ) then
 		-- Code here runs when the scene is entirely on screen
         --Adding physics
-  
 
     end
     
@@ -933,19 +1053,19 @@ function scene:hide( event )
         timer.cancel( gameLoopTimer )
         timer.cancel( car1LoopTimer)
         timer.cancel( ruotaLoopTimer)
+        timer.cancel( Timer1)
         timer.cancel( pedoniLoopTimer)
-        timer.cancel(Timer1)
 
 
 	elseif ( phase == "did" ) then
-		-- Code here runs immediately after the scene goes entirely off screen
+        -- Code here runs immediately after the scene goes entirely off screen
         Runtime:removeEventListener( "collision", onCollision )
-        Runtime:removeEventListener("enterFrame", enterFrame)
+        Runtime:removeEventListener( "enterFrame", enterFrame )
+        pauseBtn:removeEventListener( "touch", pauseGame ) 
         explosion:pause() 
 
         physics.pause()
         audio.stop( 1 )
-
 	end
 end
 

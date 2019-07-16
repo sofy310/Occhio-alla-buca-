@@ -50,8 +50,8 @@ local function addScrollableBg()
 end
 
 local function moveBg()
-    bg1.y = bg1.y + 10
-    bg2.y = bg2.y + 10
+    bg1.y = bg1.y + 13
+    bg2.y = bg2.y + 13
     if (bg1.y - display.contentHeight/2) > display.actualContentHeight then
         bg1:translate(0, -bg1.contentHeight * 2)
     end
@@ -87,7 +87,7 @@ physics.addBody(bordoDX, "static")
 --Display finish
 --local finish = display.newImageRect( "finish.png", 150, 150 )
 --finish.x = display.contentCenterX+215
---finish.y = display.contentCenterY-600
+--finish.y = display.contentCenterY-780
 --finish.myName = "finish"
 --physics.addBody(finish, "static")
 
@@ -116,7 +116,7 @@ scoreText = display.newText( uiGroup, "Score: ", 477, -110, native.systemFontBol
 scoreText:setFillColor( 1, 0, 0 )
 punteggioText = display.newText( uiGroup, " ".. score, 575, -110, native.systemFontBold, 55)
 punteggioText:setFillColor( 1, 0, 0 )
---timeText = display.newText(uiGroup, " "..timeLeft, 600, -110, native.systemFontBold, 75)
+--timeText = display.newText(uiGroup, " "..timeLeft, 780, -110, native.systemFontBold, 75)
 --timeText:setTextColor(0,0,1)
 
 --Timer UP
@@ -332,15 +332,15 @@ local function createRuota()
     if ( whereFrom == 1 ) then
         newRuota.x = display.contentCenterX -200
         newRuota.y = -100
-        newRuota:setLinearVelocity(0, 600)
+        newRuota:setLinearVelocity(0, 780)
 	elseif ( whereFrom == 2 ) then
 		newRuota.x = display.contentCenterX +200
 		newRuota.y = -100
-        newRuota:setLinearVelocity(0, 600)
+        newRuota:setLinearVelocity(0, 780)
 	elseif ( whereFrom == 3 ) then
 		newRuota.x = display.contentCenterX
 		newRuota.y = -100
-        newRuota:setLinearVelocity(0, 600)
+        newRuota:setLinearVelocity(0, 780)
     else 
         newRuota.x = display.contentCenterX
         newRuota.y = -200 
@@ -376,7 +376,71 @@ local function deleteRuota()
     end
 end
     
+--Load Coins
+local coinsTable = {}
+local function createCoin()
+    local newCoin = display.newImageRect(mainGroup, "coin.png", 50, 50)
+    table.insert(coinsTable, newCoin)
+    physics.addBody(newCoin, "dynamic", {bounce = 0})
+    newCoin.myName = "coin"
 
+    local whereFrom = math.random(5)
+    
+    if ( whereFrom == 1 ) then
+        -- buca1 From the topLeft
+        newCoin.x = display.contentCenterX -200
+        newCoin.y = -100
+        newCoin:setLinearVelocity(0, 780)
+    elseif ( whereFrom == 2 ) then
+        -- buca1 From the topCenter
+        newCoin.x = display.contentCenterX
+        newCoin.y = -100
+        newCoin:setLinearVelocity(0, 780)
+    elseif ( whereFrom == 3 ) then
+        -- buca1 From the topRight
+        newCoin.x = display.contentCenterX +200
+        newCoin.y = -100
+        newCoin:setLinearVelocity(0, 780)
+    elseif ( whereFrom == 4 ) then
+        -- buca2 From the topLeft
+        newCoin.x = display.contentCenterX -96
+        newCoin.y = -100
+        newCoin:setLinearVelocity(0, 780)
+    
+    elseif ( whereFrom == 5 ) then
+        -- buca2 From the topCenter
+        newCoin.x = display.contentCenterX +96
+        newCoin.y = -100
+        newCoin:setLinearVelocity(0, 780)
+    end
+	newCoin:applyTorque(0.4)
+
+end
+
+-- loop BUCHE
+local function coinsLoop()
+
+    createCoin()
+
+    for i = #coinsTable, 1, -1 do
+        local thisCoin = coinsTable[i]
+
+        if (thisCoin.y < -100 or
+             thisCoin.y > display.contentHeight + 100 )
+        then
+            display.remove( thisCoin )
+            table.remove( coinsTable, i )
+        end
+    end
+end
+coinsLoopTimer = timer.performWithDelay(500, coinsLoop, 0 )
+
+
+local function deleteCoin(i)
+        local thisCoin = coinsTable[i]
+        display.remove(thisCoin)
+        table.remove( coinsTable, i )
+end
 -- Load CAR1
 local carsTable = {}
 local function createCar1()
@@ -390,7 +454,7 @@ local function createCar1()
     if ( whereFrom == 1 ) then
         newCar1.x = display.contentCenterX -240
         newCar1.y = -100
-        newCar1:setLinearVelocity(0, math.random( 650, 850 ) )
+        newCar1:setLinearVelocity(0, math.random( 900, 1100 ) )
         audio.play( clacson)
 
 
@@ -398,7 +462,7 @@ local function createCar1()
 	elseif ( whereFrom == 2 ) then
 		newCar1.x = display.contentCenterX -100
 		newCar1.y = -100
-        newCar1:setLinearVelocity(0, math.random( 500, 700 ) )
+        newCar1:setLinearVelocity(0, math.random( 900, 1100 ) )
         audio.play( clacson)
 
     end 
@@ -444,28 +508,28 @@ local function createBuca1()
         -- buca1 From the topLeft
         newBuca1.x = display.contentCenterX -200
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 600)
+        newBuca1:setLinearVelocity(0, 780)
     elseif ( whereFrom == 2 ) then
         -- buca1 From the topCenter
         newBuca1.x = display.contentCenterX
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 600)
+        newBuca1:setLinearVelocity(0, 780)
     elseif ( whereFrom == 3 ) then
         -- buca1 From the topRight
         newBuca1.x = display.contentCenterX +200
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 600)
+        newBuca1:setLinearVelocity(0, 780)
     elseif ( whereFrom == 4 ) then
         -- buca2 From the topLeft
         newBuca1.x = display.contentCenterX -96
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 600)
+        newBuca1:setLinearVelocity(0, 780)
     
     elseif ( whereFrom == 5 ) then
         -- buca2 From the topCenter
         newBuca1.x = display.contentCenterX +96
         newBuca1.y = -100
-        newBuca1:setLinearVelocity(0, 600)
+        newBuca1:setLinearVelocity(0, 780)
     end
 end
 
@@ -476,24 +540,35 @@ local function createBuca2()
     physics.addBody(newBuca2, "kinematic", {bounce = 0})
     newBuca2.myName = "buca2"
 
-	local whereFrom = math.random(3)
-
-	if ( whereFrom == 1 ) then
-        -- buca2 From the topRight
-        newBuca2.x = display.contentCenterX +96
+    local whereFrom = math.random(5)
+	
+    if ( whereFrom == 1 ) then
+        -- buca2 From the topLeft
+        newBuca2.x = display.contentCenterX -200
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 600)
+        newBuca2:setLinearVelocity(0, 780)
     elseif ( whereFrom == 2 ) then
-        -- buca3 From the topLeft
-        newBuca2.x = display.contentCenterX -96
-        newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 600)  
-    elseif ( whereFrom == 3 ) then
-        -- buca3 From the topCenter
+        -- buca2 From the topCenter
         newBuca2.x = display.contentCenterX
         newBuca2.y = -100
-        newBuca2:setLinearVelocity(0, 600)
-	end
+        newBuca2:setLinearVelocity(0, 780)
+    elseif ( whereFrom == 3 ) then
+        -- buca2 From the topRight
+        newBuca2.x = display.contentCenterX +200
+        newBuca2.y = -100
+        newBuca2:setLinearVelocity(0, 780)
+    elseif ( whereFrom == 4 ) then
+        -- buca2 From the topLeft
+        newBuca2.x = display.contentCenterX -96
+        newBuca2.y = -100
+        newBuca2:setLinearVelocity(0, 780)
+    
+    elseif ( whereFrom == 5 ) then
+        -- buca2 From the topCenter
+        newBuca2.x = display.contentCenterX +96
+        newBuca2.y = -100
+        newBuca2:setLinearVelocity(0, 780)
+    end
 end
 
 -- load BUCA3
@@ -503,32 +578,42 @@ local function createBuca3()
     table.insert(bucheTable, newBuca3)
     physics.addBody(newBuca3, "kinematic", {bounce = 0})
     newBuca3.myName = "buca3"
-
-	local whereFrom = math.random(3)
-
-	if ( whereFrom == 1 ) then
-        -- buca3 From the topRight
-        newBuca3.x = display.contentCenterX +96
+    local whereFrom = math.random(5)
+	
+    if ( whereFrom == 1 ) then
+        -- buca3 From the topLeft
+        newBuca3.x = display.contentCenterX -200
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 600) 
+        newBuca3:setLinearVelocity(0, 780)
     elseif ( whereFrom == 2 ) then
-        -- From the topRight
-        newBuca3.x = display.contentCenterX -96
-        newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 600)   
-    elseif ( whereFrom == 3 ) then
-        -- From the topRight
+        -- buca3 From the topCenter
         newBuca3.x = display.contentCenterX
         newBuca3.y = -100
-        newBuca3:setLinearVelocity(0, 600)
-	end
+        newBuca3:setLinearVelocity(0, 780)
+    elseif ( whereFrom == 3 ) then
+        -- buca3 From the topRight
+        newBuca3.x = display.contentCenterX +200
+        newBuca3.y = -100
+        newBuca3:setLinearVelocity(0, 780)
+    elseif ( whereFrom == 4 ) then
+        -- buca3 From the topLeft
+        newBuca3.x = display.contentCenterX -96
+        newBuca3.y = -100
+        newBuca3:setLinearVelocity(0, 780)
+    
+    elseif ( whereFrom == 5 ) then
+        -- buca3 From the topCenter
+        newBuca3.x = display.contentCenterX +96
+        newBuca3.y = -100
+        newBuca3:setLinearVelocity(0, 780)
+    end
 end
 
 -- loop BUCHE
 local function gameLoop()
 	local whichBuca = math.random(3)
     if ( whichBuca == 1 ) then
-		createBuca1()
+		    createBuca1()
 	else if( whichBuca == 2 ) then
 			createBuca2()
 		else
@@ -541,23 +626,17 @@ local function gameLoop()
 		local thisBuca2 = bucheTable[i]
 		local thisBuca3 = bucheTable[i]
  
-        if ( thisBuca1.x < -100 or
-             thisBuca1.x > display.contentWidth + 100 or
-             thisBuca1.y < -100 or
+        if (thisBuca1.y < -100 or
              thisBuca1.y > display.contentHeight + 100 )
         then
             display.remove( thisBuca1 )
             table.remove( bucheTable, i )
-		elseif ( thisBuca2.x < -100 or
-             thisBuca2.x > display.contentWidth + 100 or
-             thisBuca2.y < -100 or
+		elseif (thisBuca2.y < -100 or
              thisBuca2.y > display.contentHeight + 100 )
         then
             display.remove( thisBuca2 )
             table.remove( bucheTable, i )
-		elseif ( thisBuca3.x < -100 or
-            thisBuca3.x > display.contentWidth + 100 or
-            thisBuca3.y < -100 or
+		elseif (thisBuca3.y < -100 or
             thisBuca3.y > display.contentHeight + 100 )
         then
             display.remove( thisBuca3 )
@@ -594,13 +673,17 @@ end
 
 -- collisione AUTOBUS/BUCA e AUTOBUS/LINEE
 local function onCollision( event )
- 
+    
+    
+
+
+
     if ( event.phase == "began" ) then
  
         local obj1 = event.object1
         local obj2 = event.object2
-        
-        
+
+        --Collisione AUTOBUS e BUCA
         if ( ( obj1.myName == "autobus" and obj2.myName == "buca1" ) or
              ( obj1.myName == "buca1" and obj2.myName == "autobus" ) )
         then
@@ -628,7 +711,7 @@ local function onCollision( event )
             end
  
         end
-
+        --Collisione AUTOBUS e BUCA
         if ( (obj1.myName == "autobus" and obj2.myName == "buca2") or
               obj1.myName == "buca2" and obj2.myName == "autobus") 
         then
@@ -655,7 +738,7 @@ local function onCollision( event )
                 end
             end    
         end
-
+        --Collisione AUTOBUS e BUCA
         if ( (obj1.myName == "autobus" and obj2.myName == "buca3") or
               obj1.myName == "buca3" and obj2.myName == "autobus") 
         then
@@ -683,6 +766,7 @@ local function onCollision( event )
 			 end    
         end
 
+        --Collisione AUTOBUS e RUOTA
         if((obj1.myName == "ruota" and obj2.myName == "autobus") or
         obj1.myName == "autobus" and obj2.myName == "ruota" )
         then
@@ -694,33 +778,7 @@ local function onCollision( event )
                 livesText.text = "Lives: "..lives
             end
         end
-        
-        if ( (obj1.myName == "car1" and obj2.myName == "buca1") or
-        (obj1.myName == "buca1" and obj2.myName == "car1"))
-        then
-            audio.play(bounce)
-   
-            deleteCar()
-        end
-
-        if ( (obj1.myName == "car1" and obj2.myName == "buca2") or
-        (obj1.myName == "buca2" and obj2.myName == "car1"))
-        then
-
-            audio.play(bounce)
-
-            deleteCar()
-        end
-
-        if ( (obj1.myName == "car1" and obj2.myName == "buca3") or
-        (obj1.myName == "buca3" and obj2.myName == "car1"))
-        then
-
-            audio.play(bounce)
-
-            deleteCar()
-        end 
-
+        --Collisione AUTOBUS e CAR
         if ( (obj1.myName == "car1" and obj2.myName == "autobus") or
         (obj1.myName == "autobus" and obj2.myName == "car1"))
         then
@@ -747,7 +805,7 @@ local function onCollision( event )
                end
             end    
        end
-
+        --Collisione AUTOBUS e BORDODX
         if ( ( obj1.myName == "bordoDX" and obj2.myName == "autobus" ) or
              ( obj1.myName == "autobus" and obj2.myName == "bordoDX" ) )
          then
@@ -773,7 +831,7 @@ local function onCollision( event )
                 end
             end    
         end
-
+        --Collisione AUTOBUS e BORDODX
         if ( (obj1.myName == "bordoSX" and obj2.myName == "autobus") or
               obj1.myName == "autobus" and obj2.myName == "bordoSX") 
          then
@@ -800,7 +858,87 @@ local function onCollision( event )
                     timer.performWithDelay( 1000, restoreAutobus)
                 end
             end    
-        end       
+        end
+
+        --Collisione CAR e BUCA
+        if ( (obj1.myName == "car1" and obj2.myName == "buca1") or
+        (obj1.myName == "buca1" and obj2.myName == "car1"))
+        then
+            audio.play(bounce)
+   
+            deleteCar()
+        end
+
+        if ( (obj1.myName == "car1" and obj2.myName == "buca2") or
+        (obj1.myName == "buca2" and obj2.myName == "car1"))
+        then
+
+            audio.play(bounce)
+
+            deleteCar()
+        end
+
+        if ( (obj1.myName == "car1" and obj2.myName == "buca3") or
+        (obj1.myName == "buca3" and obj2.myName == "car1"))
+        then
+
+            audio.play(bounce)
+
+            deleteCar()
+        end   
+        
+        --Collisione Buca e COIN
+        if ( (obj1.myName == "coin" and obj2.myName == "buca1") or
+        (obj1.myName == "buca1" and obj2.myName == "coin"))
+        then
+            if(obj1.myName == "coin")then 
+                obj1.isBodyActive = false
+                obj1.isVisible = false
+            end
+            if(obj2.myName == "coin")then
+                obj2.isBodyActive = false
+                obj2.isVisible = false            
+            end
+        end
+        if ( (obj1.myName == "coin" and obj2.myName == "buca2") or
+        (obj1.myName == "buca2" and obj2.myName == "coin"))
+        then
+            if(obj1.myName == "coin")then 
+                obj1.isBodyActive = false
+                obj1.isVisible = false
+            end
+            if(obj2.myName == "coin")then
+                obj2.isBodyActive = false
+                obj2.isVisible = false            
+            end
+        end
+
+        if ( (obj1.myName == "coin" and obj2.myName == "buca3") or
+        (obj1.myName == "buca3" and obj2.myName == "coin"))
+        then
+            if(obj1.myName == "coin")then 
+                obj1.isBodyActive = false
+                obj1.isVisible = false
+            end
+            if(obj2.myName == "coin")then
+                obj2.isBodyActive = false
+                obj2.isVisible = false            
+            end
+        end              
+        --Collisione tra CAR e COIN
+        if ( (obj1.myName == "coin" and obj2.myName == "car1") or
+        (obj1.myName == "car1" and obj2.myName == "coin"))
+        then
+            if(obj1.myName == "coin")then 
+                obj1.isBodyActive = false
+                obj1.isVisible = false
+            end
+            if(obj2.myName == "coin")then
+                obj2.isBodyActive = false
+                obj2.isVisible = false            
+            end
+        end     
+               
         
     end
 end
@@ -854,16 +992,18 @@ function scene:hide( event )
         timer.cancel( car1LoopTimer)
         timer.cancel( ruotaLoopTimer)
         timer.cancel( timerUpTimer)
-
-	elseif ( phase == "did" ) then
-        -- Code here runs immediately after the scene goes entirely off screen
         Runtime:removeEventListener( "collision", onCollision )
         Runtime:removeEventListener( "enterFrame", enterFrame )
         pauseBtn:removeEventListener( "touch", pauseGame ) 
         explosion:pause() 
-
         physics.pause()
         audio.stop( 1 )
+
+
+	elseif ( phase == "did" ) then
+        -- Code here runs immediately after the scene goes entirely off screen
+
+
 	end
 end
 
