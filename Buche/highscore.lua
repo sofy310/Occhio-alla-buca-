@@ -9,8 +9,8 @@ local scene = composer.newScene()
 -- -----------------------------------------------------------------------------------
 
 local json = require( "json" )
-local scoresTable = {}
-local filePath = system.pathForFile( "scores.json", system.DocumentsDirectory )
+local scoreTable = {}
+local filePath = system.pathForFile( "score.json", system.DocumentsDirectory )
 
 local function loadScores()
 	local file = io.open( filePath, "r" )
@@ -18,23 +18,23 @@ local function loadScores()
 	if file then
 		local contents = file:read( "*a" )
 		io.close( file )
-		scoresTable = json.decode( contents )
+		scoreTable = json.decode( contents )
 	end
 
-	if ( scoresTable == nil or #scoresTable == 0 ) then
-		scoresTable = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+	if ( scoreTable == nil or #scoreTable == 0 ) then
+		scoreTable = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 	end
 end
 
 local function saveScores()
-	for i = #scoresTable, 11, -1 do 
-		table.remove(scoresTable, i)
+	for i = #scoreTable, 11, -1 do 
+		table.remove(scoreTable, i)
 	end
 
 	local file = io.open( filePath, "w" )
 
 	if file then
-		file:write( json.encode( scoresTable ) )
+		file:write( json.encode( scoreTable ) )
 		io.close( file )
 	end
 end
@@ -44,18 +44,82 @@ local function gotoMenu()
 	composer.gotoScene( "menu", { time = 800, effect = "crossFade" } )
 end
 
-local widget = require("widget")
-	local ButtonUndo = widget.newButton
+	-- load previous scores
+	loadScores()
+
+	-- insert the saved score from the last game into the table, then reset it
+	table.insert( scoreTable, composer.getVariable( "finalScore" ) )
+	composer.setVariable( "finalScore", 0 )
+
+	-- sort the tabe entries from highest to lowest
+	local function compare( a, b )
+		return a > b
+	end
+	table.sort( scoreTable, compare )
+
+	-- save the scores
+	saveScores()
+
+	local background = display.newImageRect( "highscores/background.jpg", 800, 1400 )
+	background.x = display.contentCenterX
+	background.y = display.contentCenterY
+
+
+
+	local rankNum1 = display.newImageRect("highscores/1.png", 100, 100)
+	rankNum1.x = display.contentCenterX -40
+	rankNum1.y = 150 
+	rankNum1.anchorX = 1
+	local thisScore1 = display.newText( scoreTable[1], display.contentCenterX - 10, 150, native.systemFontBold, 70 )
+	thisScore1:setFillColor( 0.9, 0, 0.2 )
+	thisScore1.anchorX = 0
+
+	local rankNum2 = display.newImageRect("highscores/2.png", 100, 100)
+	rankNum2.x = display.contentCenterX -40
+	rankNum2.y = 260 
+	rankNum2.anchorX = 1
+	local thisScore2 = display.newText( scoreTable[2], display.contentCenterX - 10, 260, native.systemFontBold, 70 )
+	thisScore2:setFillColor( 0.9, 0, 0.2 )
+	thisScore2.anchorX = 0
+	
+	local rankNum3 = display.newImageRect("highscores/3.png", 100, 100)
+	rankNum3.x = display.contentCenterX -40
+	rankNum3.y = 370 
+	rankNum3.anchorX = 1
+	local thisScore3 = display.newText( scoreTable[3], display.contentCenterX - 10, 370, native.systemFontBold, 70 )
+	thisScore3:setFillColor( 0.9, 0, 0.2 )
+	thisScore3.anchorX = 0
+
+	local rankNum4 = display.newImageRect("highscores/4.png", 100, 100)
+	rankNum4.x = display.contentCenterX -40
+	rankNum4.y = 480 
+	rankNum4.anchorX = 1
+	local thisScore4 = display.newText( scoreTable[4], display.contentCenterX - 10, 480, native.systemFontBold, 70 )
+	thisScore4:setFillColor( 0.9, 0, 0.2 )
+	thisScore4.anchorX = 0
+
+	local rankNum5 = display.newImageRect("highscores/5.png", 100, 100)
+	rankNum5.x = display.contentCenterX -40
+	rankNum5.y = 590 
+	rankNum5.anchorX = 1
+	local thisScore5 = display.newText( scoreTable[5], display.contentCenterX - 10, 590, native.systemFontBold, 70 )
+	thisScore5:setFillColor( 0.9, 0, 0.2 )
+	thisScore5.anchorX = 0
+
+	local widget = require("widget")
+	
+	local menuButton = widget.newButton
 	{
-	width = 160,
-    height = 66,
-    defaultFile = "undoBlack.png",
+	width = 420,
+	height = 160,
+	defaultFile = "menu.png",
 	}
-	ButtonUndo.x = display.contentCenterX-320
-	ButtonUndo.y = -100
-	ButtonUndo.destination = "menu"
-	ButtonUndo:addEventListener("tap", ButtonUndo)
-	ButtonUndo:addEventListener( "tap", gotoMenu)
+	menuButton.x = display.contentCenterX
+	menuButton.y = 950
+	menuButton.destination = "menu"
+	menuButton:addEventListener("tap", menuButton)
+	menuButton:addEventListener( "tap", gotoMenu )
+	
 
 -- -----------------------------------------------------------------------------------
 -- Scene event functions
@@ -67,48 +131,9 @@ function scene:create( event )
 	local sceneGroup = self.view
 	-- Code here runs when the scene is first created but has not yet appeared on screen
 	
-	-- load previous scores
-	loadScores()
 
-	-- insert the saved score from the last game into the table, then reset it
-	table.insert( scoresTable, composer.getVariable( "finalScore" ) )
-	composer.setVariable( "finalScore", 0 )
-
-	-- sort the tabe entries from highest to lowest
-	local function compare( a, b )
-		return a > b
-	end
-	table.sort( scoresTable, compare )
-
-	-- save the scores
-	saveScores()
-
-	local background = display.newImageRect("sfondo_highscore.png", 800, 1400 )
-	background.x = display.contentCenterX
-	background.y = display.contentCenterY
-
-	--local highScoresHeader = display.newText( "High Scores", display.contentCenterX, 100, native.systemFontBold, 55 )
-    --highScoresHeader:setFillColor(1, 0, 0)
-
-	for i = 1, 10 do
-		if ( scoresTable[i] ) then
-			local yPos = 150 + ( i * 56 )
-
-			local rankNum = display.newText(i .. ")", display.contentCenterX - 50, yPos, "comic sans ms", 65 )
-			rankNum:setFillColor(0, 0.1, 1 )
-			rankNum.anchorX = 1
-
-			local thisScore = display.newText( scoresTable[i], display.contentCenterX - 30, yPos,  "comic sans ms", 65 )
-            thisScore.anchorX = 0
-            thisScore:setFillColor(0, 0.1, 1)
-		end
-	end
-
-	
 
 end
-
-
 -- show()
 function scene:show( event )
 
@@ -136,8 +161,7 @@ function scene:hide( event )
 
 	elseif ( phase == "did" ) then
 		-- Code here runs immediately after the scene goes entirely off screen
-		ButtonUndo:removeEventListener("tap", ButtonUndo)
-		ButtonUndo:removeEventListener( "tap", gotoMenu)
+
 	end
 end
 
