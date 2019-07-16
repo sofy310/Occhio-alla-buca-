@@ -13,7 +13,7 @@ local clacson = audio.loadSound( "clacson.wav" )
 local crash = audio.loadSound("crash.wav")
 local live = audio.loadSound("lives.wav")
 local bounce = audio.loadSound("bounce.wav")
-local largeCrash = audio.loadSound("largeCrash.wav")
+local largeCrash = audio.loadSound("largeCrash.mp3")
 --Load background
 local background = display.newImageRect( "background.png", 700, 1100)
 background.x = display.contentCenterX
