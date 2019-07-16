@@ -31,8 +31,6 @@ physics.setGravity( 0, 0 )
 
 local bg1
 local bg2
-local runtime = 0
-local scrollSpeed = 7
 
 --Scrollable Background
 local function addScrollableBg()
@@ -51,10 +49,9 @@ local function addScrollableBg()
     bg2.y = display.contentCenterY - display.actualContentHeight
 end
 
-local function moveBg(dt)
-    bg1.y = bg1.y + scrollSpeed * dt
-    bg2.y = bg2.y + scrollSpeed * dt
-
+local function moveBg()
+    bg1.y = bg1.y + 6.6667
+    bg2.y = bg2.y + 6.6667
     if (bg1.y - display.contentHeight/2) > display.actualContentHeight then
         bg1:translate(0, -bg1.contentHeight * 2)
     end
@@ -63,16 +60,9 @@ local function moveBg(dt)
     end
 end
 
-local function getDeltaTime()
-   local temp = system.getTimer()
-   local dt = (temp-runtime) / (1000/60)
-   runtime = temp
-   return dt
-end
 
 local function enterFrame()
-    local dt = getDeltaTime()
-    moveBg(dt)
+    moveBg()
 end
 
 addScrollableBg()
