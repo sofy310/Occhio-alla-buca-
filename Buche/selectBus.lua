@@ -151,6 +151,10 @@ function scene:destroy( event )
 
 end
 
+local function showAutobus()
+
+end
+
 
 -- -----------------------------------------------------------------------------------
 -- Scene event function listeners
