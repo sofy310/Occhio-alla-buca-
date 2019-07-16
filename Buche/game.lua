@@ -67,7 +67,7 @@ end
 
 addScrollableBg()
 Runtime:addEventListener("enterFrame", enterFrame)
-
+sdfs
 
 
 -- load BORDO SX
