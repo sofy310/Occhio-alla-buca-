@@ -15,11 +15,9 @@ local textCoins
 
 
 
-
-table.insert( coinTable, composer.getVariable( "finalCoins" ) )
-composer.setVariable( "finalCoins", 0 )
-
 table.insert(coinTable, 100)
+table.insert(coinTable, 100)
+
 
 local function loadCoins()
 	local file = io.open( filePath, "r" )
@@ -31,6 +29,24 @@ local function loadCoins()
 	end
 
 end
+
+local function saveCoins()
+
+	local file = io.open( filePath, "w" )
+
+	if file then
+		file:write( json.encode( coinTable ) )
+		io.close( file )
+	end
+end
+
+
+loadCoins()
+
+table.insert( coinTable, composer.getVariable( "finalCoins" ) )
+composer.setVariable( "finalCoins", 0 )
+
+saveCoins()
 
 local function getTotal()
     local totalCoins = 0
@@ -78,6 +94,9 @@ end
 
 
 showTotalCoins()
+
+
+
 
 -- -----------------------------------------------------------------------------------
 -- Scene event functions

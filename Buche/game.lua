@@ -140,6 +140,8 @@ local function coinsUp()
     numeroCoinsText.text = coins
 end
 
+
+
 --Load autobus
 local autobus = display.newImageRect(mainGroup, "autobus.png", 100, 260)
 autobus.x = display.contentCenterX
@@ -672,7 +674,9 @@ local function endGame()
     composer.setVariable("finalCoins", coins)
     composer.setVariable("finalScore", score)
     composer.removeScene("highscore")
-    composer.gotoScene( "highscore", { time=800, effect="crossFade" } )
+    composer.gotoScene( "highscore", { time=700, effect="crossFade" } )
+
+   
 end
 
 -- collisione AUTOBUS/BUCA e AUTOBUS/LINEE
