@@ -168,6 +168,8 @@ local function showAutobusBlu()
     prezzoImage.y = display.contentCenterY + 250
     local prezzoText = display.newText( " ".. prezzoBlu, 400, 760, native.systemFontBold, 40)
     prezzoText:setFillColor( 1, 0, 0 ) 
+    autobusBlu:addEventListener( "touch", gotoMenu ) 
+
 end
 
 local function showAutobusGiallo()
@@ -179,6 +181,8 @@ local function showAutobusGiallo()
     prezzoImage.y = display.contentCenterY + 250
     local prezzoText = display.newText( " ".. prezzoGiallo, 130, 760, native.systemFontBold, 40)
     prezzoText:setFillColor( 1, 0, 0 ) 
+    autobusGiallo:addEventListener( "touch", gotoMenu ) 
+
 end
 
 local function showAutobusRosa()
@@ -190,7 +194,10 @@ local function showAutobusRosa()
     prezzoImage.y = display.contentCenterY + 250
     local prezzoText = display.newText( " ".. prezzoRosa, 660, 760, native.systemFontBold, 40)
     prezzoText:setFillColor( 1, 0, 0 )
+    autobusRosa:addEventListener( "touch", gotoMenu ) 
+
 end
+
 
     showAutobusGiallo()
     showAutobusBlu()
@@ -216,14 +223,17 @@ local function showLockRosa()
     lucchetto.alpha = 0.8
 end
 
+
 if(getTotal()<prezzoBlu) then 
     showLockBlu()
 end
 if(getTotal()<prezzoGiallo) then
     showLockGiallo()
+
 end
 if(getTotal()<prezzoRosa) then
     showLockRosa()
+
 end 
 
 
