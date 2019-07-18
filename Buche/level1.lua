@@ -233,11 +233,13 @@ end
 -- add the event listener to the sprite
 explosion:addEventListener( "sprite", spriteListener )
 
+local pauseBtn
+local menuBtn
+local resumeBtn
 
 --pause game
 function pauseGame(event)
     --if end of touch event
-    if(event.phase == "ended") then
         --pause the physics
         physics.pause()
         Runtime:removeEventListener( "enterFrame", enterFrame )
@@ -254,15 +256,12 @@ function pauseGame(event)
         resumeBtn.isVisible = true
         menuBtn.isVisible = true
 
-        -- indicates successful touch
-        return true
-    end
+
 end
  
 --resume game
 function resumeGame(event)
     --if end of touch event
-    if(event.phase == "ended") then
         --resume physics
         physics.start()
         Runtime:addEventListener( "enterFrame", enterFrame )
@@ -279,9 +278,7 @@ function resumeGame(event)
         resumeBtn.isVisible = false
         --make menu button invisible
         menuBtn.isVisible = false
-        -- indicates successful touch
-        return true
-    end
+
 end
 local function gotoMenu()
 	composer.removeScene("menu")
@@ -294,41 +291,51 @@ local function gotoMenu()
         menuBtn.isVisible = false
 end
 
+local widget = require("widget")
+
     --define button dimensions
     local btnW, btnH = 250, 100
      
-    --create pause button
-    pauseBtn = display.newImageRect( "pause.png", btnW, btnH )
-     
-    --place button in center
-    pauseBtn.x, pauseBtn.y = display.contentCenterX, display.contentHeight-1000
-     
-    --add event
-    pauseBtn:addEventListener( "touch", pauseGame ) 
-     
-    --create resume button
-    resumeBtn = display.newImageRect( "resume.png", btnW, btnH )
-     
-    --put it on pause button
-    resumeBtn.x, resumeBtn.y = display.contentCenterX, display.contentHeight-1000
-     
-    --and hide it
+         
+    pauseBtn = widget.newButton
+    {
+    width = btnW,
+    height = btnH,
+    defaultFile = "pause.png",
+    overFile = "select.png",
+    }
+    pauseBtn.x = display.contentCenterX
+    pauseBtn.y = display.contentHeight-900
+    pauseBtn.destination = "pauseBtn"
+    pauseBtn:addEventListener( "tap", pauseGame )
+    
+    resumeBtn = widget.newButton
+    {
+    width = btnW,
+    height = btnH,
+    defaultFile = "resume.png",
+    overFile = "select.png",
+    }
+    resumeBtn.x = display.contentCenterX
+    resumeBtn.y = display.contentHeight-900
+    resumeBtn.destination = "resumeBtn"
+    resumeBtn:addEventListener( "tap", resumeGame )
+    
     resumeBtn.isVisible = false
-     
-    --add event
-    resumeBtn:addEventListener( "touch", resumeGame ) 
 
-    --create menu button
-    menuBtn = display.newImageRect( "menu.png", btnW, btnH )
-     
-    --put it on pause button
-    menuBtn.x, menuBtn.y = display.contentCenterX, display.contentHeight-850
-     
-    --and hide it
+    menuBtn = widget.newButton
+    {
+    width = btnW,
+    height = btnH,
+    defaultFile = "menu.png",
+    overFile = "select.png",
+    }
+    menuBtn.x = display.contentCenterX
+    menuBtn.y = display.contentHeight-800
+    menuBtn.destination = "menuBtn"
+    menuBtn:addEventListener( "tap", gotoMenu )
+    
     menuBtn.isVisible = false
-     
-    --add event
-    menuBtn:addEventListener( "touch", gotoMenu ) 
 
 
 -- Load RUOTA
