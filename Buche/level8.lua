@@ -1135,12 +1135,13 @@ function scene:show( event )
 	local sceneGroup = self.view
 	local phase = event.phase
 
-	if ( phase == "will" ) then
+    if ( phase == "will" ) then
 		-- Code here runs when the scene is still off screen (but is about to come on screen)
-        
+        Runtime:removeEventListener("collision", onCollision)
 	elseif ( phase == "did" ) then
 		-- Code here runs when the scene is entirely on screen
         --Adding physics
+        Runtime:addEventListener( "collision", onCollision )
 
     end
     

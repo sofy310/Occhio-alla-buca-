@@ -659,6 +659,7 @@ local function restoreAutobus()
     autobus.isBodyActive = false
     autobus.x = display.contentCenterX
     autobus.y = display.contentHeight - 30
+
     explosion:pause() 
 
     -- Fade in the autobus
@@ -1002,10 +1003,11 @@ function scene:show( event )
 
 	if ( phase == "will" ) then
 		-- Code here runs when the scene is still off screen (but is about to come on screen)
-        
+        Runtime:removeEventListener("collision", onCollision)
 	elseif ( phase == "did" ) then
 		-- Code here runs when the scene is entirely on screen
         --Adding physics
+        Runtime:addEventListener( "collision", onCollision )
 
     end
     
@@ -1038,6 +1040,7 @@ function scene:hide( event )
 
 	elseif ( phase == "did" ) then
         -- Code here runs immediately after the scene goes entirely off screen
+        Runtime:removeEventListener( "collision", onCollision )
 
 
 	end
@@ -1049,6 +1052,7 @@ function scene:destroy( event )
 
 	local sceneGroup = self.view
 	-- Code here runs prior to the removal of scene's view
+    Runtime:removeEventListener( "collision", onCollision )
 
 end
 
