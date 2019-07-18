@@ -87,7 +87,9 @@ local widget = require("widget")
 	{
 	width = 420,
 	height = 160,
-	defaultFile = "menu.png",
+    defaultFile = "menu.png",
+    overFile = "select.png",
+
 	}
 	menuButton.x = display.contentCenterX
 	menuButton.y = 950
@@ -100,6 +102,8 @@ local widget = require("widget")
     width = 300,
     height = 130,
     defaultFile = "autobus/si.png",
+    overFile = "select.png",
+
     }
     si.x = display.contentCenterX - 200
     si.y = display.contentCenterY + 600
@@ -112,6 +116,8 @@ local widget = require("widget")
     width = 300,
     height = 130,
     defaultFile = "autobus/no.png",
+    overFile = "select.png",
+
     }
     no.x = display.contentCenterX + 200
     no.y = display.contentCenterY + 600

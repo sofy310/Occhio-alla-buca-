@@ -87,7 +87,9 @@ local background = display.newImageRect("corsa.png", 800, 1400 )
 	{
 	width = 220,
     height = 153,
-    defaultFile = "level1.png",
+	defaultFile = "level1.png",
+	overFile = "highscores/button.png",
+
 	}
 	Button1.x = display.contentCenterX-230
 	Button1.y = 100
@@ -99,7 +101,8 @@ local background = display.newImageRect("corsa.png", 800, 1400 )
 	{
 	width = 220,
     height = 153,
-    defaultFile = "level2.png",
+	defaultFile = "level2.png",
+	overFile = "highscores/button.png",
 	}
 	Button2.x = display.contentCenterX
 	Button2.y = 100
@@ -111,7 +114,9 @@ local background = display.newImageRect("corsa.png", 800, 1400 )
 	{
 	width = 220,
     height = 153,
-    defaultFile = "level3.png",
+	defaultFile = "level3.png",
+	overFile = "highscores/button.png",
+
 	}
 	Button3.x = display.contentCenterX+230
 	Button3.y = 100
@@ -123,7 +128,9 @@ local background = display.newImageRect("corsa.png", 800, 1400 )
 	{
 	width = 220,
     height = 153,
-    defaultFile = "level4.png",
+	defaultFile = "level4.png",
+	overFile = "highscores/button.png",
+
 	}
 	Button4.x = display.contentCenterX-230
 	Button4.y = 300
@@ -135,7 +142,9 @@ local background = display.newImageRect("corsa.png", 800, 1400 )
 	{
 	width = 220,
     height = 153,
-    defaultFile = "level5.png",
+	defaultFile = "level5.png",
+	overFile = "highscores/button.png",
+
 	}
 	Button5.x = display.contentCenterX
 	Button5.y = 300
@@ -147,7 +156,9 @@ local background = display.newImageRect("corsa.png", 800, 1400 )
 	{
 	width = 220,
     height = 153,
-    defaultFile = "level6.png",
+	defaultFile = "level6.png",
+	overFile = "highscores/button.png",
+
 	}
 	Button6.x = display.contentCenterX+230
 	Button6.y = 300
@@ -159,7 +170,9 @@ local background = display.newImageRect("corsa.png", 800, 1400 )
 	{
 	width = 220,
     height = 153,
-    defaultFile = "level7.png",
+	defaultFile = "level7.png",
+	overFile = "highscores/button.png",
+
 	}
 	Button7.x = display.contentCenterX-230
 	Button7.y = 500
@@ -171,7 +184,9 @@ local background = display.newImageRect("corsa.png", 800, 1400 )
 	{
 	width = 220,
     height = 153,
-    defaultFile = "level8.png",
+	defaultFile = "level8.png",
+	overFile = "highscores/button.png",
+
 	}
 	Button8.x = display.contentCenterX
 	Button8.y = 500
@@ -183,7 +198,9 @@ local background = display.newImageRect("corsa.png", 800, 1400 )
 	{
 	width = 220,
     height = 153,
-    defaultFile = "level9.png",
+	defaultFile = "level9.png",
+	overFile = "highscores/button.png",
+
 	}
 	Button9.x = display.contentCenterX+230
 	Button9.y = 500
