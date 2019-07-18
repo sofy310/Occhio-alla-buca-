@@ -599,8 +599,8 @@ local function endGame()
     explosion:pause() 
 
     composer.setVariable("finalScore", score)
-    composer.removeScene("highscore")
-    composer.gotoScene( "highscore", { time=800, effect="crossFade" } )
+    composer.removeScene("levelSelect", levelSelect)
+    composer.gotoScene("levelSelect", levelSelect) 
 end
 
 -- collisione AUTOBUS/BUCA e AUTOBUS/LINEE
