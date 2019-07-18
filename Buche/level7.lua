@@ -15,6 +15,7 @@ local live = audio.loadSound("lives.wav")
 local bounce = audio.loadSound("bounce.wav")
 local largeCrash = audio.loadSound("largeCrash.wav")
 local scream = audio.loadSound("scream.mp3")
+local dog = audio.loadSound("dog.wav")
 
 --Load background
 local background = display.newImageRect( "background.png", 700, 1100)
@@ -246,6 +247,8 @@ function pauseGame(event)
         timer.pause( gameLoopTimer )
         timer.pause( car1LoopTimer)
         timer.pause( ruotaLoopTimer)
+        timer.pause( pedoniLoopTimer)
+        timer.pause( caniLoopTimer)
         timer.pause( Timer1)
         autobus:removeEventListener("touch", moveAutobus)
 
@@ -271,6 +274,8 @@ function resumeGame(event)
         timer.resume( gameLoopTimer )
         timer.resume( car1LoopTimer)
         timer.resume( ruotaLoopTimer)
+        timer.resume( pedoniLoopTimer)
+        timer.resume( caniLoopTimer)
         timer.resume( Timer1)
         audio.resume( 1 )
 
@@ -336,7 +341,7 @@ end
 
     -- load Cane1 (SX)
     local function createCane1()
-        local newCane1 = display.newImageRect(mainGroup, "canesx.png", 125, 130)
+        local newCane1 = display.newImageRect(mainGroup, "canesx.png", 125, 70)
         --local newCane1 = Cane1
         table.insert(caniTable, newCane1)
         physics.addBody(newCane1, "dynamic", { isSensor = true})
@@ -348,18 +353,18 @@ end
             newCane1.x = display.contentCenterX -250
             newCane1.y = -100
             newCane1:setLinearVelocity(math.random( 100,300 ), 1080 )
-            audio.play(scream)
+            audio.play(dog)
         elseif ( whereFrom == 2 ) then
             newCane1.x = display.contentCenterX -250
             newCane1.y = 0
             newCane1:setLinearVelocity(math.random( 100,300 ), 1080 )
-            audio.play(scream)
+            audio.play(dog)
         end
     end
     
     -- load Cane2(DX)
     local function createCane2()
-        local newCane2 = display.newImageRect(mainGroup, "canedx.png", 145,150)
+        local newCane2 = display.newImageRect(mainGroup, "canedx.png", 125,70)
         table.insert(caniTable, newCane2)
         physics.addBody(newCane2, "dynamic", { isSensor = true})
         newCane2.myName = "Cane2"
@@ -370,12 +375,12 @@ end
             newCane2.x = display.contentCenterX +250
             newCane2.y = -100
             newCane2:setLinearVelocity(math.random( -300,-100 ), 460 )
-            audio.play(scream)
+            audio.play(dog)
         elseif ( whereFrom == 2 ) then
             newCane2.x = display.contentCenterX +250
             newCane2.y = 0
             newCane2:setLinearVelocity(math.random( -300,-100 ), 460 )
-            audio.play(scream)
+            audio.play(dog)
         end
     end
     -- loop cani
@@ -1156,6 +1161,8 @@ function scene:hide( event )
         timer.cancel( ruotaLoopTimer)
         timer.cancel( Timer1)
         timer.cancel( pedoniLoopTimer)
+        timer.cancel( caniLoopTimer)
+
 
 
 	elseif ( phase == "did" ) then

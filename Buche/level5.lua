@@ -247,6 +247,7 @@ function pauseGame(event)
         timer.pause( car1LoopTimer)
         timer.pause( ruotaLoopTimer)
         timer.pause( Timer1)
+        timer.pause( pedoniLoopTimer)
         autobus:removeEventListener("touch", moveAutobus)
 
         --make pause button invisible
@@ -271,6 +272,7 @@ function resumeGame(event)
         timer.resume( gameLoopTimer )
         timer.resume( car1LoopTimer)
         timer.resume( ruotaLoopTimer)
+        timer.resume( pedoniLoopTimer)
         timer.resume( Timer1)
         audio.resume( 1 )
 
