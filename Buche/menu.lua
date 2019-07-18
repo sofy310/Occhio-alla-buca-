@@ -14,7 +14,7 @@ local function gotoGame()
 	audio.play(button)
 
     composer.removeScene( "game" )
-	composer.gotoScene( "game", { time = 800, effect = "crossFade" } )
+	composer.gotoScene( "game", { time = 1000, effect = "crossFade" } )
 
 end
 
@@ -45,36 +45,43 @@ sfondotitle.y = display.contentCenterY
 
 local playButton = widget.newButton
 {
-width = 420,
-height = 140,
+width = 380,
+height = 127,
 defaultFile = "playgame.png",
+overFile = "select.png",
 }
 playButton.x = display.contentCenterX
-playButton.y = 650
+playButton.y = 640
 playButton.destination = "game"
 playButton:addEventListener("tap", playButton)
 playButton:addEventListener( "tap", gotoGame )
 
 local levelsButton = widget.newButton
 {
-width = 420,
-height = 150,
+width = 380,
+height = 127,
 defaultFile = "levels.png",
+overFile = "select.png",
+
 }
 levelsButton.x = display.contentCenterX
-levelsButton.y = 810
+levelsButton.y = 790
 levelsButton.destination = "levelselect"
+overFile = "select.png",
+
 levelsButton:addEventListener("tap", levelsButton)
 levelsButton:addEventListener( "tap", gotoLevelSelect )
 
 local highscoreButton = widget.newButton
 {
-width = 420,
-height = 150,
+width = 380,
+height = 127,
 defaultFile = "highscore.png",
+overFile = "select.png",
+
 }
 highscoreButton.x = display.contentCenterX
-highscoreButton.y = 970
+highscoreButton.y = 940
 highscoreButton.destination = "highscore"
 highscoreButton:addEventListener("tap", highscoreButton)
 highscoreButton:addEventListener( "tap", gotoHighscore )
@@ -82,12 +89,14 @@ highscoreButton:addEventListener( "tap", gotoHighscore )
 
 local shopButton = widget.newButton
 {
-width = 420,
-height = 150,
+width = 380,
+height = 127,
 defaultFile = "shopButton.png",
+overFile = "select.png",
+
 }
 shopButton.x = display.contentCenterX
-shopButton.y = 1130
+shopButton.y = 1090
 shopButton.destination = "selectBus"
 shopButton:addEventListener("tap", shopButton)
 shopButton:addEventListener( "tap", gotoShop )
