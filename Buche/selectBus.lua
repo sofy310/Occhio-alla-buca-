@@ -15,8 +15,8 @@ local textCoins
 
 
 
-table.insert(coinTable, 100)
-table.insert(coinTable, 100)
+table.insert(coinTable, 1000)
+table.insert(coinTable, 1000)
 
 
 local function loadCoins()
@@ -48,6 +48,12 @@ composer.setVariable( "finalCoins", 0 )
 
 saveCoins()
 
+local prezzoGiallo = 1000
+local prezzoBlu = 10000
+local prezzoRosa = 20000
+
+
+
 local function getTotal()
     local totalCoins = 0
     for i = 1, 10000 do
@@ -58,6 +64,7 @@ local function getTotal()
 
     return totalCoins
 end
+
 
 
 
@@ -117,6 +124,8 @@ local widget = require("widget")
     mexRosa.isVisible = false
     mexGiallo.isVisible = false
     mexBlu.isVisible = false
+
+
 
 
     local function gotoSI()
@@ -206,9 +215,7 @@ end
 
 showTotalCoins()
 
-local prezzoGiallo = 2000
-local prezzoBlu = 1000
-local prezzoRosa = 2000
+
 
     local autobusBlu = display.newImageRect("autobus/autobusBlu.png", 150, 390)
     autobusBlu.x = display.contentCenterX
@@ -273,14 +280,19 @@ end
 
 if(getTotal()<prezzoBlu) then 
     showLockBlu()
+    autobusBlu:removeEventListener("tap", vuoiAcquistareBlu)
 end
 
 if(getTotal()<prezzoGiallo) then
     showLockGiallo()
+    autobusGiallo:removeEventListener("tap", vuoiAcquistareGiallo)
+
 
 end
 if(getTotal()<prezzoRosa) then
     showLockRosa()
+    autobusRosa:removeEventListener("tap", vuoiAcquistareRosa)
+
 
 end 
 
@@ -310,6 +322,8 @@ function scene:show( event )
         autobusBlu:addEventListener("tap", vuoiAcquistareBlu)
         autobusGiallo:addEventListener("tap", vuoiAcquistareGiallo)
         autobusRosa:addEventListener("tap", vuoiAcquistareRosa)
+        showTotalCoins()
+        getTotal()
 
 	elseif ( phase == "did" ) then
 		-- Code here runs when the scene is entirely on screen
