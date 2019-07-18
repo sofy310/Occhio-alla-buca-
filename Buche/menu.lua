@@ -108,11 +108,14 @@ function scene:show( event )
 
 	if ( phase == "will" ) then
 		-- Code here runs when the scene is still off screen (but is about to come on screen)
+
+
+	elseif ( phase == "did" ) then
+		-- Code here runs when the scene is entirely on screen
 		playButton.isVisible = true
 		highscoreButton.isVisible = true
 		levelsButton.isVisible = true
-	elseif ( phase == "did" ) then
-		-- Code here runs when the scene is entirely on screen
+		shopButton.isVisible = true
 	end
 end
 

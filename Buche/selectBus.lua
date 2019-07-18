@@ -60,6 +60,7 @@ local function getTotal()
 end
 
 
+
 local function gotoMenu()
 	composer.removeScene("menu")
 	composer.gotoScene( "menu", { time = 800, effect = "crossFade" } )
@@ -86,7 +87,113 @@ local widget = require("widget")
 	menuButton.destination = "menu"
 	menuButton:addEventListener("tap", menuButton)
 	menuButton:addEventListener( "tap", gotoMenu )
+
+    local si = widget.newButton
+    {
+    width = 300,
+    height = 130,
+    defaultFile = "autobus/si.png",
+    }
+    si.x = display.contentCenterX - 200
+    si.y = display.contentCenterY + 600
+    si.destination = "selectBus"
+
+    si.isVisible = false
     
+    local no = widget.newButton
+    {
+    width = 300,
+    height = 130,
+    defaultFile = "autobus/no.png",
+    }
+    no.x = display.contentCenterX + 200
+    no.y = display.contentCenterY + 600
+
+    no.isVisible = false
+
+    local mexRosa = display.newImageRect("autobus/vuoiAcquistare.png", 500, 200)
+    local mexGiallo = display.newImageRect("autobus/vuoiAcquistare.png", 500, 200)
+    local mexBlu = display.newImageRect("autobus/vuoiAcquistare.png", 500, 200)
+    mexRosa.isVisible = false
+    mexGiallo.isVisible = false
+    mexBlu.isVisible = false
+
+
+    local function gotoSI()
+        composer.removeScene("selecBus")
+        composer.gotoScene("selectBus")
+        si.isVisible = false
+        no.isVisible = false
+        menuButton.isVisible = true
+        mexRosa.isVisible = false
+        mexGiallo.isVisible = false
+        mexBlu.isVisible = false
+
+    end
+        
+    local function gotoNO()
+        composer.removeScene("selecBus")
+        composer.gotoScene("selectBus")
+        si.isVisible = false
+        no.isVisible = false
+        menuButton.isVisible = true
+        mexRosa.isVisible = false
+        mexGiallo.isVisible = false
+        mexBlu.isVisible = false
+
+
+    end
+
+
+    
+
+local function vuoiAcquistareGiallo()
+    mexGiallo.isVisible = true
+    mexGiallo.x = display.contentCenterX
+    mexGiallo.y = display.contentCenterY + 400
+    menuButton.isVisible = false
+    si.isVisible = true
+    si:addEventListener("tap", si)
+    si:addEventListener("tap", gotoSI)
+    no.isVisible = true
+    no:addEventListener("tap", no)
+    no:addEventListener("tap", gotoNO)
+
+end
+
+
+local function vuoiAcquistareBlu()
+    mexBlu.isVisible = true
+    mexBlu.x = display.contentCenterX
+    mexBlu.y = display.contentCenterY + 400
+    menuButton.isVisible = false
+    si.isVisible = true
+    si:addEventListener("tap", si)
+    si:addEventListener("tap", gotoSI)
+    no.isVisible = true
+    no:addEventListener("tap", no)
+    no:addEventListener("tap", gotoNO)
+
+end
+
+
+local function vuoiAcquistareRosa()
+    mexRosa.isVisible = true
+    mexRosa.x = display.contentCenterX
+    mexRosa.y = display.contentCenterY + 400
+    menuButton.isVisible = false
+    si.isVisible = true
+    si:addEventListener("tap", si)
+    si:addEventListener("tap", gotoSI)
+    no.isVisible = true
+    no:addEventListener("tap", no)
+    no:addEventListener("tap", gotoNO)
+
+end
+
+
+
+
 local function showTotalCoins()
     local total = getTotal()
     local imageCoin = display.newImageRect("coin.png", 100, 100)
@@ -99,7 +206,83 @@ end
 
 showTotalCoins()
 
+local prezzoGiallo = 2000
+local prezzoBlu = 1000
+local prezzoRosa = 2000
 
+    local autobusBlu = display.newImageRect("autobus/autobusBlu.png", 150, 390)
+    autobusBlu.x = display.contentCenterX
+    autobusBlu.y = display.contentCenterY
+    local prezzoImage = display.newImageRect("coin.png", 60, 60)
+    prezzoImage.x = display.contentCenterX - 70
+    prezzoImage.y = display.contentCenterY + 250
+    local prezzoText = display.newText( " ".. prezzoBlu, 400, 760, native.systemFontBold, 40)
+    prezzoText:setFillColor( 1, 0, 0 ) 
+    autobusBlu:addEventListener( "touch", vuoiAcquistareBlu ) 
+
+
+
+    local autobusGiallo = display.newImageRect("autobus/autobusGiallo.png", 150, 390)
+    autobusGiallo.x = display.contentCenterX - 260
+    autobusGiallo.y = display.contentCenterY
+    local prezzoImage = display.newImageRect("coin.png", 60, 60)
+    prezzoImage.x = display.contentCenterX - 330
+    prezzoImage.y = display.contentCenterY + 250
+    local prezzoText = display.newText( " ".. prezzoGiallo, 130, 760, native.systemFontBold, 40)
+    prezzoText:setFillColor( 1, 0, 0 ) 
+    autobusGiallo:addEventListener( "touch", vuoiAcquistareGiallo ) 
+
+
+
+    local autobusRosa = display.newImageRect("autobus/autobusRosa.png", 150, 390)
+    autobusRosa.x = display.contentCenterX + 260
+    autobusRosa.y = display.contentCenterY
+    local prezzoImage = display.newImageRect("coin.png", 60, 60)
+    prezzoImage.x = display.contentCenterX +190
+    prezzoImage.y = display.contentCenterY + 250
+    local prezzoText = display.newText( " ".. prezzoRosa, 660, 760, native.systemFontBold, 40)
+    prezzoText:setFillColor( 1, 0, 0 )
+    autobusRosa:addEventListener( "touch", vuoiAcquistareRosa ) 
+
+
+
+local function showLockBlu()
+    local lucchetto = display.newImageRect("adesivi/lucchetto.png", 200, 200)
+    lucchetto.x = display.contentCenterX
+    lucchetto.y = display.contentCenterY
+    lucchetto.alpha = 0.8
+    autobusBlu:removeEventListener("touch", vuoiAcquistareBlu)
+end
+local function showLockGiallo()
+    local lucchetto = display.newImageRect("adesivi/lucchetto.png", 200, 200)
+    lucchetto.x = display.contentCenterX - 260
+    lucchetto.y = display.contentCenterY
+    lucchetto.alpha = 0.8
+    autobusGiallo:removeEventListener("touch", vuoiAcquistareGiallo)
+
+end
+local function showLockRosa()
+    local lucchetto = display.newImageRect("adesivi/lucchetto.png", 200, 200)
+    lucchetto.x = display.contentCenterX + 260
+    lucchetto.y = display.contentCenterY
+    lucchetto.alpha = 0.8
+    autobusRosa:removeEventListener("touch", vuoiAcquistareRosa)
+
+end
+
+
+if(getTotal()<prezzoBlu) then 
+    showLockBlu()
+end
+
+if(getTotal()<prezzoGiallo) then
+    showLockGiallo()
+
+end
+if(getTotal()<prezzoRosa) then
+    showLockRosa()
+
+end 
 
 
 -- -----------------------------------------------------------------------------------
@@ -123,6 +306,10 @@ function scene:show( event )
 
 	if ( phase == "will" ) then
 		-- Code here runs when the scene is still off screen (but is about to come on screen)
+        menuButton.isVisible = true
+        autobusBlu:addEventListener("tap", vuoiAcquistareBlu)
+        autobusGiallo:addEventListener("tap", vuoiAcquistareGiallo)
+        autobusRosa:addEventListener("tap", vuoiAcquistareRosa)
 
 	elseif ( phase == "did" ) then
 		-- Code here runs when the scene is entirely on screen
@@ -142,6 +329,11 @@ function scene:hide( event )
 
 	elseif ( phase == "did" ) then
 		-- Code here runs immediately after the scene goes entirely off screen
+        autobusBlu:removeEventListener("touch", vuoiAcquistareBlu)
+        autobusGiallo:removeEventListener("touch", vuoiAcquistareGiallo)
+        autobusRosa:removeEventListener("touch", vuoiAcquistareRosa)
+        menuButton.isVisible = false
+
 
 	end
 end
@@ -155,86 +347,6 @@ function scene:destroy( event )
 
 end
 
-local prezzoGiallo = 5000
-local prezzoBlu = 10000
-local prezzoRosa = 20000
-
-local function showAutobusBlu()
-    local autobusBlu = display.newImageRect("autobus/autobusBlu.png", 150, 390)
-    autobusBlu.x = display.contentCenterX
-    autobusBlu.y = display.contentCenterY
-    local prezzoImage = display.newImageRect("coin.png", 60, 60)
-    prezzoImage.x = display.contentCenterX - 70
-    prezzoImage.y = display.contentCenterY + 250
-    local prezzoText = display.newText( " ".. prezzoBlu, 400, 760, native.systemFontBold, 40)
-    prezzoText:setFillColor( 1, 0, 0 ) 
-    autobusBlu:addEventListener( "touch", gotoMenu ) 
-
-end
-
-local function showAutobusGiallo()
-    local autobusGiallo = display.newImageRect("autobus/autobusGiallo.png", 150, 390)
-    autobusGiallo.x = display.contentCenterX - 260
-    autobusGiallo.y = display.contentCenterY
-    local prezzoImage = display.newImageRect("coin.png", 60, 60)
-    prezzoImage.x = display.contentCenterX - 330
-    prezzoImage.y = display.contentCenterY + 250
-    local prezzoText = display.newText( " ".. prezzoGiallo, 130, 760, native.systemFontBold, 40)
-    prezzoText:setFillColor( 1, 0, 0 ) 
-    autobusGiallo:addEventListener( "touch", gotoMenu ) 
-
-end
-
-local function showAutobusRosa()
-    local autobusRosa = display.newImageRect("autobus/autobusRosa.png", 150, 390)
-    autobusRosa.x = display.contentCenterX + 260
-    autobusRosa.y = display.contentCenterY
-    local prezzoImage = display.newImageRect("coin.png", 60, 60)
-    prezzoImage.x = display.contentCenterX +190
-    prezzoImage.y = display.contentCenterY + 250
-    local prezzoText = display.newText( " ".. prezzoRosa, 660, 760, native.systemFontBold, 40)
-    prezzoText:setFillColor( 1, 0, 0 )
-    autobusRosa:addEventListener( "touch", gotoMenu ) 
-
-end
-
-
-    showAutobusGiallo()
-    showAutobusBlu()
-    showAutobusRosa()
-
-
-local function showLockBlu()
-    local lucchetto = display.newImageRect("adesivi/lucchetto.png", 200, 200)
-    lucchetto.x = display.contentCenterX
-    lucchetto.y = display.contentCenterY
-    lucchetto.alpha = 0.8
-end
-local function showLockGiallo()
-    local lucchetto = display.newImageRect("adesivi/lucchetto.png", 200, 200)
-    lucchetto.x = display.contentCenterX - 260
-    lucchetto.y = display.contentCenterY
-    lucchetto.alpha = 0.8
-end
-local function showLockRosa()
-    local lucchetto = display.newImageRect("adesivi/lucchetto.png", 200, 200)
-    lucchetto.x = display.contentCenterX + 260
-    lucchetto.y = display.contentCenterY
-    lucchetto.alpha = 0.8
-end
-
-
-if(getTotal()<prezzoBlu) then 
-    showLockBlu()
-end
-if(getTotal()<prezzoGiallo) then
-    showLockGiallo()
-
-end
-if(getTotal()<prezzoRosa) then
-    showLockRosa()
-
-end 
 
 
 -- -----------------------------------------------------------------------------------
