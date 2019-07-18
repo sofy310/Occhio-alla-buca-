@@ -13,7 +13,6 @@ local clacson = audio.loadSound( "clacson.wav" )
 local crash = audio.loadSound("crash.wav")
 local live = audio.loadSound("lives.wav")
 local bounce = audio.loadSound("bounce.wav")
-local largeCrash = audio.loadSound("largeCrash.wav")
 local scream = audio.loadSound("scream.mp3")
 
 --Load background
@@ -181,6 +180,8 @@ local function moveAutobus(event)
         -- Move the autobus to the new touch position
         if (autobus.touchOffsetX == nil) then
             autobus.touchOffsetX = autobus.x
+            autobus.x = event.x - autobus.touchOffsetX
+
         end
         autobus.x = event.x - autobus.touchOffsetX
     
@@ -837,7 +838,7 @@ local function onCollision( event )
             explosion.x = autobus.x
             explosion.y = autobus.y
             
-            audio.play(largeCrash)
+            audio.play(crash)
    
             if (died == false) then
                died = true
