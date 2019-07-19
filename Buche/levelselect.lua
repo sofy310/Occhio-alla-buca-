@@ -87,9 +87,8 @@ local background = display.newImageRect("corsa.png", 800, 1400 )
 	{
 	width = 220,
     height = 153,
-	defaultFile = "level1.png",
-	overFile = "highscores/button.png",
-
+    defaultFile = "level1.png",
+	overFile = "level1_select.png",
 	}
 	Button1.x = display.contentCenterX-230
 	Button1.y = 100
