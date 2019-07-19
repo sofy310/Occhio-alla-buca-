@@ -132,6 +132,7 @@ end
 	width = 420,
 	height = 160,
 	defaultFile = "menu.png",
+	overFile = "select.png",
 	}
 	menuButton.x = display.contentCenterX
 	menuButton.y = 950
