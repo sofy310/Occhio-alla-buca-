@@ -220,7 +220,8 @@ end
 
 
 showTotalCoins()
-
+    
+    
 
 
     local autobusBlu = display.newImageRect("autobus/autobusBlu.png", 150, 390)
@@ -233,17 +234,29 @@ showTotalCoins()
     prezzoText:setFillColor( 1, 0, 0 ) 
     autobusBlu:addEventListener( "touch", vuoiAcquistareBlu ) 
 
+	local autobusGiallo = widget.newButton
+	{
+	width = 150,
+	height = 390,
+    defaultFile = "autobus/autobusGiallo.png",
+    overFile = "autobus/autobusGiallo_select.png",
+
+	}
+	autobusGiallo.x = display.contentCenterX - 260
+	autobusGiallo.y = display.contentCenterY
+	autobusGiallo.destination = "autobusGiallo"
+	autobusGiallo:addEventListener( "tap", vuoiAcquistareGiallo )
 
 
-    local autobusGiallo = display.newImageRect("autobus/autobusGiallo.png", 150, 390)
-    autobusGiallo.x = display.contentCenterX - 260
-    autobusGiallo.y = display.contentCenterY
-    local prezzoImage = display.newImageRect("coin.png", 60, 60)
+    --local autobusGiallo = display.newImageRect("autobus/autobusGiallo.png", 150, 390)
+    --autobusGiallo.x = display.contentCenterX - 260
+    --autobusGiallo.y = display.contentCenterY
+    --local prezzoImage = display.newImageRect("coin.png", 60, 60)
     prezzoImage.x = display.contentCenterX - 330
     prezzoImage.y = display.contentCenterY + 250
     local prezzoText = display.newText( " ".. prezzoGiallo, 130, 760, native.systemFontBold, 40)
     prezzoText:setFillColor( 1, 0, 0 ) 
-    autobusGiallo:addEventListener( "touch", vuoiAcquistareGiallo ) 
+    --autobusGiallo:addEventListener( "touch", vuoiAcquistareGiallo ) 
 
 
 
@@ -271,7 +284,7 @@ local function showLockGiallo()
     lucchetto.x = display.contentCenterX - 260
     lucchetto.y = display.contentCenterY
     lucchetto.alpha = 0.8
-    autobusGiallo:removeEventListener("touch", vuoiAcquistareGiallo)
+    autobusGiallo:removeEventListener("tap", vuoiAcquistareGiallo)
 
 end
 local function showLockRosa()
@@ -350,7 +363,7 @@ function scene:hide( event )
 	elseif ( phase == "did" ) then
 		-- Code here runs immediately after the scene goes entirely off screen
         autobusBlu:removeEventListener("touch", vuoiAcquistareBlu)
-        autobusGiallo:removeEventListener("touch", vuoiAcquistareGiallo)
+        autobusGiallo:removeEventListener("tap", vuoiAcquistareGiallo)
         autobusRosa:removeEventListener("touch", vuoiAcquistareRosa)
         menuButton.isVisible = false
 
