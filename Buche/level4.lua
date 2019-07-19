@@ -290,6 +290,19 @@ local function gotoMenu()
         resumeBtn.isVisible = false
         --make menu button invisible
         menuBtn.isVisible = false
+
+        timer.cancel( gameLoopTimer )
+        timer.cancel( car1LoopTimer)
+        timer.cancel( ruotaLoopTimer)
+        timer.cancel( Timer1)
+        timer.cancel( pedoniLoopTimer)
+
+        Runtime:removeEventListener( "collision", onCollision )
+        Runtime:removeEventListener( "enterFrame", enterFrame )
+        pauseBtn:removeEventListener( "tap", pauseGame ) 
+        explosion:pause() 
+        physics.pause()
+        audio.stop(  )
 end
 
     --define button dimensions
@@ -1075,8 +1088,8 @@ function scene:hide( event )
         pauseBtn:removeEventListener( "touch", pauseGame ) 
         explosion:pause() 
 
-        physics.pause()
-        audio.stop( 1 )
+        physics.stop()
+        audio.stop(  )
 	end
 end
 

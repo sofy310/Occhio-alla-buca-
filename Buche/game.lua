@@ -274,6 +274,7 @@ function resumeGame(event)
         -- indicates successful touch
 end
 local function gotoMenu()
+    
 	composer.removeScene("menu")
     composer.gotoScene( "menu", { time = 800, effect = "crossFade" } )
             --make pause button visible
@@ -282,6 +283,19 @@ local function gotoMenu()
         resumeBtn.isVisible = false
         --make menu button invisible
         menuBtn.isVisible = false
+
+        timer.cancel( gameLoopTimer )
+        timer.cancel( car1LoopTimer)
+        timer.cancel( ruotaLoopTimer)
+        timer.cancel( timerUpTimer)
+        timer.cancel( coinsLoopTimer)
+
+        Runtime:removeEventListener( "collision", onCollision )
+        Runtime:removeEventListener( "enterFrame", enterFrame )
+        pauseBtn:removeEventListener( "tap", pauseGame ) 
+        explosion:pause() 
+        physics.pause()
+        audio.stop(  )
 end
 
     local widget = require("widget")
@@ -730,6 +744,7 @@ local function onCollision( event )
             end
  
         end
+
         --Collisione AUTOBUS e BUCA
         if ( (obj1.myName == "autobus" and obj2.myName == "buca2") or
               obj1.myName == "buca2" and obj2.myName == "autobus") 
@@ -757,6 +772,7 @@ local function onCollision( event )
                 end
             end    
         end
+
         --Collisione AUTOBUS e BUCA
         if ( (obj1.myName == "autobus" and obj2.myName == "buca3") or
               obj1.myName == "buca3" and obj2.myName == "autobus") 
@@ -797,6 +813,7 @@ local function onCollision( event )
                 livesText.text = "Lives: "..lives
             end
         end
+
         --Collisione AUTOBUS e CAR
         if ( (obj1.myName == "car1" and obj2.myName == "autobus") or
         (obj1.myName == "autobus" and obj2.myName == "car1"))
@@ -824,6 +841,7 @@ local function onCollision( event )
                end
             end    
        end
+
         --Collisione AUTOBUS e BORDODX
         if ( ( obj1.myName == "bordoDX" and obj2.myName == "autobus" ) or
              ( obj1.myName == "autobus" and obj2.myName == "bordoDX" ) )
@@ -1009,7 +1027,8 @@ function scene:show( event )
 	local sceneGroup = self.view
 	local phase = event.phase
 
-	if ( phase == "will" ) then
+    if ( phase == "will" ) then
+        
 		-- Code here runs when the scene is still off screen (but is about to come on screen)
         Runtime:removeEventListener("collision", onCollision)
 	elseif ( phase == "did" ) then
@@ -1042,8 +1061,8 @@ function scene:hide( event )
         Runtime:removeEventListener( "enterFrame", enterFrame )
         pauseBtn:removeEventListener( "tap", pauseGame ) 
         explosion:pause() 
-        physics.pause()
-        audio.stop( 1 )
+        physics.stop()
+        audio.stop( )
 
 
 	elseif ( phase == "did" ) then
